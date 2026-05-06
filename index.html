@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Genesis Craft AI – From Idea to Full‑Stack Application in 2 Minutes</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Analytics (GA4) tag -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-HS1Z82VML7');
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            font-family: 'Inter', sans-serif;
+            color: #e2e8f0;
+        }
+
+        /* ========== HERO SECTION ========== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            padding: 2rem;
+        }
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            z-index: 0;
+        }
+        .code-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            font-family: monospace;
+            font-size: 14px;
+            color: rgba(59,130,246,0.15);
+            white-space: pre;
+            overflow: hidden;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFFFFF 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        .hero h2 {
+            font-size: clamp(1rem, 4vw, 1.25rem);
+            font-weight: 400;
+            color: #cbd5e1;
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+            line-height: 1.5;
+        }
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .btn-primary, .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 40px;
+            transition: all 0.25s ease;
+        }
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: scale(1.02);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 1.5px solid #3b82f6;
+        }
+        .btn-secondary:hover {
+            background: rgba(59,130,246,0.1);
+            transform: scale(1.02);
+        }
+        .arrow-right::after {
+            content: " →";
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .arrow-down::after {
+            content: " ↓";
+            font-size: 1.1rem;
+            display: inline-block;
+        }
+        .trust-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.05);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #e2e8f0;
+        }
+
+        /* ========== PERSONA CAROUSEL ========== */
+        .persona-carousel {
+            max-width: 1100px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 48px;
+            border: 1px solid rgba(59,130,246,0.2);
+        }
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #1e293b;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #94a3b8;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-btn.active {
+            color: #3b82f6;
+            font-weight: 700;
+            border-bottom: 2px solid #3b82f6;
+        }
+        .persona-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .persona-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .persona-card {
+            background: #0f172a;
+            border-radius: 32px;
+            padding: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .quote-section {
+            flex: 2;
+        }
+        .quote {
+            font-size: 36px;
+            font-style: italic;
+            font-weight: 500;
+            line-height: 1.3;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .author {
+            font-size: 1rem;
+            color: #3b82f6;
+        }
+
+        /* ========== INTERACTIVE DEMO ========== */
+        .demo-section {
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 48px;
+            text-align: center;
+        }
+        .demo-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .prompt-field {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 20px;
+            padding: 1rem;
+            font-size: 1rem;
+            color: white;
+            margin: 1rem 0;
+        }
+        .generate-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .output-preview {
+            background: #0a0f1c;
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+        .file-tree {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #9cdcfe;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        /* ========== SOCIAL PROOF ========== */
+        .social-proof {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 2rem;
+            text-align: center;
+        }
+        .logo-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .logo-item {
+            filter: grayscale(100%);
+            transition: filter 0.3s;
+            background: #1e293b;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+        .testimonial-carousel {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .testimonial-slide {
+            display: none;
+            animation: fade 0.5s ease;
+        }
+        .testimonial-slide.active {
+            display: block;
+        }
+        @keyframes fade {
+            from { opacity: 0; transform: translateY(10px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .quote-icon {
+            font-size: 3rem;
+            color: #3b82f6;
+            opacity: 0.5;
+        }
+        .testimonial-text {
+            font-size: 1.25rem;
+            font-style: italic;
+            margin: 1rem 0;
+        }
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: #475569;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .dot.active {
+            background: #3b82f6;
+            width: 24px;
+            border-radius: 10px;
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            background: #0f172a;
+            border-top: 1px solid #1e293b;
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 4rem;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: space-between;
+        }
+        .footer-col {
+            flex: 1;
+            min-width: 150px;
+        }
+        .footer-col h3 {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .footer-col li {
+            margin-bottom: 0.6rem;
+        }
+        .footer-col a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .footer-col a:hover {
+            color: #3b82f6;
+        }
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .newsletter-input {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 0.5rem;
+            border-radius: 40px;
+            color: white;
+            flex: 1;
+        }
+        .subscribe-btn {
+            background: #3b82f6;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+        }
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .social-icons a {
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #1e293b;
+            color: #64748b;
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .persona-card { flex-direction: column; text-align: center; }
+            .quote { font-size: 28px; }
+            .footer-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="code-rain" id="codeRain"></div>
+    <div class="hero-content">
+        <h1>From Idea to Full‑Stack Application in 2 Minutes.</h1>
+        <h2>Genesis Craft AI is the first platform that generates complete, production-ready applications from natural language — frontend, backend, database, and deployment included. No more months of development. No more hiring headaches. Just type, and your app is ready.</h2>
+        <div class="cta-buttons">
+            <a href="#" class="btn-primary">Start Building Free <span class="arrow-right"></span></a>
+            <a href="#" class="btn-secondary">Watch Live Demo <span class="arrow-down"></span></a>
+        </div>
+        <div class="trust-badges">
+            <div class="badge"><i class="fas fa-users"></i> Trusted by 2,500+ developers</div>
+            <div class="badge"><i class="fas fa-chart-line"></i> 92% generation success rate</div>
+            <div class="badge"><i class="fas fa-building"></i> 3 enterprise pilots</div>
+            <div class="badge"><i class="fas fa-star"></i> NPS 68 (vs. industry avg 45)</div>
+        </div>
+    </div>
+</section>
+
+<!-- PERSONA CAROUSEL (Value Proposition) -->
+<div class="persona-carousel">
+    <div class="tabs" id="personaTabs">
+        <button class="tab-btn active" data-persona="indie"><i class="fas fa-rocket"></i> Indie Developer</button>
+        <button class="tab-btn" data-persona="agency"><i class="fas fa-building"></i> Agency Owner</button>
+        <button class="tab-btn" data-persona="enterprise"><i class="fas fa-server"></i> Enterprise Dev</button>
+        <button class="tab-btn" data-persona="nontech"><i class="fas fa-lightbulb"></i> Non‑Tech Founder</button>
+    </div>
+    <div class="content-panel">
+        <div id="indie" class="persona-content active">
+            <div class="persona-card"><div class="quote-section"><div class="quote">“I launched my SaaS MVP in 3 days instead of 3 months. Genesis Craft AI paid for itself on the first project.”</div><div class="author">— Alex Rivera, Solo Developer</div></div><div class="illustration">👨‍💻</div></div>
+        </div>
+        <div id="agency" class="persona-content">
+            <div class="persona-card"><div class="quote-section"><div class="quote">“We tripled our client capacity without hiring. Our margins went from 35% to 68%.”</div><div class="author">— Jamie Chen, Creative Digital Agency</div></div><div class="illustration">🤝</div></div>
+        </div>
+        <div id="enterprise" class="persona-content">
+            <div class="persona-card"><div class="quote-section"><div class="quote">“We cleared an 18‑month backlog in 3 weeks. The security validation gave our compliance team peace of mind.”</div><div class="author">— Michael Torres, VP Engineering at Fortune 500</div></div><div class="illustration">🏢</div></div>
+        </div>
+        <div id="nontech" class="persona-content">
+            <div class="persona-card"><div class="quote-section"><div class="quote">“I built my MVP for $15 instead of $50k. Now I have real users and investor interest.”</div><div class="author">— Priya Kapoor, Founder of TaskFlow</div></div><div class="illustration">💡</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- INTERACTIVE DEMO SECTION -->
+<div class="demo-section">
+    <h2>See It in Action</h2>
+    <p>Type any app idea below and watch Genesis Craft AI generate the complete structure in real time.</p>
+    <textarea id="promptInput" class="prompt-field" rows="3" placeholder='e.g., "Build a task management app with drag-and-drop, dark mode, and team chat"'></textarea>
+    <button id="generateDemoBtn" class="generate-btn">Generate Structure</button>
+    <div id="demoOutput" class="output-preview" style="display:none;">
+        <div class="file-tree" id="fileTree"></div>
+    </div>
+</div>
+
+<!-- SOCIAL PROOF SECTION -->
+<div class="social-proof">
+    <h2>Trusted by Innovators Worldwide</h2>
+    <div class="logo-cloud">
+        <div class="logo-item">Fortune 500</div>
+        <div class="logo-item">Tech Unicorn</div>
+        <div class="logo-item">Creative Agency</div>
+        <div class="logo-item">Startup</div>
+    </div>
+    <div class="testimonial-carousel">
+        <div class="testimonial-slide active">
+            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+            <div class="testimonial-text">“Genesis Craft AI cut our prototyping time from months to days. It's like having a senior developer on demand.”</div>
+            <div class="author">— Jane Doe, CTO at Enterprise Corp</div>
+        </div>
+        <div class="testimonial-slide">
+            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+            <div class="testimonial-text">“We've increased our agency's project capacity by 3x without hiring. Our clients are thrilled with the speed.”</div>
+            <div class="author">— John Smith, Founder of Creative Agency</div>
+        </div>
+        <div class="dots" id="testimonialDots"></div>
+    </div>
+</div>
+
+<!-- FOOTER SECTION -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-col"><h3>Product</h3><ul><li><a href="/product.html">Features</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="#">Enterprise</a></li><li><a href="#">Changelog</a></li></ul></div>
+        <div class="footer-col"><h3>Resources</h3><ul><li><a href="/docs.html">Documentation</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/case-studies.html">Case Studies</a></li><a href="/api-reference.html">API Reference</a></li></ul></div>
+        <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
+        <div class="footer-col"><h3>Stay in the loop</h3><p style="color:#94a3b8; font-size:0.8rem;">Get product updates and AI development tips</p><div class="newsletter-form"><input type="email" placeholder="Your email address" class="newsletter-input"><button class="subscribe-btn">Subscribe</button></div><div class="social-icons"><a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a><a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a><a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a><a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a></div></div>
+    </div>
+    <div class="copyright">© 2026 Genesis Craft AI, Inc. All rights reserved.</div>
+</footer>
+
+<script>
+    // Code rain animation
+    const rainDiv = document.getElementById('codeRain');
+    function generateRain() {
+        let html = '';
+        for (let i = 0; i < 60; i++) {
+            let line = '';
+            for (let j = 0; j < 30; j++) line += ['0','1','<','>','/','{','}','(',')','=','+','-'][Math.floor(Math.random()*12)] + ' ';
+            html += '<div>' + line + '</div>';
+        }
+        rainDiv.innerHTML = html;
+    }
+    generateRain();
+    setInterval(generateRain, 3000);
+
+    // Persona Carousel
+    const tabs = document.querySelectorAll('#personaTabs .tab-btn');
+    const contents = document.querySelectorAll('.persona-content');
+    function switchPersona(personaId) {
+        tabs.forEach(btn => btn.classList.remove('active'));
+        document.querySelector(`.tab-btn[data-persona="${personaId}"]`).classList.add('active');
+        contents.forEach(c => c.classList.remove('active'));
+        document.getElementById(personaId).classList.add('active');
+    }
+    tabs.forEach(btn => btn.addEventListener('click', () => switchPersona(btn.dataset.persona)));
+
+    // Interactive Demo (mock file tree)
+    const demoBtn = document.getElementById('generateDemoBtn');
+    const promptInput = document.getElementById('promptInput');
+    const demoOutput = document.getElementById('demoOutput');
+    const fileTreeDiv = document.getElementById('fileTree');
+    demoBtn.addEventListener('click', () => {
+        let prompt = promptInput.value.trim();
+        if (!prompt) { alert('Please enter an app idea.'); return; }
+        let tree = `├── frontend/\n│   ├── components/\n│   ├── pages/\n│   └── styles/\n├── backend/\n│   ├── api/\n│   ├── models/\n│   └── config/\n├── database/\n│   └── schema.sql\n├── docker-compose.yml\n└── README.md`;
+        if (prompt.toLowerCase().includes('chat')) tree = tree.replace('│   ├── api/', '│   ├── api/\n│   │   ├── chat.js\n│   │   └── websocket.js');
+        fileTreeDiv.innerText = tree;
+        demoOutput.style.display = 'block';
+    });
+
+    // Testimonial Carousel
+    let currentTestimonial = 0;
+    const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+    const dotsContainer = document.getElementById('testimonialDots');
+    function showTestimonial(index) {
+        testimonialSlides.forEach((s, i) => s.classList.toggle('active', i === index));
+        document.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === index));
+        currentTestimonial = index;
+    }
+    function createDots() {
+        testimonialSlides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => showTestimonial(i));
+            dotsContainer.appendChild(dot);
+        });
+    }
+    createDots();
+    setInterval(() => { let next = (currentTestimonial + 1) % testimonialSlides.length; showTestimonial(next); }, 8000);
+</script>
+</body>
+</html>

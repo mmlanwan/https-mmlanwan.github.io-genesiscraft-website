@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Contact Us – Genesis Craft AI</title>
+    <meta name="description" content="Get in touch with Genesis Craft AI – sales, support, press, or partnerships. We'll get back to you within 24 hours.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Analytics (GA4) tag -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-HS1Z82VML7');
+    </script>
+    <!-- reCAPTCHA v3 (replace site key with our own) -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            font-family: 'Inter', sans-serif;
+            color: #e2e8f0;
+            line-height: 1.5;
+        }
+        .contact-page {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        /* Hero */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        .hero .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #3b82f6;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .hero-bg-icons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            font-size: 4rem;
+            color: rgba(59,130,246,0.06);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: -1;
+        }
+        /* Contact Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+        .option-card {
+            background: #0f172a;
+            border-radius: 24px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #1e293b;
+        }
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.4);
+            border-color: #3b82f6;
+        }
+        .option-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .option-card.sales i { color: #3b82f6; }
+        .option-card.support i { color: #10b981; }
+        .option-card.press i { color: #a855f7; }
+        .option-card.partners i { color: #f97316; }
+        .option-card h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .option-card p { color: #94a3b8; margin-bottom: 1.2rem; }
+        .option-card .btn-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        /* Forms */
+        .form-section {
+            background: #0f172a;
+            border-radius: 32px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #1e293b;
+        }
+        .form-section h2 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .form-section .subhead { color: #94a3b8; margin-bottom: 1.5rem; }
+        .form-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+        .form-group { flex: 1; min-width: 200px; }
+        label { display: block; margin-bottom: 0.3rem; font-weight: 500; }
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #3b82f6; }
+        .btn-submit {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        .note { font-size: 0.8rem; color: #94a3b8; margin-top: 1rem; }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        /* Locations */
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .location-card {
+            background: #0f172a;
+            border-radius: 24px;
+            padding: 1.5rem;
+        }
+        .map-placeholder {
+            background: #1e293b;
+            height: 150px;
+            border-radius: 16px;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+        }
+        /* FAQ Accordion */
+        .faq-item {
+            background: #0f172a;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            border: 1px solid #1e293b;
+        }
+        .faq-question {
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: white;
+            font-weight: 600;
+        }
+        .faq-answer {
+            max-height: 0;
+            padding: 0 1.5rem;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            color: #cbd5e1;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+            padding-bottom: 1rem;
+        }
+        /* Social + Newsletter */
+        .social-section {
+            text-align: center;
+            margin-top: 3rem;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .social-icons a { color: #94a3b8; font-size: 1.5rem; transition: color 0.2s; }
+        .social-icons a:hover { color: #3b82f6; }
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            max-width: 400px;
+            margin: 1rem auto;
+        }
+        .newsletter-form input { flex: 1; }
+        /* Footer */
+        .footer {
+            background: #0f172a;
+            border-top: 1px solid #1e293b;
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 4rem;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: space-between;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 0.6rem; }
+        .footer-col a { color: #94a3b8; text-decoration: none; font-size: 0.85rem; }
+        .footer-col a:hover { color: #3b82f6; }
+        .copyright { text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #1e293b; font-size: 0.75rem; color: #64748b; }
+        @media (max-width: 800px) {
+            .locations-grid { grid-template-columns: 1fr; }
+            .form-row { flex-direction: column; }
+        }
+    </style>
+    <!-- Schema Markup (ContactPage + Organization) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "name": "Contact Genesis Craft AI",
+        "description": "Get in touch with our sales, support, press, or partnership teams.",
+        "mainEntity": {
+            "@type": "Organization",
+            "name": "Genesis Craft AI",
+            "url": "https://genesiscraft.ai",
+            "contactPoint": [
+                {"@type": "ContactPoint", "contactType": "sales", "email": "sales@genesiscraft.ai", "availableLanguage": ["English"]},
+                {"@type": "ContactPoint", "contactType": "customer support", "email": "support@genesiscraft.ai"},
+                {"@type": "ContactPoint", "contactType": "press", "email": "press@genesiscraft.ai"}
+            ],
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "515 N Boundary St.",
+                "addressLocality": "Raleigh",
+                "addressRegion": "NC",
+                "postalCode": "27604",
+                "addressCountry": "US"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+<div class="contact-page">
+    <!-- Hero -->
+    <div class="hero">
+        <div class="hero-bg-icons">
+            <i class="fas fa-comment-dots"></i>
+            <i class="fas fa-envelope"></i>
+            <i class="fas fa-phone-alt"></i>
+        </div>
+        <h1>We're Here to Help</h1>
+        <p>Whether you have questions about pricing, need technical support, or want to explore enterprise partnerships — reach out. We'll get back to you within 24 hours.</p>
+        <a href="#general-form" class="btn">Start a Conversation <i class="fas fa-arrow-down"></i></a>
+    </div>
+
+    <!-- Contact Options Grid -->
+    <h2 style="text-align:center; margin-bottom:2rem;">How Can We Help You?</h2>
+    <div class="options-grid">
+        <div class="option-card sales"><i class="fas fa-briefcase"></i><h3>Sales Inquiries</h3><p>Interested in Genesis Craft AI for your team or enterprise? Our sales team is ready to help.</p><a href="#enterprise-form" class="btn-link">Contact Sales →</a></div>
+        <div class="option-card support"><i class="fas fa-life-ring"></i><h3>Technical Support</h3><p>Having trouble with the platform? Check our documentation or reach out to support.</p><a href="#support-form" class="btn-link">Get Help →</a> <a href="/docs.html" class="btn-link">Visit Documentation →</a></div>
+        <div class="option-card press"><i class="fas fa-newspaper"></i><h3>Press & Media</h3><p>Looking for press materials, interviews, or company information? Our press team is here.</p><a href="#" class="btn-link">Press Kit →</a> <a href="#" class="btn-link">Contact PR →</a></div>
+        <div class="option-card partners"><i class="fas fa-handshake"></i><h3>Partnerships</h3><p>Interested in integrating with Genesis Craft AI or becoming a partner? Let's talk.</p><a href="#general-form" class="btn-link">Partner Inquiry →</a></div>
+    </div>
+
+    <!-- General Inquiry Form (Netlify + reCAPTCHA) -->
+    <div id="general-form" class="form-section">
+        <h2>Send Us a Message</h2>
+        <div class="subhead">For general questions, feedback, or anything else, fill out the form below.</div>
+        <form name="general-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
+            <input type="hidden" name="form-name" value="general-inquiry">
+            <div style="display:none;"><input name="bot-field"></div>
+            <div class="form-row">
+                <div class="form-group"><label>Full Name *</label><input type="text" name="fullname" required></div>
+                <div class="form-group"><label>Email Address *</label><input type="email" name="email" required></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Company (optional)</label><input type="text" name="company"></div>
+                <div class="form-group"><label>Subject</label><select name="subject"><option>General Inquiry</option><option>Feedback</option><option>Partnership</option><option>Other</option></select></div>
+            </div>
+            <div class="form-group"><label>Message *</label><textarea name="message" rows="4" required></textarea></div>
+            <div class="form-group"><label>How did you hear about us?</label><input type="text" name="source"></div>
+            <div class="checkbox-group"><input type="checkbox" name="newsletter" value="yes"><label>I'd like to receive occasional product updates and news. (You can unsubscribe anytime.)</label></div>
+            <div data-netlify-recaptcha="true"></div>
+            <button type="submit" class="btn-submit">Send Message</button>
+            <div class="note">We typically respond within 1 business day.</div>
+        </form>
+    </div>
+
+    <!-- Enterprise Sales Inquiry Form -->
+    <div id="enterprise-form" class="form-section">
+        <h2>Enterprise Sales Inquiry</h2>
+        <div class="subhead">Tell us about your needs, and we'll create a custom solution for your organization.</div>
+        <form name="enterprise-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
+            <input type="hidden" name="form-name" value="enterprise-inquiry">
+            <div style="display:none;"><input name="bot-field"></div>
+            <div class="form-row">
+                <div class="form-group"><label>Full Name *</label><input type="text" name="fullname" required></div>
+                <div class="form-group"><label>Email Address *</label><input type="email" name="email" required></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Company Name *</label><input type="text" name="company" required></div>
+                <div class="form-group"><label>Company Size</label><select name="size"><option>1-10</option><option>11-50</option><option>51-200</option><option>201-1000</option><option>1000+</option></select></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Job Title *</label><input type="text" name="jobtitle" required></div>
+                <div class="form-group"><label>Phone Number (optional)</label><input type="tel" name="phone"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Estimated Team Size *</label><input type="text" name="team_size" required></div>
+                <div class="form-group"><label>Timeline</label><select name="timeline"><option>Immediate</option><option>1-3 months</option><option>3-6 months</option><option>6+ months</option></select></div>
+            </div>
+            <div class="form-group"><label>Current Development Challenges *</label><textarea name="challenges" rows="3" required></textarea></div>
+            <div class="form-row">
+                <div class="form-group"><label>Budget Range</label><select name="budget"><option><$10K</option><option>$10K-$50K</option><option>$50K-$100K</option><option>$100K+</option></select></div>
+                <div class="form-group"><label>How did you hear about us?</label><input type="text" name="source"></div>
+            </div>
+            <div class="form-group"><label>Additional Comments</label><textarea name="comments" rows="2"></textarea></div>
+            <div class="checkbox-group"><input type="checkbox" name="newsletter"><label>I'd like to receive occasional product updates and news.</label></div>
+            <div data-netlify-recaptcha="true"></div>
+            <button type="submit" class="btn-submit">Request Enterprise Consultation</button>
+            <div class="note">An enterprise account executive will contact you within 2 business days.</div>
+        </form>
+    </div>
+
+    <!-- Technical Support Form -->
+    <div id="support-form" class="form-section">
+        <h2>Get Technical Support</h2>
+        <div class="subhead">Having trouble? Check our documentation first, or submit a support ticket below.</div>
+        <form name="support-ticket" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
+            <input type="hidden" name="form-name" value="support-ticket">
+            <div style="display:none;"><input name="bot-field"></div>
+            <div class="form-row">
+                <div class="form-group"><label>Full Name *</label><input type="text" name="fullname" required></div>
+                <div class="form-group"><label>Email Address *</label><input type="email" name="email" required></div>
+            </div>
+            <div class="form-group"><label>Account Email (if different)</label><input type="email" name="account_email"></div>
+            <div class="form-row">
+                <div class="form-group"><label>Priority</label><select name="priority"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
+                <div class="form-group"><label>Subject *</label><input type="text" name="subject" required></div>
+            </div>
+            <div class="form-group"><label>Description * (include steps to reproduce)</label><textarea name="description" rows="4" required></textarea></div>
+            <div class="form-group"><label>Attachments (optional, up to 5 files, 10MB total)</label><input type="file" name="attachment" multiple></div>
+            <div data-netlify-recaptcha="true"></div>
+            <button type="submit" class="btn-submit">Submit Ticket</button>
+            <div class="note">Support response times: Critical: 4 hours, High: 8 business hours, Medium: 2 business days, Low: 3 business days. <a href="/docs.html" style="color:#3b82f6;">Documentation</a> | <a href="#" style="color:#3b82f6;">Status Page</a></div>
+        </form>
+    </div>
+
+    <!-- Office Locations -->
+    <h2 style="text-align:center; margin: 3rem 0 1rem;">Find Us</h2>
+    <div class="locations-grid">
+        <div class="location-card"><h3>🇺🇸 San Francisco (HQ)</h3><p>123 Mission Street, Suite 400<br>San Francisco, CA 94105</p><div class="map-placeholder">🗺️ Map placeholder</div></div>
+        <div class="location-card"><h3>🗽 New York</h3><p>20 Jay Street, Suite 800<br>Brooklyn, NY 11201</p><div class="map-placeholder">🗺️ Map placeholder</div></div>
+        <div class="location-card"><h3>🇬🇧 London</h3><p>123 Oxford Street<br>London, W1D 2HX, United Kingdom</p><div class="map-placeholder">🗺️ Map placeholder</div></div>
+        <div class="location-card"><h3>🇨🇦 Toronto</h3><p>123 King Street West, Suite 200<br>Toronto, ON M5X 1E5, Canada</p><div class="map-placeholder">🗺️ Map placeholder</div></div>
+    </div>
+    <div class="note" style="text-align:center;">Most of our team is remote, but these are our primary hubs for offsites and meetings.</div>
+
+    <!-- FAQ Accordion -->
+    <h2 style="text-align:center; margin: 3rem 0 1rem;">Frequently Asked Questions</h2>
+    <div class="faq-list">
+        <div class="faq-item"><button class="faq-question">What are your response times?<i class="fas fa-chevron-down"></i></button><div class="faq-answer">We aim to respond to all inquiries within 24 hours. Enterprise inquiries typically receive a response within 2 business days.</div></div>
+        <div class="faq-item"><button class="faq-question">Do you offer phone support?<i class="fas fa-chevron-down"></i></button><div class="faq-answer">Phone support is available for Enterprise customers. For all other plans, we offer e-mail and chat support.</div></div>
+        <div class="faq-item"><button class="faq-question">Where are you located?<i class="fas fa-chevron-down"></i></button><div class="faq-answer">We're a remote-first company with team members across the globe. Our legal headquarters are in San Francisco, CA.</div></div>
+        <div class="faq-item"><button class="faq-question">How do I report a bug?<i class="fas fa-chevron-down"></i></button><div class="faq-answer">Please submit a support ticket with as much detail as possible, including steps to reproduce, expected behavior, and screenshots if applicable.</div></div>
+        <div class="faq-item"><button class="faq-question">Can I schedule a demo?<i class="fas fa-chevron-down"></i></button><div class="faq-answer">Absolutely! <a href="/contact#enterprise-form" style="color:#3b82f6;">Schedule a demo</a> with our sales team.</div></div>
+        <div class="faq-item"><button class="faq-question">How do I cancel my subscription?<i class="fas fa-chevron-down"></i></button><div class="faq-answer">You can cancel anytime from your account settings. For help, contact support.</div></div>
+    </div>
+
+    <!-- Social + Newsletter -->
+    <div class="social-section">
+        <h2>Stay Connected</h2>
+        <p>Follow us on social media for product updates, AI news, and community highlights.</p>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-discord"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <form name="newsletter" method="POST" data-netlify="true" class="newsletter-form">
+            <input type="hidden" name="form-name" value="newsletter">
+            <input type="email" name="email" placeholder="Your email address" required>
+            <button type="submit" class="btn-submit" style="padding:0.8rem 1.5rem;">Subscribe</button>
+        </form>
+        <div class="note">Get monthly updates on AI development and product news.</div>
+    </div>
+</div>
+
+<!-- Footer (consistent with other pages) -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-col"><h3>Product</h3><ul><li><a href="/product.html">Features</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="#">Enterprise</a></li><li><a href="#">Changelog</a></li></ul></div>
+        <div class="footer-col"><h3>Resources</h3><ul><li><a href="/docs.html">Documentation</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/case-studies.html">Case Studies</a></li><li><a href="/api-reference.html">API Reference</a></li></ul></div>
+        <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
+        <div class="footer-col"><h3>Stay in the loop</h3><div class="newsletter-form" style="display:flex; gap:0.5rem;"><input type="email" placeholder="Your email" style="background:#1e293b; border:1px solid #334155; border-radius:40px; padding:0.5rem; flex:1;"><button style="background:#3b82f6; border:none; padding:0.5rem 1rem; border-radius:40px; color:white;">Subscribe</button></div><div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;"><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-discord"></i></a></div></div>
+    </div>
+    <div class="copyright">© 2026 Genesis Craft AI, Inc. All rights reserved.</div>
+</footer>
+
+<script>
+    // FAQ accordion
+    document.querySelectorAll('.faq-item').forEach(item => {
+        const btn = item.querySelector('.faq-question');
+        btn.addEventListener('click', () => {
+            item.classList.toggle('open');
+        });
+    });
+    // Open first FAQ by default
+    if (document.querySelectorAll('.faq-item').length) {
+        document.querySelectorAll('.faq-item')[0].classList.add('open');
+    }
+</script>
+</body>
+</html>

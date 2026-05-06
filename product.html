@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Genesis Craft AI – The First Full‑Stack AI Developer</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Analytics (GA4) tag -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-HS1Z82VML7');
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            font-family: 'Inter', sans-serif;
+            color: #e2e8f0;
+        }
+
+        /* ========== GLOBAL CONTAINER ========== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* ========== PRODUCT HERO ========== */
+        .product-hero {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .product-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFFFFF, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+        .product-hero h2 {
+            font-size: clamp(1rem, 4vw, 1.25rem);
+            color: #cbd5e1;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.5;
+        }
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-primary, .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 40px;
+            transition: all 0.25s ease;
+        }
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: scale(1.02);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 1.5px solid #3b82f6;
+        }
+        .btn-secondary:hover {
+            background: rgba(59,130,246,0.1);
+            transform: scale(1.02);
+        }
+
+        /* ========== ARCHITECTURE OVERVIEW (INTERACTIVE HEXAGONS) ========== */
+        .architecture {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 48px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .diagram-wrapper {
+            position: relative;
+            margin: 2rem 0;
+        }
+        .hex-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(140px, 1fr));
+            gap: 1.5rem;
+            justify-items: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .hex {
+            width: 100%;
+            max-width: 180px;
+            aspect-ratio: 1 / 1.154;
+            background: #1e293b;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid #334155;
+        }
+        .hex:hover {
+            transform: scale(1.05);
+            background: #2d3a4e;
+            border-color: #3b82f6;
+        }
+        .hex.active {
+            background: #3b82f6;
+            border-color: white;
+        }
+        .hex h3 { font-size: 1.2rem; margin-bottom: 0.3rem; }
+        .hex p { font-size: 0.7rem; opacity: 0.8; }
+        .lines-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .agent-detail {
+            background: #0f172a;
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-left: 6px solid #3b82f6;
+        }
+        .agent-detail h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .agent-detail p { color: #cbd5e1; }
+
+        /* ========== FIVE‑LAYER VALIDATION (ACCORDION) ========== */
+        .validation {
+            margin: 3rem 0;
+        }
+        .layer-item {
+            background: #0f172a;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            border: 1px solid #1e293b;
+        }
+        .layer-header {
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            color: white;
+            font-weight: 600;
+        }
+        .layer-icon { font-size: 1.6rem; }
+        .layer-title { flex: 1; }
+        .toggle-icon { transition: transform 0.3s; color: #3b82f6; }
+        .layer-item.open .toggle-icon { transform: rotate(180deg); }
+        .layer-content {
+            max-height: 0;
+            padding: 0 1.5rem;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: #0a0f1c;
+            border-top: 0px solid #2d3a5e;
+        }
+        .layer-item.open .layer-content {
+            max-height: 400px;
+            padding: 0 1.5rem 1.5rem;
+            border-top-width: 1px;
+        }
+
+        /* ========== SUPPORTED TECHNOLOGIES (LOGOS GRID) ========== */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .tech-card {
+            background: #0f172a;
+            border-radius: 20px;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .tech-card:hover { transform: translateY(-5px); border: 1px solid #3b82f6; }
+        .tech-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+        .tech-name { font-size: 0.8rem; color: #cbd5e1; }
+
+        /* ========== COMPARISON TABLE ========== */
+        .comparison {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #0f172a;
+            border-radius: 24px;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #1e293b;
+        }
+        .comparison-table th { color: #3b82f6; }
+        .check { color: #10b981; }
+        .xmark { color: #ef4444; }
+        .partial { color: #f59e0b; }
+
+        /* ========== FOOTER (same as home page) ========== */
+        .footer {
+            background: #0f172a;
+            border-top: 1px solid #1e293b;
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 4rem;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: space-between;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 0.6rem; }
+        .footer-col a { color: #94a3b8; text-decoration: none; font-size: 0.85rem; }
+        .footer-col a:hover { color: #3b82f6; }
+        .copyright { text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #1e293b; font-size: 0.75rem; color: #64748b; }
+
+        @media (max-width: 768px) {
+            .hex-grid { grid-template-columns: repeat(2, 1fr); }
+            .tech-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- PRODUCT HERO -->
+<section class="product-hero">
+    <h1>The First Full‑Stack AI Developer.</h1>
+    <h2>Genesis Craft AI doesn't just suggest code — it builds entire applications. From frontend components to backend APIs, database schemas to deployment configs, we generate everything you need to go from idea to live app.</h2>
+    <div class="hero-cta">
+        <a href="/signup" class="btn-primary">Start Building Free <i class="fas fa-arrow-right"></i></a>
+        <a href="/demo" class="btn-secondary">View Live Demo <i class="fas fa-play"></i></a>
+    </div>
+</section>
+
+<div class="container">
+    <!-- ARCHITECTURE OVERVIEW -->
+    <div class="architecture">
+        <h2 style="text-align:center;">How It Works: Multi‑Agent Intelligence</h2>
+        <p style="text-align:center; color:#94a3b8;">Six specialized AI agents work together like a development team, each handling a distinct part of the process.</p>
+        <div class="diagram-wrapper">
+            <div class="hex-grid" id="hexGrid">
+                <div class="hex" data-agent="planner"><h3>Planner</h3><p>Architecture</p></div>
+                <div class="hex" data-agent="frontend"><h3>Frontend</h3><p>UI/UX</p></div>
+                <div class="hex" data-agent="backend"><h3>Backend</h3><p>API & logic</p></div>
+                <div class="hex" data-agent="validator"><h3>Validator</h3><p>5‑layer</p></div>
+                <div class="hex" data-agent="integrator"><h3>Integrator</h3><p>Merge</p></div>
+                <div class="hex" data-agent="deployer"><h3>Deployer</h3><p>Deploy</p></div>
+            </div>
+            <svg id="linesSvg" class="lines-svg"></svg>
+        </div>
+        <div id="agentDetail" class="agent-detail">
+            <h3>Planner Agent</h3>
+            <p>Analyzes your prompt and generates a detailed architecture specification—components, APIs, data models, and dependencies.</p>
+        </div>
+    </div>
+
+    <!-- FIVE‑LAYER VALIDATION DEEP DIVE -->
+    <div class="validation">
+        <h2 style="text-align:center;">Production‑Ready Code, Every Time.</h2>
+        <p style="text-align:center; color:#94a3b8;">Most AI code generators produce broken or insecure code. Genesis Craft's validation engine catches issues before they reach your project.</p>
+        <div class="layer-item" data-layer="1">
+            <button class="layer-header"><span class="layer-icon"><i class="fas fa-code"></i></span><span class="layer-title">1. Syntax Validation</span><span class="toggle-icon"><i class="fas fa-chevron-down"></i></span></button>
+            <div class="layer-content"><p><strong>What it does:</strong> Checks for runtime errors, missing semicolons, undefined variables — the basics that would crash your app.</p><div class="benefit" style="background:rgba(59,130,246,0.1); padding:0.5rem; border-radius:12px; margin-top:0.5rem;">✓ Benefit: Zero syntax errors, builds immediately.</div></div>
+        </div>
+        <div class="layer-item" data-layer="2">
+            <button class="layer-header"><span class="layer-icon"><i class="fas fa-lock"></i></span><span class="layer-title">2. Security Scanning</span><span class="toggle-icon"><i class="fas fa-chevron-down"></i></span></button>
+            <div class="layer-content"><p><strong>What it does:</strong> Scans for OWASP Top 10 vulnerabilities: SQL injection, XSS, hardcoded secrets, unsafe function usage.</p><div class="benefit" style="background:rgba(59,130,246,0.1); padding:0.5rem; border-radius:12px; margin-top:0.5rem;">✓ Benefit: Production‑ready security posture.</div></div>
+        </div>
+        <div class="layer-item" data-layer="3">
+            <button class="layer-header"><span class="layer-icon"><i class="fas fa-tachometer-alt"></i></span><span class="layer-title">3. Performance Validation</span><span class="toggle-icon"><i class="fas fa-chevron-down"></i></span></button>
+            <div class="layer-content"><p><strong>What it does:</strong> Identifies anti-patterns like N+1 queries, memory leaks, and inefficient algorithms before they slow you down.</p><div class="benefit" style="background:rgba(59,130,246,0.1); padding:0.5rem; border-radius:12px; margin-top:0.5rem;">✓ Benefit: Fast load times and optimal resource usage.</div></div>
+        </div>
+        <div class="layer-item" data-layer="4">
+            <button class="layer-header"><span class="layer-icon"><i class="fas fa-check-double"></i></span><span class="layer-title">4. Best Practices Validation</span><span class="toggle-icon"><i class="fas fa-chevron-down"></i></span></button>
+            <div class="layer-content"><p><strong>What it does:</strong> Ensures code follows framework conventions: React hook rules, Django model patterns, and more.</p><div class="benefit" style="background:rgba(59,130,246,0.1); padding:0.5rem; border-radius:12px; margin-top:0.5rem;">✓ Benefit: Maintainable, readable code.</div></div>
+        </div>
+        <div class="layer-item" data-layer="5">
+            <button class="layer-header"><span class="layer-icon"><i class="fas fa-project-diagram"></i></span><span class="layer-title">5. Architecture Validation</span><span class="toggle-icon"><i class="fas fa-chevron-down"></i></span></button>
+            <div class="layer-content"><p><strong>What it does:</strong> Verifies that the generated code matches the original architecture — no missing components or mismatched APIs.</p><div class="benefit" style="background:rgba(59,130,246,0.1); padding:0.5rem; border-radius:12px; margin-top:0.5rem;">✓ Benefit: No architectural drift, full spec alignment.</div></div>
+        </div>
+        <div style="background:#0f172a; border-radius:24px; padding:1rem; text-align:center; margin-top:1rem;"><i class="fas fa-magic" style="color:#10b981;"></i> <strong>85% of issues are fixed automatically.</strong> The rest are flagged with clear suggestions.</div>
+    </div>
+
+    <!-- SUPPORTED TECHNOLOGIES -->
+    <h2 style="text-align:center;">Any Stack, Any Framework</h2>
+    <div class="tech-grid">
+        <div class="tech-card"><i class="devicon-react-original colored tech-icon"></i><div class="tech-name">React</div></div>
+        <div class="tech-card"><i class="devicon-vuejs-plain colored tech-icon"></i><div class="tech-name">Vue</div></div>
+        <div class="tech-card"><i class="devicon-angularjs-plain colored tech-icon"></i><div class="tech-name">Angular</div></div>
+        <div class="tech-card"><i class="devicon-nextjs-plain tech-icon" style="color:white;"></i><div class="tech-name">Next.js</div></div>
+        <div class="tech-card"><i class="devicon-nodejs-plain colored tech-icon"></i><div class="tech-name">Node.js</div></div>
+        <div class="tech-card"><div style="background:#009688; width:48px; height:48px; margin:0 auto; border-radius:12px; display:flex; align-items:center; justify-content:center; color:white;">FA</div><div class="tech-name">FastAPI</div></div>
+        <div class="tech-card"><i class="devicon-django-plain tech-icon" style="color:white;"></i><div class="tech-name">Django</div></div>
+        <div class="tech-card"><i class="devicon-express-original tech-icon" style="color:white;"></i><div class="tech-name">Express</div></div>
+        <div class="tech-card"><i class="devicon-postgresql-plain colored tech-icon"></i><div class="tech-name">PostgreSQL</div></div>
+        <div class="tech-card"><i class="devicon-mongodb-plain colored tech-icon"></i><div class="tech-name">MongoDB</div></div>
+        <div class="tech-card"><i class="devicon-redis-plain colored tech-icon"></i><div class="tech-name">Redis</div></div>
+        <div class="tech-card"><i class="devicon-docker-plain colored tech-icon"></i><div class="tech-name">Docker</div></div>
+        <div class="tech-card"><i class="devicon-kubernetes-plain colored tech-icon"></i><div class="tech-name">Kubernetes</div></div>
+        <div class="tech-card"><i class="devicon-amazonwebservices-plain colored tech-icon"></i><div class="tech-name">AWS</div></div>
+        <div class="tech-card"><i class="devicon-vercel-plain tech-icon" style="color:white;"></i><div class="tech-name">Vercel</div></div>
+        <div class="tech-card"><i class="devicon-netlify-plain colored tech-icon"></i><div class="tech-name">Netlify</div></div>
+    </div>
+
+    <!-- COMPARISON TABLE -->
+    <h2 style="text-align:center;">How We Stack Up</h2>
+    <div class="comparison">
+        <table class="comparison-table">
+            <thead><tr><th>Feature</th><th>Genesis Craft AI</th><th>GitHub Copilot</th><th>Traditional Low‑Code</th><th>Agencies</th></tr></thead>
+            <tbody>
+                <tr><td>Full‑Stack Generation</td><td class="check">✓ Complete apps</td><td class="xmark">✗ Snippets only</td><td class="partial">⚠️ Limited templates</td><td class="check">✓ Yes</td></tr>
+                <tr><td>Production Validation</td><td class="check">✓ 5‑layer engine</td><td class="xmark">✗ None</td><td class="xmark">✗ Basic only</td><td class="check">✓ Depends</td></tr>
+                <tr><td>Time to MVP</td><td class="check">2 minutes</td><td class="partial">N/A</td><td class="partial">2 weeks</td><td class="partial">2–6 months</td></tr>
+                <tr><td>Cost per App</td><td class="check">$5–$50</td><td class="check">$10/month</td><td class="partial">$10K–$50K</td><td class="partial">$50K–$500K</td></tr>
+                <tr><td>You Own the Code</td><td class="check">✓ Full access</td><td class="check">✓ Yes</td><td class="xmark">✗ Vendor lock‑in</td><td class="check">✓ Yes</td></tr>
+                <tr><td>Deployment Freedom</td><td class="check">✓ Any cloud</td><td class="partial">⚠️ Within IDE</td><td class="xmark">✗ Platform only</td><td class="check">✓ Anywhere</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- FOOTER (consistent with home page) -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-col"><h3>Product</h3><ul><li><a href="/product.html">Features</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="#">Enterprise</a></li><li><a href="#">Changelog</a></li></ul></div>
+        <div class="footer-col"><h3>Resources</h3><ul><li><a href="/docs.html">Documentation</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/case-studies.html">Case Studies</a></li><li><a href="/api-reference.html">API Reference</a></li></ul></div>
+        <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
+        <div class="footer-col"><h3>Stay in the loop</h3><p style="color:#94a3b8; font-size:0.8rem;">Get updates and AI tips</p><div class="newsletter-form" style="display:flex; gap:0.5rem;"><input type="email" placeholder="Your email" style="background:#1e293b; border:1px solid #334155; border-radius:40px; padding:0.5rem; flex:1;"><button class="subscribe-btn" style="background:#3b82f6; border:none; padding:0.5rem 1rem; border-radius:40px; color:white;">Subscribe</button></div><div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;"><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-discord"></i></a></div></div>
+    </div>
+    <div class="copyright">© 2026 Genesis Craft AI, Inc. All rights reserved.</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.js"></script>
+<script>
+    // ---------- Architecture diagram (hexagons + connected lines) ----------
+    const agentDetails = {
+        planner: { title: "Planner Agent", desc: "Analyzes your prompt and generates a detailed architecture specification—components, APIs, data models, and dependencies." },
+        frontend: { title: "Frontend Agent", desc: "Generates React/Vue/Angular code with modern best practices, responsive design, and interactive UI components." },
+        backend: { title: "Backend Agent", desc: "Creates scalable Node/FastAPI/Django backends with RESTful APIs, authentication, and database integration." },
+        validator: { title: "Validator Agent", desc: "Performs five‑layer validation to ensure production‑ready quality." },
+        integrator: { title: "Integrator Agent", desc: "Merges frontend and backend code, resolves conflicts, and creates a unified project." },
+        deployer: { title: "Deployer Agent", desc: "Packages your app and deploys it to Vercel, AWS, Netlify, or your own infrastructure—with one click." }
+    };
+    const hexagons = document.querySelectorAll('.hex');
+    const detailDiv = document.getElementById('agentDetail');
+    function showAgent(agentId) {
+        detailDiv.innerHTML = `<h3>${agentDetails[agentId].title}</h3><p>${agentDetails[agentId].desc}</p>`;
+        hexagons.forEach(h => h.classList.remove('active'));
+        document.querySelector(`.hex[data-agent="${agentId}"]`).classList.add('active');
+    }
+    hexagons.forEach(hex => hex.addEventListener('click', () => showAgent(hex.dataset.agent)));
+    showAgent('planner');
+
+    // Draw connecting lines
+    function drawLines() {
+        const svg = document.getElementById('linesSvg');
+        const grid = document.getElementById('hexGrid');
+        const rect = grid.getBoundingClientRect();
+        const svgRect = svg.getBoundingClientRect();
+        const points = Array.from(grid.children).map(el => {
+            const r = el.getBoundingClientRect();
+            return { x: r.left + r.width/2 - svgRect.left, y: r.top + r.height/2 - svgRect.top };
+        });
+        svg.innerHTML = '';
+        const connections = [[0,1],[1,2],[2,5],[5,4],[4,3],[3,0],[0,5],[1,4],[2,3]];
+        connections.forEach(([i,j]) => {
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', points[i].x); line.setAttribute('y1', points[i].y);
+            line.setAttribute('x2', points[j].x); line.setAttribute('y2', points[j].y);
+            line.setAttribute('stroke', '#3b82f6'); line.setAttribute('stroke-width', '2');
+            line.setAttribute('stroke-dasharray', '5'); line.setAttribute('opacity', '0.6');
+            svg.appendChild(line);
+        });
+    }
+    window.addEventListener('load', drawLines);
+    window.addEventListener('resize', drawLines);
+
+    // ---------- Accordion for validation layers ----------
+    document.querySelectorAll('.layer-item').forEach(item => {
+        const header = item.querySelector('.layer-header');
+        header.addEventListener('click', () => {
+            item.classList.toggle('open');
+            document.querySelectorAll('.layer-item').forEach(other => { if (other !== item) other.classList.remove('open'); });
+        });
+    });
+    document.querySelector('.layer-item').classList.add('open');
+</script>
+</body>
+</html>

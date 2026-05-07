@@ -22,6 +22,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
             font-family: 'Inter', sans-serif;
@@ -430,8 +434,8 @@
         <h1>From Idea to Full‑Stack Application in 2 Minutes.</h1>
         <h2>Genesis Craft AI is the first platform that generates complete, production-ready applications from natural language — frontend, backend, database, and deployment included. No more months of development. No more hiring headaches. Just type, and your app is ready.</h2>
         <div class="cta-buttons">
-            <a href="#" class="btn-primary">Start Building Free <span class="arrow-right"></span></a>
-            <a href="#" class="btn-secondary">Watch Live Demo <span class="arrow-down"></span></a>
+            <a href="/signup.html" class="btn-primary">Start Building Free <span class="arrow-right"></span></a>
+            <a href="#interactive-demo" class="btn-secondary">Watch Live Demo <span class="arrow-down"></span></a>
         </div>
         <div class="trust-badges">
             <div class="badge"><i class="fas fa-users"></i> Trusted by 2,500+ developers</div>
@@ -467,7 +471,7 @@
 </div>
 
 <!-- INTERACTIVE DEMO SECTION -->
-<div class="demo-section">
+<div id="interactive-demo" class="demo-section">
     <h2>See It in Action</h2>
     <p>Type any app idea below and watch Genesis Craft AI generate the complete structure in real time.</p>
     <textarea id="promptInput" class="prompt-field" rows="3" placeholder='e.g., "Build a task management app with drag-and-drop, dark mode, and team chat"'></textarea>

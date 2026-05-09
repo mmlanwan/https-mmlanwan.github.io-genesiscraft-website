@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Dashboard – Genesis Craft AI</title>
-    <meta name="description" content="Manage your API keys, monitor usage, and view your generated applications.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog – Genesis Craft AI</title>
+    <meta name="description" content="Latest updates, new features, and improvements to the Genesis Craft AI platform.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Google Analytics 4 -->
@@ -15,35 +15,38 @@
         gtag('js', new Date());
         gtag('config', 'G-HS1Z82VML7');
     </script>
-    <!-- Schema Markup (WebApplication) -->
+    <!-- Schema Markup (ItemList for changelog entries) -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Genesis Craft AI Dashboard",
-        "description": "User dashboard to manage API keys, monitor usage, and view generated applications.",
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": "All",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        }
+        "@type": "ItemList",
+        "name": "Genesis Craft AI Changelog",
+        "description": "Product updates, new features, and improvements.",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "v0.2.0 – Private Beta Launch",
+                "url": "#v0.2.0"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "v0.1.0 – Internal Alpha",
+                "url": "#v0.1.0"
+            }
+        ]
     }
     </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
             font-family: 'Inter', sans-serif;
             color: #e2e8f0;
             line-height: 1.5;
         }
-        /* Header (same as other pages) */
+        /* Header */
         .site-header {
             background: #0a0a0a;
             border-bottom: 1px solid #1e293b;
@@ -88,85 +91,39 @@
             text-decoration: none;
             font-weight: 600;
         }
-        /* Dashboard container */
-        .dashboard-container {
-            max-width: 1200px;
+        .container {
+            max-width: 900px;
             margin: 2rem auto;
             padding: 0 2rem;
         }
-        .welcome-section {
+        h1 {
+            font-size: 2.5rem;
             margin-bottom: 2rem;
-        }
-        .welcome-section h1 {
-            font-size: 2rem;
-            font-weight: 700;
             background: linear-gradient(135deg, #fff, #94a3b8);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .stat-card {
+        .changelog-item {
             background: #0f172a;
             border-radius: 24px;
             padding: 1.5rem;
+            margin-bottom: 1.5rem;
             border: 1px solid #1e293b;
-            text-align: center;
         }
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
+        .version {
+            font-size: 1.5rem;
+            font-weight: 700;
             color: #3b82f6;
+            margin-bottom: 0.5rem;
         }
-        .api-key-section {
-            background: #0f172a;
-            border-radius: 24px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+        .date {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 1rem;
         }
-        .api-key-display {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: #1e293b;
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-            margin-top: 0.5rem;
-        }
-        .api-key-display code {
-            flex: 1;
-            font-family: monospace;
-            font-size: 1rem;
-            word-break: break-all;
-        }
-        .copy-btn {
-            background: #3b82f6;
-            border: none;
-            padding: 0.4rem 1rem;
-            border-radius: 40px;
-            color: white;
-            cursor: pointer;
-        }
-        .recent-list {
-            background: #0f172a;
-            border-radius: 24px;
-            padding: 1.5rem;
-        }
-        .recent-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid #1e293b;
-        }
-        .recent-item:last-child {
-            border-bottom: none;
-        }
+        ul { margin-left: 1.5rem; }
+        li { margin: 0.5rem 0; }
         /* Footer */
         .footer {
             background: #0f172a;
@@ -184,7 +141,11 @@
         }
         .footer-col ul { list-style: none; }
         .footer-col li { margin-bottom: 0.6rem; }
-        .footer-col a { color: #94a3b8; text-decoration: none; font-size: 0.85rem; }
+        .footer-col a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
         .footer-col a:hover { color: #3b82f6; }
         .copyright {
             text-align: center;
@@ -197,7 +158,6 @@
         @media (max-width: 700px) {
             .header-container { flex-direction: column; gap: 1rem; }
             .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
-            .stats-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -219,45 +179,26 @@
         </div>
     </header>
 
-    <div class="dashboard-container">
-        <div class="welcome-section">
-            <h1>Welcome back, Mathias 👋</h1>
-            <p>Here’s an overview of your account and usage.</p>
+    <div class="container">
+        <h1>Changelog</h1>
+        <div class="changelog-item" id="v0.2.0">
+            <div class="version">v0.2.0 – Private Beta Launch</div>
+            <div class="date">May 8, 2026</div>
+            <ul>
+                <li>✨ Generate full‑stack applications from natural language prompts</li>
+                <li>🔧 Five‑layer validation engine (syntax, security, performance, best practices, architecture)</li>
+                <li>🚀 One‑click deployment to Vercel / Netlify</li>
+                <li>📁 File tree explorer and code preview</li>
+                <li>🔐 User authentication and API keys</li>
+            </ul>
         </div>
-
-        <!-- Usage Stats -->
-        <div class="stats-grid">
-            <div class="stat-card"><div class="stat-number">12,450</div><div>Tokens used this month</div></div>
-            <div class="stat-card"><div class="stat-number">287</div><div>API requests</div></div>
-            <div class="stat-card"><div class="stat-number">14</div><div>Projects</div></div>
-            <div class="stat-card"><div class="stat-number">92%</div><div>Generation success rate</div></div>
-        </div>
-
-        <!-- API Key Section -->
-        <div class="api-key-section">
-            <h3><i class="fas fa-key"></i> API Key</h3>
-            <div class="api-key-display">
-                <code id="apiKey">gsk_XXXX...XXXX</code>
-                <button class="copy-btn" onclick="copyApiKey()">Copy</button>
-            </div>
-            <p class="note" style="font-size:0.8rem; margin-top:0.5rem;">Keep this key secret. It provides full access to your account.</p>
-        </div>
-
-        <!-- Recent Generations -->
-        <div class="recent-list">
-            <h3><i class="fas fa-history"></i> Recent Generations</h3>
-            <div class="recent-item">
-                <div><strong>Task Manager with drag‑and‑drop</strong><br><span style="font-size:0.8rem; color:#94a3b8;">2 hours ago</span></div>
-                <div><span class="status success">✓ Completed</span></div>
-            </div>
-            <div class="recent-item">
-                <div><strong>CRM with Stripe integration</strong><br><span style="font-size:0.8rem; color:#94a3b8;">Yesterday</span></div>
-                <div><span class="status success">✓ Completed</span></div>
-            </div>
-            <div class="recent-item">
-                <div><strong>Real‑time chat dashboard</strong><br><span style="font-size:0.8rem; color:#94a3b8;">2 days ago</span></div>
-                <div><span class="status success">✓ Completed</span></div>
-            </div>
+        <div class="changelog-item" id="v0.1.0">
+            <div class="version">v0.1.0 – Internal Alpha</div>
+            <div class="date">April 15, 2026</div>
+            <ul>
+                <li>🧪 Initial prototype with React component generation</li>
+                <li>🐛 Bug fixes and performance improvements</li>
+            </ul>
         </div>
     </div>
 
@@ -272,17 +213,5 @@
         </div>
         <div class="copyright">© 2026 Genesis Craft AI, Inc. All rights reserved.</div>
     </footer>
-
-    <script>
-        // Simulate API key copy
-        function copyApiKey() {
-            const apiKeyText = document.getElementById('apiKey').innerText;
-            navigator.clipboard.writeText(apiKeyText).then(() => {
-                alert('API key copied to clipboard!');
-            }).catch(() => {
-                alert('Failed to copy. Please select and copy manually.');
-            });
-        }
-    </script>
 </body>
 </html>

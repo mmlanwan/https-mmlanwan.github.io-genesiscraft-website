@@ -212,45 +212,46 @@
     <a href="/contact.html">Contact</a>
   </footer>
 
-  <script>
-    const netlifyIdentity = window.netlifyIdentity;
-    netlifyIdentity.init();
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  const netlifyIdentity = window.netlifyIdentity;
+  netlifyIdentity.init();
 
-    // Protect page – if not logged in, redirect to signup
-    const currentUser = netlifyIdentity.currentUser();
-    if (!currentUser) {
-      window.location.href = '/signup.html';
-    }
+  // Protect page – if not logged in, redirect to home (where token will be processed)
+  const currentUser = netlifyIdentity.currentUser();
+  if (!currentUser) {
+    window.location.href = '/';
+  }
 
-    // Logout button
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      netlifyIdentity.logout();
-      window.location.href = '/index.html';
-    });
+  // Logout button
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    netlifyIdentity.logout();
+    window.location.href = '/index.html';
+  });
 
-    // Plan selection and saving to user metadata
-    const selectBtns = document.querySelectorAll('.select-btn');
-    selectBtns.forEach(btn => {
-      btn.addEventListener('click', async (e) => {
-        const card = btn.closest('.plan-card');
-        const plan = card.getAttribute('data-plan');
-        const user = netlifyIdentity.currentUser();
+  // Plan selection and saving to user metadata
+  const selectBtns = document.querySelectorAll('.select-btn');
+  selectBtns.forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const card = btn.closest('.plan-card');
+      const plan = card.getAttribute('data-plan');
+      const user = netlifyIdentity.currentUser();
 
-        if (user) {
-          try {
-            await user.update({
-              user_metadata: { ...user.user_metadata, plan: plan }
-            });
-            window.location.href = `/pricing.html?plan=${plan}&checkout=true`;
-          } catch (err) {
-            console.error('Failed to save plan:', err);
-            alert('Could not save your plan. Please try again.');
-          }
-        } else {
-          window.location.href = `/signup.html?plan=${plan}`;
+      if (user) {
+        try {
+          await user.update({
+            user_metadata: { ...user.user_metadata, plan: plan }
+          });
+          window.location.href = `/pricing.html?plan=${plan}&checkout=true`;
+        } catch (err) {
+          console.error('Failed to save plan:', err);
+          alert('Could not save your plan. Please try again.');
         }
-      });
+      } else {
+        window.location.href = `/signup.html?plan=${plan}`;
+      }
     });
-  </script>
+  });
+</script>
 </body>
 </html>

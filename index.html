@@ -660,34 +660,30 @@
     setInterval(() => { let next = (currentTestimonial + 1) % testimonialSlides.length; showTestimonial(next); }, 8000);
 </script>
 
+<!-- Netlify Identity Widget -->
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
   window.netlifyIdentity.init();
 
-  function checkAndRedirect() {
-    const user = window.netlifyIdentity.currentUser();
+  // FIRST: Process any pending confirmation token (this is what logs the user in)
+  window.netlifyIdentity.on('init', async (user) => {
+    // This call will automatically handle 'confirmation_token', 'recovery_token', etc.
+    await window.netlifyIdentity.gotrue.handleAuthCallback();
+
+    // After processing, the user should be logged in. Check again.
+    const updatedUser = window.netlifyIdentity.currentUser();
+
+    if (updatedUser && !updatedUser.user_metadata?.plan) {
+      window.location.href = '/choose-plan.html';
+    }
+  });
+
+  // SECOND: Also listen to the regular 'login' event for safety
+  window.netlifyIdentity.on('login', (user) => {
     if (user && !user.user_metadata?.plan) {
       window.location.href = '/choose-plan.html';
     }
-  }
-
-  // Check immediately
-  checkAndRedirect();
-
-  // Also listen for login event (in case user logs in on this page)
-  window.netlifyIdentity.on('login', checkAndRedirect);
-
-  // Fallback: keep checking every second for up to 5 seconds in case metadata loads late
-  let attempts = 0;
-  const interval = setInterval(() => {
-    const user = window.netlifyIdentity.currentUser();
-    if (user && !user.user_metadata?.plan) {
-      clearInterval(interval);
-      window.location.href = '/choose-plan.html';
-    }
-    attempts++;
-    if (attempts > 5) clearInterval(interval);
-  }, 1000);
+  });
 </script>
 
 </body>

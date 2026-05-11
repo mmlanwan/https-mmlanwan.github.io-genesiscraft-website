@@ -6,13 +6,6 @@
     <title>Choose Your Plan – Genesis Craft AI</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-HS1Z82VML7');
-    </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -23,7 +16,6 @@
             display: flex;
             flex-direction: column;
         }
-        /* Simple header with logout */
         .header {
             display: flex;
             justify-content: space-between;
@@ -90,21 +82,9 @@
             transform: translateY(-5px);
             border-color: #3b82f6;
         }
-        .plan-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        .plan-price {
-            font-size: 1.2rem;
-            color: #3b82f6;
-            margin-bottom: 1rem;
-        }
-        .plan-features {
-            list-style: none;
-            margin: 1rem 0;
-            text-align: left;
-        }
+        .plan-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .plan-price { font-size: 1.2rem; color: #3b82f6; margin-bottom: 1rem; }
+        .plan-features { list-style: none; margin: 1rem 0; text-align: left; }
         .plan-features li {
             margin: 0.6rem 0;
             display: flex;
@@ -112,10 +92,7 @@
             gap: 0.5rem;
             font-size: 0.85rem;
         }
-        .plan-features i {
-            color: #10b981;
-            width: 1.2rem;
-        }
+        .plan-features i { color: #10b981; width: 1.2rem; }
         .select-btn {
             background: #3b82f6;
             color: white;
@@ -134,6 +111,14 @@
             font-size: 1.2rem;
         }
         .error { color: #ef4444; }
+        .debug {
+            background: #1e293b;
+            padding: 0.5rem;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            text-align: left;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
@@ -186,6 +171,7 @@
             </div>
         </div>
         <div id="errorMessage" class="error" style="display: none;"></div>
+        <div id="debugInfo" class="debug" style="display: none;"></div>
     </div>
 
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
@@ -196,41 +182,75 @@
         const loadingDiv = document.getElementById('loadingMessage');
         const planDiv = document.getElementById('planSelection');
         const errorDiv = document.getElementById('errorMessage');
+        const debugDiv = document.getElementById('debugInfo');
 
-        async function handleTokenAndShowPlans() {
-            try {
-                // Process any confirmation token in URL hash
-                await netlifyIdentity.gotrue.handleAuthCallback();
-                const user = netlifyIdentity.currentUser();
+        function logDebug(msg) {
+            console.log(msg);
+            debugDiv.style.display = 'block';
+            debugDiv.innerHTML += `<div>${new Date().toLocaleTimeString()}: ${msg}</div>`;
+        }
 
-                if (user && user.user_metadata?.plan) {
-                    // User already has a plan – redirect to pricing
+        async function processConfirmation() {
+            logDebug('Starting processConfirmation');
+            logDebug(`Current URL: ${window.location.href}`);
+            logDebug(`URL hash: ${window.location.hash}`);
+
+            // First, check if user is already logged in
+            let user = netlifyIdentity.currentUser();
+            logDebug(`Current user before token processing: ${user ? user.email : 'null'}`);
+
+            if (user) {
+                logDebug(`User already logged in. Plan: ${user.user_metadata?.plan || 'none'}`);
+                if (user.user_metadata?.plan) {
+                    // Already has a plan – redirect
                     window.location.href = `/pricing.html?plan=${user.user_metadata.plan}&checkout=true`;
                     return;
-                }
-
-                if (user && !user.user_metadata?.plan) {
-                    // User is logged in but has no plan – show the plan selection UI
+                } else {
+                    // Logged in but no plan – show plan selection
                     loadingDiv.style.display = 'none';
                     planDiv.style.display = 'block';
                     return;
                 }
+            }
 
-                // No user and no token processed – maybe not logged in
-                loadingDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> You need to log in first.';
+            // Not logged in: process token from hash
+            const hash = window.location.hash;
+            if (hash && hash.includes('confirmation_token')) {
+                logDebug('Found confirmation_token in hash, attempting to exchange...');
+                try {
+                    await netlifyIdentity.gotrue.handleAuthCallback();
+                    logDebug('handleAuthCallback completed successfully');
+                    // After callback, get the new user
+                    user = netlifyIdentity.currentUser();
+                    logDebug(`User after token exchange: ${user ? user.email : 'null'}`);
+                    if (user && !user.user_metadata?.plan) {
+                        loadingDiv.style.display = 'none';
+                        planDiv.style.display = 'block';
+                    } else if (user && user.user_metadata?.plan) {
+                        window.location.href = `/pricing.html?plan=${user.user_metadata.plan}&checkout=true`;
+                    } else {
+                        throw new Error('No user created after token exchange');
+                    }
+                } catch (err) {
+                    logDebug(`Error in handleAuthCallback: ${err.message}`);
+                    throw err;
+                }
+            } else {
+                logDebug('No confirmation_token in URL hash. User is not logged in and no token.');
+                // Maybe user just came directly? Redirect to signup
+                loadingDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> You need to sign up first.';
                 setTimeout(() => {
                     window.location.href = '/signup.html';
                 }, 2000);
-            } catch (err) {
-                console.error('Error processing token:', err);
-                loadingDiv.style.display = 'none';
-                errorDiv.style.display = 'block';
-                errorDiv.innerHTML = 'Failed to log you in. Please try signing up again.';
             }
         }
 
-        // Run the handler
-        handleTokenAndShowPlans();
+        processConfirmation().catch(err => {
+            console.error('Unhandled error:', err);
+            loadingDiv.style.display = 'none';
+            errorDiv.style.display = 'block';
+            errorDiv.innerHTML = `Failed to log you in: ${err.message}. Please try signing up again.`;
+        });
 
         // Plan selection buttons
         document.querySelectorAll('.select-btn').forEach(btn => {
@@ -238,15 +258,11 @@
                 const card = btn.closest('.plan-card');
                 const plan = card.getAttribute('data-plan');
                 const user = netlifyIdentity.currentUser();
-
                 if (user) {
                     try {
-                        await user.update({
-                            user_metadata: { ...user.user_metadata, plan: plan }
-                        });
+                        await user.update({ user_metadata: { ...user.user_metadata, plan: plan } });
                         window.location.href = `/pricing.html?plan=${plan}&checkout=true`;
                     } catch (err) {
-                        console.error('Failed to save plan:', err);
                         alert('Could not save your plan. Please try again.');
                     }
                 } else {
@@ -256,10 +272,13 @@
         });
 
         // Logout button
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            netlifyIdentity.logout();
-            window.location.href = '/index.html';
-        });
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                netlifyIdentity.logout();
+                window.location.href = '/index.html';
+            });
+        }
     </script>
 </body>
 </html>

@@ -9,7 +9,7 @@
   <h2>Confirm your email</h2>
   <p>Hello {{ .User.email }},</p>
   <p>Thank you for signing up. Please confirm your email address by clicking the link below:</p>
-  <p><a href="{{ .SiteURL }}/choose-plan.html#confirmation_token={{ .Token }}">Confirm your email</a></p>
+  <p><a href="{{ .SiteURL }}/choose-plan.html?confirmation_token={{ .Token }}">Confirm your email</a></p>
   <p>If you did not request this, you can ignore this email.</p>
 </body>
 </html>

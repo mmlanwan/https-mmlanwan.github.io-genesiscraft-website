@@ -659,5 +659,18 @@
     createDots();
     setInterval(() => { let next = (currentTestimonial + 1) % testimonialSlides.length; showTestimonial(next); }, 8000);
 </script>
+
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+    const netlifyIdentity = window.netlifyIdentity;
+    netlifyIdentity.init();
+
+    const currentUser = netlifyIdentity.currentUser();
+    // If user is logged in but hasn't selected a plan, send them to choose-plan
+    if (currentUser && !currentUser.user_metadata?.plan) {
+        window.location.href = '/choose-plan.html';
+    }
+</script>
+
 </body>
 </html>

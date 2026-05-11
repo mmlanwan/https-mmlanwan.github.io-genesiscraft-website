@@ -1,267 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choose Your Plan – Genesis Craft AI</title>
-    <meta name="description" content="Select your subscription plan to continue.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-HS1Z82VML7');
-    </script>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            font-family: 'Inter', sans-serif;
-            color: #e2e8f0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .site-header {
-            background: #0a0a0a;
-            border-bottom: 1px solid #1e293b;
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .logo a {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-decoration: none;
-        }
-        .main-nav ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        .main-nav a {
-            color: #cbd5e1;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .main-nav a:hover { color: #3b82f6; }
-        .btn-small {
-            background: #3b82f6;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .container {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 2rem;
-            text-align: center;
-        }
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .subhead {
-            color: #94a3b8;
-            margin-bottom: 2rem;
-        }
-        .pricing-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        .plan-card {
-            background: #0f172a;
-            border-radius: 24px;
-            padding: 1.5rem;
-            flex: 1;
-            min-width: 240px;
-            border: 1px solid #1e293b;
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-        }
-        .plan-card:hover {
-            transform: translateY(-5px);
-            border-color: #3b82f6;
-            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.4);
-        }
-        .plan-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        .plan-price {
-            font-size: 1.2rem;
-            color: #3b82f6;
-            margin-bottom: 1rem;
-        }
-        .plan-features {
-            list-style: none;
-            margin: 1rem 0;
-            text-align: left;
-        }
-        .plan-features li {
-            margin: 0.6rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-        }
-        .plan-features i {
-            color: #10b981;
-            width: 1.2rem;
-        }
-        .select-btn {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 0.6rem 1rem;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 1rem;
-        }
-        .select-btn:hover {
-            background: #2563eb;
-        }
-        .footer {
-            margin-top: auto;
-            background: #0f172a;
-            border-top: 1px solid #1e293b;
-            padding: 2rem;
-            text-align: center;
-        }
-        @media (max-width: 700px) {
-            .header-container { flex-direction: column; gap: 1rem; }
-            .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Your Plan – Genesis Craft AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-HS1Z82VML7');
+  </script>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+      font-family: 'Inter', sans-serif;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .site-header {
+      background: #0a0a0a;
+      border-bottom: 1px solid #1e293b;
+      padding: 1rem 2rem;
+    }
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo a {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+    }
+    .main-nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .main-nav a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .main-nav a:hover { color: #3b82f6; }
+    .btn-small {
+      background: #3b82f6;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .logout-btn {
+      background: #ef4444;
+      border: none;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      color: white;
+      cursor: pointer;
+      margin-left: 0.5rem;
+    }
+    .logout-btn:hover { background: #dc2626; }
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 2rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .subhead { color: #94a3b8; margin-bottom: 2rem; }
+    .pricing-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .plan-card {
+      background: #0f172a;
+      border-radius: 24px;
+      padding: 1.5rem;
+      flex: 1;
+      min-width: 240px;
+      border: 1px solid #1e293b;
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+    .plan-card:hover { transform: translateY(-5px); border-color: #3b82f6; }
+    .plan-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .plan-price { font-size: 1.2rem; color: #3b82f6; margin-bottom: 1rem; }
+    .plan-features { list-style: none; margin: 1rem 0; text-align: left; }
+    .plan-features li {
+      margin: 0.6rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+    }
+    .plan-features i { color: #10b981; width: 1.2rem; }
+    .select-btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 1rem;
+    }
+    .select-btn:hover { background: #2563eb; }
+    .footer {
+      margin-top: auto;
+      background: #0f172a;
+      border-top: 1px solid #1e293b;
+      padding: 2rem;
+      text-align: center;
+    }
+    @media (max-width: 700px) {
+      .header-container { flex-direction: column; gap: 1rem; }
+      .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
 </head>
 <body>
-    <header class="site-header">
-        <div class="header-container">
-            <div class="logo"><a href="/index.html">Genesis Craft AI</a></div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="/product.html">Product</a></li>
-                    <li><a href="/pricing.html">Pricing</a></li>
-                    <li><a href="/about.html">About Us</a></li>
-                    <li><a href="/careers.html">Careers</a></li>
-                    <li><a href="/contact.html">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="header-cta"><a href="/signup.html" class="btn-small">Sign Up</a></div>
-        </div>
-    </header>
-
-    <div class="container">
-        <h1>Choose your plan</h1>
-        <div class="subhead">Select the plan that fits your needs. You can change anytime.</div>
-        <div class="pricing-grid">
-            <div class="plan-card" data-plan="free">
-                <div class="plan-name">Free</div>
-                <div class="plan-price">$0 / month</div>
-                <ul class="plan-features">
-                    <li><i class="fas fa-check-circle"></i> 10,000 tokens/month</li>
-                    <li><i class="fas fa-check-circle"></i> 50 requests/month</li>
-                    <li><i class="fas fa-check-circle"></i> 5 projects</li>
-                    <li><i class="fas fa-check-circle"></i> Community support</li>
-                </ul>
-                <button class="select-btn">Select Free</button>
-            </div>
-            <div class="plan-card" data-plan="pro">
-                <div class="plan-name">Pro</div>
-                <div class="plan-price">$49 / month</div>
-                <ul class="plan-features">
-                    <li><i class="fas fa-check-circle"></i> 100,000 tokens/month</li>
-                    <li><i class="fas fa-check-circle"></i> 1,000 requests/month</li>
-                    <li><i class="fas fa-check-circle"></i> 50 projects</li>
-                    <li><i class="fas fa-check-circle"></i> Advanced validation</li>
-                    <li><i class="fas fa-check-circle"></i> Priority support</li>
-                </ul>
-                <button class="select-btn">Select Pro</button>
-            </div>
-            <div class="plan-card" data-plan="team">
-                <div class="plan-name">Team</div>
-                <div class="plan-price">$199 / month</div>
-                <ul class="plan-features">
-                    <li><i class="fas fa-check-circle"></i> 500,000 tokens/month</li>
-                    <li><i class="fas fa-check-circle"></i> 10,000 requests/month</li>
-                    <li><i class="fas fa-check-circle"></i> 500 projects</li>
-                    <li><i class="fas fa-check-circle"></i> Enterprise validation</li>
-                    <li><i class="fas fa-check-circle"></i> SLA & SSO</li>
-                </ul>
-                <button class="select-btn">Select Team</button>
-            </div>
-        </div>
+  <header class="site-header">
+    <div class="header-container">
+      <div class="logo">
+        <a href="/index.html">Genesis Craft AI</a>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="/product.html">Product</a></li>
+          <li><a href="/pricing.html">Pricing</a></li>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/careers.html">Careers</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-cta">
+        <a href="/signup.html" class="btn-small">Sign Up</a>
+        <button id="logoutBtn" class="logout-btn">Log Out</button>
+      </div>
     </div>
+  </header>
 
-    <footer class="footer">
-        <a href="/privacy-policy.html">Privacy Policy</a> |
-        <a href="/terms-of-service.html">Terms of Service</a> |
-        <a href="/contact.html">Contact</a>
-    </footer>
+  <div class="container">
+    <h1>Choose your plan</h1>
+    <div class="subhead">Select the plan that fits your needs. You can change or cancel anytime.</div>
+    <div class="pricing-grid">
+      <div class="plan-card" data-plan="free">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0 / month</div>
+        <ul class="plan-features">
+          <li><i class="fas fa-check-circle"></i> 10,000 tokens/month</li>
+          <li><i class="fas fa-check-circle"></i> 50 requests/month</li>
+          <li><i class="fas fa-check-circle"></i> 5 projects</li>
+        </ul>
+        <button class="select-btn">Select Free</button>
+      </div>
+      <div class="plan-card" data-plan="pro">
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$49 / month</div>
+        <ul class="plan-features">
+          <li><i class="fas fa-check-circle"></i> 100,000 tokens/month</li>
+          <li><i class="fas fa-check-circle"></i> 1,000 requests/month</li>
+          <li><i class="fas fa-check-circle"></i> 50 projects</li>
+          <li><i class="fas fa-check-circle"></i> Advanced validation</li>
+          <li><i class="fas fa-check-circle"></i> Priority support</li>
+        </ul>
+        <button class="select-btn">Select Pro</button>
+      </div>
+      <div class="plan-card" data-plan="team">
+        <div class="plan-name">Team</div>
+        <div class="plan-price">$199 / month</div>
+        <ul class="plan-features">
+          <li><i class="fas fa-check-circle"></i> 500,000 tokens/month</li>
+          <li><i class="fas fa-check-circle"></i> 10,000 requests/month</li>
+          <li><i class="fas fa-check-circle"></i> 500 projects</li>
+          <li><i class="fas fa-check-circle"></i> SLA & SSO</li>
+        </ul>
+        <button class="select-btn">Select Team</button>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        const netlifyIdentity = window.netlifyIdentity;
-        netlifyIdentity.init();
+  <footer class="footer">
+    <a href="/privacy-policy.html">Privacy Policy</a> |
+    <a href="/terms-of-service.html">Terms of Service</a> |
+    <a href="/contact.html">Contact</a>
+  </footer>
 
-        // Ensure user is logged in; if not, redirect to signup
-        const currentUser = netlifyIdentity.currentUser();
-        if (!currentUser) {
-            window.location.href = '/signup.html';
-        }
+  <script>
+    const netlifyIdentity = window.netlifyIdentity;
+    netlifyIdentity.init();
 
-        // Handle plan selection
-        const selectBtns = document.querySelectorAll('.select-btn');
-        selectBtns.forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                const card = btn.closest('.plan-card');
-                const plan = card.getAttribute('data-plan');
+    // Protect page – if not logged in, redirect to signup
+    const currentUser = netlifyIdentity.currentUser();
+    if (!currentUser) {
+      window.location.href = '/signup.html';
+    }
 
-                // Store plan in user metadata (GoTrue)
-                const user = netlifyIdentity.currentUser();
-                if (user) {
-                    try {
-                        // Update user metadata with the selected plan
-                        await user.update({ user_metadata: { plan: plan } });
-                        // Redirect to payment checkout or dashboard
-                        // For now, go to pricing page with plan preselected
-                        window.location.href = `/pricing.html?plan=${plan}&checkout=true`;
-                    } catch (err) {
-                        console.error('Failed to save plan:', err);
-                        alert('Could not save your plan. Please try again.');
-                    }
-                } else {
-                    window.location.href = `/signup.html?plan=${plan}`;
-                }
+    // Logout button
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      netlifyIdentity.logout();
+      window.location.href = '/index.html';
+    });
+
+    // Plan selection and saving to user metadata
+    const selectBtns = document.querySelectorAll('.select-btn');
+    selectBtns.forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const card = btn.closest('.plan-card');
+        const plan = card.getAttribute('data-plan');
+        const user = netlifyIdentity.currentUser();
+
+        if (user) {
+          try {
+            await user.update({
+              user_metadata: { ...user.user_metadata, plan: plan }
             });
-        });
-    </script>
+            window.location.href = `/pricing.html?plan=${plan}&checkout=true`;
+          } catch (err) {
+            console.error('Failed to save plan:', err);
+            alert('Could not save your plan. Please try again.');
+          }
+        } else {
+          window.location.href = `/signup.html?plan=${plan}`;
+        }
+      });
+    });
+  </script>
 </body>
 </html>

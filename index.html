@@ -662,14 +662,32 @@
 
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
-    const netlifyIdentity = window.netlifyIdentity;
-    netlifyIdentity.init();
+  window.netlifyIdentity.init();
 
-    const currentUser = netlifyIdentity.currentUser();
-    // If user is logged in but hasn't selected a plan, send them to choose-plan
-    if (currentUser && !currentUser.user_metadata?.plan) {
-        window.location.href = '/choose-plan.html';
+  function checkAndRedirect() {
+    const user = window.netlifyIdentity.currentUser();
+    if (user && !user.user_metadata?.plan) {
+      window.location.href = '/choose-plan.html';
     }
+  }
+
+  // Check immediately
+  checkAndRedirect();
+
+  // Also listen for login event (in case user logs in on this page)
+  window.netlifyIdentity.on('login', checkAndRedirect);
+
+  // Fallback: keep checking every second for up to 5 seconds in case metadata loads late
+  let attempts = 0;
+  const interval = setInterval(() => {
+    const user = window.netlifyIdentity.currentUser();
+    if (user && !user.user_metadata?.plan) {
+      clearInterval(interval);
+      window.location.href = '/choose-plan.html';
+    }
+    attempts++;
+    if (attempts > 5) clearInterval(interval);
+  }, 1000);
 </script>
 
 </body>

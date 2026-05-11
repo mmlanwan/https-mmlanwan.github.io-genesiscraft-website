@@ -660,34 +660,5 @@
     setInterval(() => { let next = (currentTestimonial + 1) % testimonialSlides.length; showTestimonial(next); }, 8000);
 </script>
 
-<!-- Netlify Identity Widget -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  window.netlifyIdentity.init();
-
-  // Force the widget to process any token in the URL hash (this is the key)
-  window.netlifyIdentity.on('init', () => {
-    console.log('Identity widget initialized.');
-    // This function processes the token and logs the user in
-    window.netlifyIdentity.gotrue.handleAuthCallback()
-      .then(() => {
-        const user = window.netlifyIdentity.currentUser();
-        console.log('User after handleAuthCallback:', user);
-        if (user && !user.user_metadata?.plan) {
-          window.location.href = '/choose-plan.html';
-        }
-      })
-      .catch(err => console.error('handleAuthCallback error:', err));
-  });
-
-  // This is a fallback in case the user is already logged in when visiting the page
-  window.netlifyIdentity.on('login', (user) => {
-    console.log('User just logged in:', user);
-    if (user && !user.user_metadata?.plan) {
-      window.location.href = '/choose-plan.html';
-    }
-  });
-</script>
-
 </body>
 </html>

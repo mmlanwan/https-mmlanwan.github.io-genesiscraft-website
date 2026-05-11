@@ -128,10 +128,7 @@
         const response = await fetch('/.netlify/identity/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                token: token,
-                verification_type: "confirmation"   // <-- THIS WAS MISSING
-            })
+            body: JSON.stringify({ token: token, type: 'confirmation' })
         });
         if (!response.ok) {
             const text = await response.text();
@@ -151,7 +148,7 @@
                 await new Promise(resolve => setTimeout(resolve, 500));
                 const user = netlifyIdentity.currentUser();
                 if (user && user.user_metadata?.plan) {
-                    window.location.href = `/pricing.html?plan=${user.user_metadata.plan}`;
+                    window.location.href = `/pricing.html?plan=${user.user_metadata.plan}&checkout=true`;
                     return;
                 }
                 loadingDiv.style.display = 'none';
@@ -165,7 +162,7 @@
         } else {
             const user = netlifyIdentity.currentUser();
             if (user && user.user_metadata?.plan) {
-                window.location.href = `/pricing.html?plan=${user.user_metadata.plan}`;
+                window.location.href = `/pricing.html?plan=${user.user_metadata.plan}&checkout=true`;
             } else if (user) {
                 loadingDiv.style.display = 'none';
                 planDiv.style.display = 'block';
@@ -179,7 +176,6 @@
 
     process();
 
-    // Plan selection
     document.querySelectorAll('.select-btn').forEach(btn => {
         btn.addEventListener('click', async (e) => {
             const card = btn.closest('.plan-card');
@@ -200,7 +196,6 @@
         });
     });
 
-    // Logout
     document.getElementById('logoutBtn').addEventListener('click', () => {
         netlifyIdentity.logout();
         window.location.href = '/';

@@ -4,46 +4,229 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose Your Plan – Genesis Craft AI</title>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <meta name="description" content="Select the perfect plan for your needs – Free, Pro, or Team. Start building full‑stack applications in minutes.">
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Analytics 4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-HS1Z82VML7');
+    </script>
+    <!-- Schema Markup (ItemList for plans) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Genesis Craft AI Plans",
+        "description": "Choose a subscription plan that fits your needs.",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Free Plan",
+                "url": "https://genesiscraft.ai/signup.html?plan=free"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Pro Monthly",
+                "url": "https://buy.stripe.com/pro-monthly-link"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Pro Yearly",
+                "url": "https://buy.stripe.com/pro-yearly-link"
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "Team Monthly",
+                "url": "https://buy.stripe.com/team-monthly-link"
+            },
+            {
+                "@type": "ListItem",
+                "position": 5,
+                "name": "Team Yearly",
+                "url": "https://buy.stripe.com/team-yearly-link"
+            }
+        ]
+    }
+    </script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: #0a0a0a;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
             font-family: 'Inter', sans-serif;
             color: #e2e8f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header – consistent with all other pages */
+        .site-header {
+            background: #0a0a0a;
+            border-bottom: 1px solid #1e293b;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+        }
+
+        .main-nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
             margin: 0;
-            padding: 2rem;
+            padding: 0;
         }
+
+        .main-nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .main-nav a:hover {
+            color: #3b82f6;
+        }
+
+        .btn-small {
+            background: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Main container */
         .container {
-            max-width: 900px;
-            width: 100%;
-            background: #0f172a;
-            border-radius: 32px;
+            max-width: 1100px;
+            margin: 2rem auto;
             padding: 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 32px;
+            border: 1px solid #1e293b;
             text-align: center;
+            flex: 1;
         }
-        h1 { font-size: 2rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .subhead { color: #94a3b8; margin-bottom: 2rem; }
-        .pricing-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin: 2rem 0; }
-        .plan-card {
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subhead {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .email-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.8rem;
+            margin: 0 auto 2rem auto;
             background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            display: block;
+        }
+
+        .pricing-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1rem 0 2rem;
+        }
+
+        .plan-card {
+            background: #0f172a;
             border-radius: 24px;
             padding: 1.5rem;
             flex: 1;
-            min-width: 240px;
-            border: 1px solid #334155;
-            transition: transform 0.2s;
-            cursor: pointer;
+            min-width: 200px;
+            max-width: 260px;
+            border: 1px solid #1e293b;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-align: center;
         }
-        .plan-card:hover { transform: translateY(-5px); border-color: #3b82f6; }
-        .plan-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .plan-price { font-size: 1.2rem; color: #3b82f6; margin-bottom: 1rem; }
-        .plan-features { list-style: none; margin: 1rem 0; text-align: left; }
-        .plan-features li { margin: 0.6rem 0; display: flex; align-items: center; gap: 0.5rem; }
-        .plan-features i { color: #10b981; }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            border-color: #3b82f6;
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 1.2rem;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 1rem 0;
+            text-align: left;
+        }
+
+        .plan-features li {
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .plan-features i {
+            color: #10b981;
+            width: 1.2rem;
+        }
+
         .select-btn {
             background: #3b82f6;
             color: white;
@@ -54,151 +237,200 @@
             cursor: pointer;
             width: 100%;
             margin-top: 1rem;
+            transition: background 0.2s;
         }
-        .logout-btn {
-            background: #ef4444;
-            margin-top: 2rem;
-            width: auto;
-            padding: 0.5rem 1.5rem;
-            border: none;
-            border-radius: 40px;
-            color: white;
-            cursor: pointer;
+
+        .select-btn:hover {
+            background: #2563eb;
         }
-        .loading, .error { padding: 2rem; font-size: 1.2rem; }
-        .error { color: #ef4444; }
+
+        .footer {
+            background: #0f172a;
+            border-top: 1px solid #1e293b;
+            padding: 2rem;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.8rem;
+            margin: 0 0.5rem;
+        }
+
+        .footer a:hover {
+            color: #3b82f6;
+        }
+
+        @media (max-width: 800px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .main-nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .pricing-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .plan-card {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<div class="container">
-    <div id="loading" class="loading"><i class="fas fa-spinner fa-pulse"></i> Processing your confirmation...</div>
-    <div id="planSection" style="display: none;">
-        <h1>Choose your plan</h1>
-        <div class="subhead">Select the plan that fits your needs. You can change or cancel anytime.</div>
-        <div class="pricing-grid">
-            <div class="plan-card" data-plan="free">
-                <div class="plan-name">Free</div>
-                <div class="plan-price">$0 / month</div>
-                <ul class="plan-features">
-                    <li><i class="fas fa-check-circle"></i> 10,000 tokens/month</li>
-                    <li><i class="fas fa-check-circle"></i> 50 requests/month</li>
-                    <li><i class="fas fa-check-circle"></i> 5 projects</li>
-                </ul>
-                <button class="select-btn">Select Free</button>
-            </div>
-            <div class="plan-card" data-plan="pro">
-                <div class="plan-name">Pro</div>
-                <div class="plan-price">$49 / month</div>
-                <ul class="plan-features">
-                    <li><i class="fas fa-check-circle"></i> 100,000 tokens/month</li>
-                    <li><i class="fas fa-check-circle"></i> 1,000 requests/month</li>
-                    <li><i class="fas fa-check-circle"></i> 50 projects</li>
-                    <li><i class="fas fa-check-circle"></i> Advanced validation</li>
-                    <li><i class="fas fa-check-circle"></i> Priority support</li>
-                </ul>
-                <button class="select-btn">Select Pro</button>
-            </div>
-            <div class="plan-card" data-plan="team">
-                <div class="plan-name">Team</div>
-                <div class="plan-price">$199 / month</div>
-                <ul class="plan-features">
-                    <li><i class="fas fa-check-circle"></i> 500,000 tokens/month</li>
-                    <li><i class="fas fa-check-circle"></i> 10,000 requests/month</li>
-                    <li><i class="fas fa-check-circle"></i> 500 projects</li>
-                    <li><i class="fas fa-check-circle"></i> SLA & SSO</li>
-                </ul>
-                <button class="select-btn">Select Team</button>
-            </div>
+
+<header class="site-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="/index.html">Genesis Craft AI</a>
         </div>
-        <button id="logoutBtn" class="logout-btn">Log Out</button>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/product.html">Product</a></li>
+                <li><a href="/pricing.html">Pricing</a></li>
+                <li><a href="/about.html">About Us</a></li>
+                <li><a href="/careers.html">Careers</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <a href="/signup.html" class="btn-small">Sign Up</a>
+        </div>
     </div>
-    <div id="errorMsg" class="error" style="display: none;"></div>
+</header>
+
+<div class="container">
+    <h1>Choose your plan</h1>
+    <div class="subhead">Select the plan that fits your needs. You can change or cancel anytime.</div>
+
+    <input type="email" id="userEmail" class="email-input" placeholder="Your e-mail address (optional)">
+
+    <div class="pricing-grid">
+        <!-- Free Plan -->
+        <div class="plan-card" data-plan="free" data-price="0">
+            <div class="plan-name">Free</div>
+            <div class="plan-price">$0 / month</div>
+            <ul class="plan-features">
+                <li><i class="fas fa-check-circle"></i> 10,000 tokens/month</li>
+                <li><i class="fas fa-check-circle"></i> 50 requests/month</li>
+                <li><i class="fas fa-check-circle"></i> 5 projects</li>
+            </ul>
+            <button class="select-btn">Select Free</button>
+        </div>
+
+        <!-- Pro Monthly -->
+        <div class="plan-card" data-plan="pro-monthly" data-price="49">
+            <div class="plan-name">Pro Monthly</div>
+            <div class="plan-price">$49 / month</div>
+            <ul class="plan-features">
+                <li><i class="fas fa-check-circle"></i> 100,000 tokens/month</li>
+                <li><i class="fas fa-check-circle"></i> 1,000 requests/month</li>
+                <li><i class="fas fa-check-circle"></i> 50 projects</li>
+                <li><i class="fas fa-check-circle"></i> Advanced validation</li>
+                <li><i class="fas fa-check-circle"></i> Priority support</li>
+            </ul>
+            <button class="select-btn">Select Pro Monthly</button>
+        </div>
+
+        <!-- Pro Yearly -->
+        <div class="plan-card" data-plan="pro-yearly" data-price="490">
+            <div class="plan-name">Pro Yearly</div>
+            <div class="plan-price">$490 / year <span style="font-size:0.7rem;">(save 16%)</span></div>
+            <ul class="plan-features">
+                <li><i class="fas fa-check-circle"></i> 100,000 tokens/month</li>
+                <li><i class="fas fa-check-circle"></i> 1,000 requests/month</li>
+                <li><i class="fas fa-check-circle"></i> 50 projects</li>
+                <li><i class="fas fa-check-circle"></i> Advanced validation</li>
+                <li><i class="fas fa-check-circle"></i> Priority support</li>
+            </ul>
+            <button class="select-btn">Select Pro Yearly</button>
+        </div>
+
+        <!-- Team Monthly -->
+        <div class="plan-card" data-plan="team-monthly" data-price="199">
+            <div class="plan-name">Team Monthly</div>
+            <div class="plan-price">$199 / month</div>
+            <ul class="plan-features">
+                <li><i class="fas fa-check-circle"></i> 500,000 tokens/month</li>
+                <li><i class="fas fa-check-circle"></i> 10,000 requests/month</li>
+                <li><i class="fas fa-check-circle"></i> 500 projects</li>
+                <li><i class="fas fa-check-circle"></i> Enterprise validation</li>
+                <li><i class="fas fa-check-circle"></i> SLA & SSO</li>
+            </ul>
+            <button class="select-btn">Select Team Monthly</button>
+        </div>
+
+        <!-- Team Yearly -->
+        <div class="plan-card" data-plan="team-yearly" data-price="1990">
+            <div class="plan-name">Team Yearly</div>
+            <div class="plan-price">$1,990 / year <span style="font-size:0.7rem;">(save 16%)</span></div>
+            <ul class="plan-features">
+                <li><i class="fas fa-check-circle"></i> 500,000 tokens/month</li>
+                <li><i class="fas fa-check-circle"></i> 10,000 requests/month</li>
+                <li><i class="fas fa-check-circle"></i> 500 projects</li>
+                <li><i class="fas fa-check-circle"></i> Enterprise validation</li>
+                <li><i class="fas fa-check-circle"></i> SLA & SSO</li>
+            </ul>
+            <button class="select-btn">Select Team Yearly</button>
+        </div>
+    </div>
 </div>
 
+<footer class="footer">
+    <a href="/privacy-policy.html">Privacy Policy</a> |
+    <a href="/terms-of-service.html">Terms of Service</a> |
+    <a href="/contact.html">Contact</a>
+</footer>
+
 <script>
-    const netlifyIdentity = window.netlifyIdentity;
-    netlifyIdentity.init();
+    // Stripe Payment Links – replace with your actual Stripe Payment Links
+    const paymentLinks = {
+        'free': null,
+        'pro-monthly': 'https://buy.stripe.com/your-pro-monthly-link',
+        'pro-yearly': 'https://buy.stripe.com/your-pro-yearly-link',
+        'team-monthly': 'https://buy.stripe.com/your-team-monthly-link',
+        'team-yearly': 'https://buy.stripe.com/your-team-yearly-link'
+    };
 
-    const loadingDiv = document.getElementById('loading');
-    const planDiv = document.getElementById('planSection');
-    const errorDiv = document.getElementById('errorMsg');
+    // Get e-mail input field
+    const emailInput = document.getElementById('userEmail');
 
-    async function exchangeToken(token) {
-        const response = await fetch('/.netlify/identity/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token: token, type: 'confirmation' })
-        });
-        if (!response.ok) {
-            const text = await response.text();
-            throw new Error(`Token exchange failed: ${response.status} ${text}`);
-        }
-        return await response.json();
-    }
-
-    async function process() {
-        const urlParams = new URLSearchParams(window.location.search);
-        let token = urlParams.get('confirmation_token');
-
-        if (token) {
-            try {
-                await exchangeToken(token);
-                // Wait for widget to sync user
-                await new Promise(resolve => setTimeout(resolve, 500));
-                const user = netlifyIdentity.currentUser();
-                if (user && user.user_metadata?.plan) {
-                    window.location.href = `/pricing.html?plan=${user.user_metadata.plan}&checkout=true`;
-                    return;
-                }
-                loadingDiv.style.display = 'none';
-                planDiv.style.display = 'block';
-            } catch (err) {
-                console.error(err);
-                loadingDiv.style.display = 'none';
-                errorDiv.innerText = 'Failed to confirm your email. Please try signing up again.';
-                errorDiv.style.display = 'block';
-            }
-        } else {
-            const user = netlifyIdentity.currentUser();
-            if (user && user.user_metadata?.plan) {
-                window.location.href = `/pricing.html?plan=${user.user_metadata.plan}&checkout=true`;
-            } else if (user) {
-                loadingDiv.style.display = 'none';
-                planDiv.style.display = 'block';
-            } else {
-                loadingDiv.style.display = 'none';
-                errorDiv.innerText = 'No confirmation token found. Please sign up again.';
-                errorDiv.style.display = 'block';
-            }
-        }
-    }
-
-    process();
-
+    // Attach event listeners to all plan buttons
     document.querySelectorAll('.select-btn').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
+        btn.addEventListener('click', (e) => {
             const card = btn.closest('.plan-card');
             const plan = card.getAttribute('data-plan');
-            const user = netlifyIdentity.currentUser();
-            if (user) {
-                try {
-                    await user.update({
-                        user_metadata: { ...(user.user_metadata || {}), plan: plan }
-                    });
-                    window.location.href = `/pricing.html?plan=${plan}&checkout=true`;
-                } catch (err) {
-                    alert('Could not save your plan. Please try again.');
-                }
-            } else {
-                window.location.href = `/signup.html?plan=${plan}`;
-            }
-        });
-    });
+            const email = emailInput.value.trim();
 
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-        netlifyIdentity.logout();
-        window.location.href = '/';
+            // Handle Free plan separately (no payment link)
+            if (plan === 'free') {
+                window.location.href = '/signup.html?plan=free';
+                return;
+            }
+
+            // Get the corresponding payment link
+            let link = paymentLinks[plan];
+            if (!link) {
+                alert('Payment link not configured yet. Please contact support.');
+                return;
+            }
+
+            // Pre‑fill e-mail if provided (Stripe Payment Links support ?prefilled_email=)
+            if (email && email.includes('@')) {
+                // Append e-mail as query parameter; ensure no double '?'
+                link += link.includes('?') ? `&prefilled_email=${encodeURIComponent(email)}` : `?prefilled_email=${encodeURIComponent(email)}`;
+            }
+
+            // Redirect to Stripe Checkout
+            window.location.href = link;
+        });
     });
 </script>
 </body>

@@ -628,91 +628,92 @@
 </footer>
 
 <script>
-// Billing toggle (monthly / yearly)
-const toggleBtns = document.querySelectorAll('.toggle-btn');
-const priceElements = document.querySelectorAll('[data-monthly]');
-const periodElements = document.querySelectorAll('.period');
-const proAnnualSavings = document.getElementById('proAnnualSavings');
-const teamAnnualSavings = document.getElementById('teamAnnualSavings');
+  // Billing toggle (monthly / yearly)
+  const toggleBtns = document.querySelectorAll('.toggle-btn');
+  const priceElements = document.querySelectorAll('[data-monthly]');
+  const periodElements = document.querySelectorAll('.period');
+  const proAnnualSavings = document.getElementById('proAnnualSavings');
+  const teamAnnualSavings = document.getElementById('teamAnnualSavings');
 
-// Function to update prices and periods
-function setBillingPeriod(period) {
-  console.log('Switching to', period); // optional debug
+  // Function to update prices and periods
+  function setBillingPeriod(period) {
+    console.log('Switching to', period);
+    toggleBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-period') === period);
+    });
+    priceElements.forEach(el => {
+      const newPrice = el.getAttribute(`data-${period}`);
+      if (newPrice) el.innerHTML = newPrice;
+    });
+    periodElements.forEach(el => {
+      const newPeriod = el.getAttribute(`data-${period}`);
+      if (newPeriod) el.innerHTML = newPeriod;
+      else if (period === 'monthly') el.innerHTML = 'per month';
+      else el.innerHTML = 'per year';
+    });
+    // Show/hide annual savings badge
+    if (period === 'yearly') {
+      if (proAnnualSavings) proAnnualSavings.style.display = 'inline-block';
+      if (teamAnnualSavings) teamAnnualSavings.style.display = 'inline-block';
+    } else {
+      if (proAnnualSavings) proAnnualSavings.style.display = 'none';
+      if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
+    }
+    // Update Stripe payment links
+    updatePaymentLinks(period);
+  }
+
+  // Dynamic Stripe links for Pro and Team
+  function updatePaymentLinks(period) {
+    const proBtn = document.getElementById('proButton');
+    const teamBtn = document.getElementById('teamButton');
+    if (!proBtn || !teamBtn) {
+      console.warn('Payment buttons not found');
+      return;
+    }
+    if (period === 'monthly') {
+      proBtn.href = 'https://buy.stripe.com/7sYfZb02xby4dSDfye38402';
+      teamBtn.href = 'https://buy.stripe.com/eVq9AN02xau0dSD85M38403';
+    } else {
+      proBtn.href = 'https://buy.stripe.com/5kQcMZ2aF1XucOz71I38401';
+      teamBtn.href = 'https://buy.stripe.com/aFacMZg1v7hOdSD0Dk38404';
+    }
+  }
+
+  // Attach event listeners to toggle buttons
   toggleBtns.forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-period') === period);
+    btn.addEventListener('click', () => {
+      const period = btn.getAttribute('data-period');
+      setBillingPeriod(period);
+    });
   });
-  priceElements.forEach(el => {
-    const newPrice = el.getAttribute(`data-${period}`);
-    if (newPrice) el.innerHTML = newPrice;
+
+  // Initialize with monthly
+  setBillingPeriod('monthly');
+  if (proAnnualSavings) proAnnualSavings.style.display = 'none';
+  if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
+
+  // FAQ Accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn = item.querySelector('.faq-question');
+    btn.addEventListener('click', () => {
+      item.classList.toggle('open');
+    });
   });
-  periodElements.forEach(el => {
-    const newPeriod = el.getAttribute(`data-${period}`);
-    if (newPeriod) el.innerHTML = newPeriod;
-    else if (period === 'monthly') el.innerHTML = 'per month';
-    else el.innerHTML = 'per year';
-  });
-  // Show/hide annual savings badge
-  if (period === 'yearly') {
-    if (proAnnualSavings) proAnnualSavings.style.display = 'inline-block';
-    if (teamAnnualSavings) teamAnnualSavings.style.display = 'inline-block';
-  } else {
-    if (proAnnualSavings) proAnnualSavings.style.display = 'none';
-    if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
+  // Open first FAQ by default
+  if (document.querySelectorAll('.faq-item').length) {
+    document.querySelectorAll('.faq-item')[0].classList.add('open');
   }
-  // Update Stripe payment links
-  updatePaymentLinks(period);
-}
 
-// Dynamic Stripe links for Pro and Team
-function updatePaymentLinks(period) {
-  const proBtn = document.getElementById('proButton');
-  const teamBtn = document.getElementById('teamButton');
-  if (!proBtn || !teamBtn) {
-    console.warn('Payment buttons not found');
-    return;
-  }
-  if (period === 'monthly') {
-    proBtn.href = 'https://buy.stripe.com/7sYfZb02xby4dSDfye38402';
-    teamBtn.href = 'https://buy.stripe.com/eVq9AN02xau0dSD85M38403';
-  } else {
-    proBtn.href = 'https://buy.stripe.com/5kQcMZ2aF1XucOz71I38401';
-    teamBtn.href = 'https://buy.stripe.com/aFacMZg1v7hOdSD0Dk38404';
-  }
-}
-
-// Attach event listeners
-toggleBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const period = btn.getAttribute('data-period');
-    setBillingPeriod(period);
+  // Sticky CTA on scroll
+  const stickyCta = document.getElementById('stickyCta');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 500) {
+      stickyCta.style.display = 'block';
+    } else {
+      stickyCta.style.display = 'none';
+    }
   });
-});
-
-// Initialize with monthly
-setBillingPeriod('monthly');
-if (proAnnualSavings) proAnnualSavings.style.display = 'none';
-if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
-
-// FAQ Accordion
-document.querySelectorAll('.faq-item').forEach(item => {
-  const btn = item.querySelector('.faq-question');
-  btn.addEventListener('click', () => {
-    item.classList.toggle('open');
-  });
-});
-if (document.querySelectorAll('.faq-item').length) {
-  document.querySelectorAll('.faq-item')[0].classList.add('open');
-}
-
-// Sticky CTA
-const stickyCta = document.getElementById('stickyCta');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 500) {
-    stickyCta.style.display = 'block';
-  } else {
-    stickyCta.style.display = 'none';
-  }
-});
 </script>
 </body>
 </html>

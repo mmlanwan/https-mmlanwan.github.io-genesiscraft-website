@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Genesis Craft AI – Simple, Transparent Pricing</title>
-    <!-- Google Fonts & Font Awesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Analytics (GA4) tag -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-HS1Z82VML7');
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Genesis Craft AI – Simple, Transparent Pricing</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-HS1Z82VML7');
+  </script>
     <style>
         * {
             margin: 0;
@@ -533,7 +533,7 @@
             <li><i class="fas fa-check-circle"></i> Priority support</li>
             <li><i class="fas fa-check-circle"></i> API access & custom templates</li>
         </ul>
-        <a href="/signup?plan=pro" class="btn btn-primary">Start Pro Trial</a>
+        <a href="#" class="btn btn-primary" id="proButton">Start Pro Trial</a>
     </div>
 
     <!-- TEAM CARD -->
@@ -550,7 +550,7 @@
             <li><i class="fas fa-check-circle"></i> SLA (99.5% uptime)</li>
             <li><i class="fas fa-check-circle"></i> Team collaboration & SSO</li>
         </ul>
-        <a href="/signup?plan=team" class="btn btn-secondary">Start Team Trial</a>
+        <a href="#" class="btn btn-secondary" id="teamButton">Start Team Trial</a>
     </div>
 </div>
 
@@ -615,82 +615,88 @@
     <a href="/signup" class="btn-risk">Start Building Free <i class="fas fa-arrow-right"></i></a>
 </div>
 
-<!-- FOOTER (consistent with other pages) -->
+<!-- FOOTER -->
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-col"><h3>Product</h3><ul><li><a href="/product.html">Features</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/enterprise.html">Enterprise</a></li><li><a href="/changelog.html">Changelog</a></li></ul></div>
         <div class="footer-col"><h3>Resources</h3><ul><li><a href="/docs.html">Documentation</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/case-studies.html">Case Studies</a></li><li><a href="/api-reference.html">API Reference</a></li></ul></div>
         <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
         <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
-        <div class="footer-col"><h3>Stay in the loop</h3><p style="color:#94a3b8; font-size:0.8rem;">Get updates and AI tips</p><div class="newsletter-form" style="display:flex; gap:0.5rem;"><input type="email" placeholder="Your email" style="background:#1e293b; border:1px solid #334155; border-radius:40px; padding:0.5rem; flex:1;"><button class="subscribe-btn" style="background:#3b82f6; border:none; padding:0.5rem 1rem; border-radius:40px; color:white;">Subscribe</button></div><div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;"><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-discord"></i></a></div></div>
+        <div class="footer-col"><h3>Stay in the loop</h3><p style="color:#94a3b8; font-size:0.8rem;">Get updates and AI tips</p><div class="newsletter-form" style="display:flex; gap:0.5rem;"><input type="email" placeholder="Your e-mail" style="background:#1e293b; border:1px solid #334155; border-radius:40px; padding:0.5rem; flex:1;"><button class="subscribe-btn" style="background:#3b82f6; border:none; padding:0.5rem 1rem; border-radius:40px; color:white;">Subscribe</button></div><div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;"><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-discord"></i></a></div></div>
     </div>
     <div class="copyright">© 2026 Genesis Craft AI, Inc. All rights reserved.</div>
 </footer>
 
 <script>
-    // Billing toggle (monthly / yearly)
-    const toggleBtns = document.querySelectorAll('.toggle-btn');
-    const priceElements = document.querySelectorAll('[data-monthly]');
-    const periodElements = document.querySelectorAll('.period');
-    const proAnnualSavings = document.getElementById('proAnnualSavings');
-    const teamAnnualSavings = document.getElementById('teamAnnualSavings');
+  // Billing toggle (monthly / yearly
+  const toggleBtns = document.querySelectorAll('.toggle-btn');
+  const priceElements = document.querySelectorAll('[data-monthly]');
+  const periodElements = document.querySelectorAll('.period');
+  const proAnnualSavings = document.getElementById('proAnnualSavings');
+  const teamAnnualSavings = document.getElementById('teamAnnualSavings');
 
-    function setBillingPeriod(period) {
-        toggleBtns.forEach(btn => {
-            btn.classList.toggle('active', btn.getAttribute('data-period') === period);
-        });
-        priceElements.forEach(el => {
-            const newPrice = el.getAttribute(`data-${period}`);
-            if (newPrice) el.innerHTML = newPrice;
-        });
-        periodElements.forEach(el => {
-            const newPeriod = el.getAttribute(`data-${period}`);
-            if (newPeriod) el.innerHTML = newPeriod;
-            else if (period === 'monthly') el.innerHTML = 'per month';
-            else el.innerHTML = 'per year';
-        });
-        // Update annual savings text for Pro and Team (only visible in yearly mode)
-        if (period === 'yearly') {
-            if (proAnnualSavings) proAnnualSavings.style.display = 'inline-block';
-            if (teamAnnualSavings) teamAnnualSavings.style.display = 'inline-block';
-        } else {
-            if (proAnnualSavings) proAnnualSavings.style.display = 'none';
-            if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
-        }
-    }
-
+  function setBillingPeriod(period) {
     toggleBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const period = btn.getAttribute('data-period');
-            setBillingPeriod(period);
-        });
+      btn.classList.toggle('active', btn.getAttribute('data-period') === period);
     });
-    // Default monthly (hide annual savings initially)
-    setBillingPeriod('monthly');
-    if (proAnnualSavings) proAnnualSavings.style.display = 'none';
-    if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
-
-    // FAQ Accordion
-    document.querySelectorAll('.faq-item').forEach(item => {
-        const btn = item.querySelector('.faq-question');
-        btn.addEventListener('click', () => {
-            item.classList.toggle('open');
-        });
+    priceElements.forEach(el => {
+      const newPrice = el.getAttribute(`data-${period}`);
+      if (newPrice) el.innerHTML = newPrice;
     });
-    // Open first FAQ by default
-    if (document.querySelectorAll('.faq-item').length) {
-        document.querySelectorAll('.faq-item')[0].classList.add('open');
+    periodElements.forEach(el => {
+      const newPeriod = el.getAttribute(`data-${period}`);
+      if (newPeriod) el.innerHTML = newPeriod;
+      else if (period === 'monthly') el.innerHTML = 'per month';
+      else el.innerHTML = 'per year';
+    });
+    // Update annual savings text for Pro and Team (only visible in yearly mode)
+    if (period === 'yearly') {
+      if (proAnnualSavings) proAnnualSavings.style.display = 'inline-block';
+      if (teamAnnualSavings) teamAnnualSavings.style.display = 'inline-block';
+    } else {
+      if (proAnnualSavings) proAnnualSavings.style.display = 'none';
+      if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
     }
+    updatePaymentLinks(period);
+  }
 
-    // Sticky CTA on scroll
-    const stickyCta = document.getElementById('stickyCta');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 500) {
-            stickyCta.style.display = 'block';
-        } else {
-            stickyCta.style.display = 'none';
-        }
-    });
+  // Dynamic Stripe links for Pro and Team
+  const proButton = document.getElementById('proButton');
+  const teamButton = document.getElementById('teamButton');
+  function updatePaymentLinks(period) {
+    if (period === 'monthly') {
+      proButton.href = 'https://buy.stripe.com/7sYfZb02xby4dSDfye38402';
+      teamButton.href = 'https://buy.stripe.com/eVq9AN02xau0dSD85M38403';
+    } else {
+      proButton.href = 'https://buy.stripe.com/5kQcMZ2aF1XucOz71I38401';
+      teamButton.href = 'https://buy.stripe.com/aFacMZg1v7hOdSD0Dk38404';
+    }
+  }
+
+  // Initialize - Default monthly (hide annual savings initially)
+  setBillingPeriod('monthly');
+  if (proAnnualSavings) proAnnualSavings.style.display = 'none';
+  if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
+
+  // FAQ Accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn = item.querySelector('.faq-question');
+    btn.addEventListener('click', () => { item.classList.toggle('open'); });
+  });
+  // Open first FAQ by default
+  if (document.querySelectorAll('.faq-item').length) {
+    document.querySelectorAll('.faq-item')[0].classList.add('open');
+  }
+
+  // Sticky CTA on scroll
+  const stickyCta = document.getElementById('stickyCta');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 500) {
+      stickyCta.style.display = 'block';
+    } else {
+      stickyCta.style.display = 'none';
+    }
+  });
 </script>
 </body>
 </html>

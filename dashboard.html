@@ -1,266 +1,451 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard – Genesis Craft AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-HS1Z82VML7');
-    </script>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            font-family: 'Inter', sans-serif;
-            color: #e2e8f0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        /* Header (same as other pages) */
-        .site-header {
-            background: #0a0a0a;
-            border-bottom: 1px solid #1e293b;
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .logo a {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-decoration: none;
-        }
-        .main-nav ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        .main-nav a {
-            color: #cbd5e1;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .main-nav a:hover { color: #3b82f6; }
-        .btn-small {
-            background: #3b82f6;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .dashboard-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-        .welcome-section {
-            margin-bottom: 2rem;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .stat-card {
-            background: #0f172a;
-            border-radius: 24px;
-            padding: 1.5rem;
-            text-align: center;
-            border: 1px solid #1e293b;
-        }
-        .stat-number { font-size: 2.5rem; font-weight: 800; color: #3b82f6; }
-        .api-key-section {
-            background: #0f172a;
-            border-radius: 24px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .api-key-display {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: #1e293b;
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-            margin-top: 0.5rem;
-            flex-wrap: wrap;
-        }
-        .copy-btn {
-            background: #3b82f6;
-            border: none;
-            padding: 0.4rem 1rem;
-            border-radius: 40px;
-            color: white;
-            cursor: pointer;
-        }
-        .recent-list {
-            background: #0f172a;
-            border-radius: 24px;
-            padding: 1.5rem;
-        }
-        .recent-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 1rem 0;
-            border-bottom: 1px solid #1e293b;
-        }
-        .logout-btn {
-            background: #ef4444;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-            color: white;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
-        .logout-btn:hover { background: #dc2626; }
-        .footer {
-            background: #0f172a;
-            border-top: 1px solid #1e293b;
-            padding: 2rem;
-            text-align: center;
-            margin-top: 2rem;
-        }
-        @media (max-width: 700px) {
-            .header-container { flex-direction: column; gap: 1rem; }
-            .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Dashboard – Genesis Craft AI</title>
+  <meta name="description" content="Manage your API keys, monitor usage, and view your generated applications.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-HS1Z82VML7');
+  </script>
+  <!-- Schema Markup (WebApplication) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Genesis Craft AI Dashboard",
+      "description": "User dashboard to manage API keys, monitor usage, and view generated applications.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+      font-family: 'Inter', sans-serif;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      border: 3px solid rgba(59,130,246,0.3);
+      border-radius: 50%;
+      border-top: 3px solid #3b82f6;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Skeleton loading styles */
+    .skeleton {
+      background: #1e293b;
+      border-radius: 8px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* Header (same as other pages) */
+    .site-header {
+      background: #0a0a0a;
+      border-bottom: 1px solid #1e293b;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo a {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+    }
+
+    .main-nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .main-nav a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .main-nav a:hover { color: #3b82f6; }
+
+    .btn-small {
+      background: #3b82f6;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    .welcome-section {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .welcome-section h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .logout-btn {
+      background: #ef4444;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .logout-btn:hover {
+      background: #dc2626;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: #0f172a;
+      border-radius: 24px;
+      padding: 1.5rem;
+      border: 1px solid #1e293b;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #3b82f6;
+    }
+
+    .api-key-section {
+      background: #0f172a;
+      border-radius: 24px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .api-key-display {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #1e293b;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .api-key-display code {
+      flex: 1;
+      font-family: monospace;
+      font-size: 1rem;
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      background: #3b82f6;
+      border: none;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .recent-list {
+      background: #0f172a;
+      border-radius: 24px;
+      padding: 1.5rem;
+    }
+
+    .recent-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #1e293b;
+    }
+    .recent-item:last-child {
+      border-bottom: none;
+    }
+
+    .status.success { color: #10b981; }
+
+    /* Error message styling */
+    .error-message {
+      background: rgba(239,68,68,0.2);
+      border: 1px solid #ef4444;
+      border-radius: 12px;
+      padding: 0.75rem;
+      text-align: center;
+      margin: 1rem 0;
+      color: #f87171;
+    }
+
+    /* Footer */
+    .footer {
+      background: #0f172a;
+      border-top: 1px solid #1e293b;
+      padding: 3rem 2rem 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+    }
+
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.6rem; }
+    .footer-col a { color: #94a3b8; text-decoration: none; font-size: 0.85rem; }
+    .footer-col a:hover { color: #3b82f6; }
+
+    .copyright {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #1e293b;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
+    @media (max-width: 700px) {
+      .header-container { flex-direction: column; gap: 1rem; }
+      .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+      .api-key-display { flex-direction: column; align-items: stretch; }
+      .copy-btn { align-self: center; }
+      .welcome-section { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+  </style>
 </head>
 <body>
-<header class="site-header">
+  <header class="site-header">
     <div class="header-container">
-        <div class="logo"><a href="/index.html">Genesis Craft AI</a></div>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="/product.html">Product</a></li>
-                <li><a href="/pricing.html">Pricing</a></li>
-                <li><a href="/about.html">About</a></li>
-                <li><a href="/careers.html">Careers</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="header-cta"><a href="/signup.html" class="btn-small">Sign Up</a></div>
+      <div class="logo"><a href="/index.html">Genesis Craft AI</a></div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="/product.html">Product</a></li>
+          <li><a href="/pricing.html">Pricing</a></li>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/careers.html">Careers</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-cta"><a href="/signup.html" class="btn-small">Sign Up</a></div>
     </div>
-</header>
+  </header>
 
-<div class="dashboard-container" id="dashboardContent" style="display: none;">
+  <div class="dashboard-container">
     <div class="welcome-section">
-        <h1>Welcome back, <span id="userName">Developer</span> 👋</h1>
-        <p>Your personal dashboard – manage your account and usage.</p>
-        <button id="logoutButton" class="logout-btn">Log Out</button>
+      <h1>Welcome back, <span id="userNameDisplay">Mathias</span> 👋</h1>
+      <button id="logoutButton" class="logout-btn">Log Out</button>
+    </div>
+    <p>Here’s an overview of your account and usage.</p>
+
+    <!-- Usage Stats -->
+    <div class="stats-grid" id="statsGrid">
+      <!-- Populated by JavaScript -->
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-card"><div class="stat-number">12,450</div><div>Tokens used this month</div></div>
-        <div class="stat-card"><div class="stat-number">287</div><div>API requests</div></div>
-        <div class="stat-card"><div class="stat-number">14</div><div>Projects</div></div>
-        <div class="stat-card"><div class="stat-number">92%</div><div>Success rate</div></div>
-    </div>
-
+    <!-- API Key Section -->
     <div class="api-key-section">
-        <h3><i class="fas fa-key"></i> API Key</h3>
-        <div class="api-key-display">
-            <code id="apiKey">gsk_demo_...XXXX</code>
-            <button class="copy-btn" onclick="copyApiKey()">Copy</button>
-        </div>
-        <p style="font-size:0.8rem; margin-top:0.5rem;">Keep this key secret. You can regenerate it from settings.</p>
+      <h3><i class="fas fa-key"></i> API Key</h3>
+      <div class="api-key-display">
+        <code id="apiKey"></code>
+        <button class="copy-btn" onclick="copyApiKey()">Copy</button>
+      </div>
+      <p style="font-size:0.8rem; margin-top:0.5rem;">Keep this key secret. It provides full access to your account.</p>
     </div>
 
+    <!-- Recent Generations -->
     <div class="recent-list">
-        <h3><i class="fas fa-history"></i> Recent Generations</h3>
-        <div class="recent-item"><div><strong>Task Manager with drag‑and‑drop</strong><br><span style="font-size:0.8rem;">2 hours ago</span></div><div>✓ Completed</div></div>
-        <div class="recent-item"><div><strong>CRM with Stripe integration</strong><br><span style="font-size:0.8rem;">Yesterday</span></div><div>✓ Completed</div></div>
-        <div class="recent-item"><div><strong>Real‑time chat dashboard</strong><br><span style="font-size:0.8rem;">2 days ago</span></div><div>✓ Completed</div></div>
+      <h3><i class="fas fa-history"></i> Recent Generations</h3>
+      <div id="recentGenerationsContainer"></div>
     </div>
-</div>
+  </div>
 
-<div class="dashboard-container" id="loadingMessage" style="text-align:center; padding:2rem;">
-    <i class="fas fa-spinner fa-pulse fa-2x"></i>
-    <p>Checking authentication...</p>
-</div>
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col"><h3>Product</h3><ul><li><a href="/product.html">Features</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/enterprise.html">Enterprise</a></li><li><a href="/changelog.html">Changelog</a></li></ul></div>
+      <div class="footer-col"><h3>Resources</h3><ul><li><a href="/docs.html">Documentation</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/case-studies.html">Case Studies</a></li><li><a href="/api-reference.html">API Reference</a></li></ul></div>
+      <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
+      <div class="footer-col"><h3>Stay in the loop</h3><div class="newsletter-form" style="display:flex; gap:0.5rem;"><input type="email" placeholder="Your e-mail" style="background:#1e293b; border:1px solid #334155; border-radius:40px; padding:0.5rem; flex:1;"><button style="background:#3b82f6; border:none; padding:0.5rem 1rem; border-radius:40px; color:white;">Subscribe</button></div><div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;"><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-discord"></i></a></div></div>
+    </div>
+    <div class="copyright">© 2026 Genesis Craft AI, Inc. All rights reserved.</div>
+  </footer>
 
-<footer class="footer">
-    <a href="/privacy-policy.html">Privacy Policy</a> |
-    <a href="/terms-of-service.html">Terms of Service</a> |
-    <a href="/contact.html">Contact</a>
-</footer>
-
-<script>
-    const netlifyIdentity = window.netlifyIdentity;
-    netlifyIdentity.init();
-
-    const dashboardDiv = document.getElementById('dashboardContent');
-    const loadingDiv = document.getElementById('loadingMessage');
+  <script>
+    // Mock data – replace with real API calls later
+    const SIMULATED_API_DELAY = true;
 
     function copyApiKey() {
-        const key = document.getElementById('apiKey').innerText;
-        navigator.clipboard.writeText(key).then(() => alert('API key copied!'));
+      const apiKeyText = document.getElementById('apiKey').innerText;
+      navigator.clipboard.writeText(apiKeyText).then(() => {
+        alert('API key copied to clipboard!');
+      }).catch(() => {
+        alert('Failed to copy. Please select and copy manually.');
+      });
     }
 
-    function updateDashboardForUser(user) {
-        if (!user) {
-            // Not logged in – redirect to signup
-            window.location.href = '/signup.html';
-            return;
+    function showSkeletonLoaders() {
+      const statsGrid = document.getElementById('statsGrid');
+      statsGrid.innerHTML = `
+        <div class="stat-card"><div class="skeleton" style="width: 80%; height: 40px; margin: 0 auto 0.5rem;"></div><div>Tokens used this month</div></div>
+        <div class="stat-card"><div class="skeleton" style="width: 80%; height: 40px; margin: 0 auto 0.5rem;"></div><div>API requests</div></div>
+        <div class="stat-card"><div class="skeleton" style="width: 80%; height: 40px; margin: 0 auto 0.5rem;"></div><div>Projects</div></div>
+        <div class="stat-card"><div class="skeleton" style="width: 80%; height: 40px; margin: 0 auto 0.5rem;"></div><div>Generation success rate</div></div>
+      `;
+      const recentContainer = document.getElementById('recentGenerationsContainer');
+      recentContainer.innerHTML = `
+        <div class="recent-item"><div><div class="skeleton" style="width: 200px; height: 20px;"></div><div class="skeleton" style="width: 100px; height: 15px; margin-top: 0.5rem;"></div></div><div><div class="skeleton" style="width: 80px; height: 20px;"></div></div></div>
+        <div class="recent-item"><div><div class="skeleton" style="width: 200px; height: 20px;"></div><div class="skeleton" style="width: 100px; height: 15px; margin-top: 0.5rem;"></div></div><div><div class="skeleton" style="width: 80px; height: 20px;"></div></div></div>
+        <div class="recent-item"><div><div class="skeleton" style="width: 200px; height: 20px;"></div><div class="skeleton" style="width: 100px; height: 15px; margin-top: 0.5rem;"></div></div><div><div class="skeleton" style="width: 80px; height: 20px;"></div></div></div>
+      `;
+      document.getElementById('apiKey').innerText = 'Loading...';
+      document.getElementById('userNameDisplay').innerText = 'Developer';
+    }
+
+    function updateUI(data) {
+      if (data.userName) {
+        document.getElementById('userNameDisplay').innerText = data.userName;
+      }
+      const statsGrid = document.getElementById('statsGrid');
+      statsGrid.innerHTML = `
+        <div class="stat-card"><div class="stat-number">${data.tokensUsedThisMonth.toLocaleString()}</div><div>Tokens used this month</div></div>
+        <div class="stat-card"><div class="stat-number">${data.apiRequests.toLocaleString()}</div><div>API requests</div></div>
+        <div class="stat-card"><div class="stat-number">${data.projects.toLocaleString()}</div><div>Projects</div></div>
+        <div class="stat-card"><div class="stat-number">${data.successRate}%</div><div>Generation success rate</div></div>
+      `;
+      document.getElementById('apiKey').innerText = data.apiKey;
+      const recentContainer = document.getElementById('recentGenerationsContainer');
+      recentContainer.innerHTML = '';
+      data.recentGenerations.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'recent-item';
+        div.innerHTML = `
+          <div><strong>${item.title}</strong><br><span style="font-size:0.8rem; color:#94a3b8;">${item.timestamp}</span></div>
+          <div><span class="status success">✓ ${item.status}</span></div>
+        `;
+        recentContainer.appendChild(div);
+      });
+    }
+
+    function showError(message) {
+      const statsGrid = document.getElementById('statsGrid');
+      statsGrid.innerHTML = `<div class="error-message">⚠️ ${message}</div>`;
+      const recentContainer = document.getElementById('recentGenerationsContainer');
+      recentContainer.innerHTML = `<div class="error-message">⚠️ Could not load recent generations. Please try again later.</div>`;
+      document.getElementById('apiKey').innerText = 'Error loading API key';
+    }
+
+    async function fetchDashboardData() {
+      showSkeletonLoaders();
+      try {
+        let data;
+        if (SIMULATED_API_DELAY) {
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          data = {
+            userName: "Mathias",
+            tokensUsedThisMonth: 12450,
+            apiRequests: 287,
+            projects: 14,
+            successRate: 92,
+            apiKey: "gsk_simulated_XXXX...XXXX",
+            recentGenerations: [
+              { title: "Task Manager with drag and drop", timestamp: "2 hours ago", status: "Completed" },
+              { title: "CRM with Stripe integration", timestamp: "Yesterday", status: "Completed" },
+              { title: "Real time chat dashboard", timestamp: "2 days ago", status: "Completed" }
+            ]
+          };
+        } else {
+          // Future real API call
+          throw new Error("Real API endpoint not configured yet.");
         }
-        // Show dashboard, hide loading
-        loadingDiv.style.display = 'none';
-        dashboardDiv.style.display = 'block';
-
-        // Display user email and name (if available)
-        const email = user.email || 'User';
-        const name = user.user_metadata?.full_name || email.split('@')[0];
-        document.getElementById('userName').innerText = name;
-        // You could also display the selected plan from user_metadata.plan
-        console.log('User plan:', user.user_metadata?.plan);
+        updateUI(data);
+      } catch (error) {
+        console.error("Dashboard data fetch failed:", error);
+        showError("Failed to load dashboard data. Please refresh the page or try again later.");
+      }
     }
 
-    // Check current user
-    const currentUser = netlifyIdentity.currentUser();
-    if (currentUser) {
-        updateDashboardForUser(currentUser);
-    } else {
-        // Wait for login event
-        netlifyIdentity.on('login', (user) => {
-            updateDashboardForUser(user);
-        });
-        // Also if never logged in, redirect after a short delay
-        setTimeout(() => {
-            if (!netlifyIdentity.currentUser()) {
-                window.location.href = '/signup.html';
-            }
-        }, 2000);
-    }
-
-    // Logout handler
+    // Logout button – clears any local data and redirects to home
     document.getElementById('logoutButton').addEventListener('click', () => {
-        netlifyIdentity.logout();
-        window.location.href = '/index.html';
+      // Clear any stored tokens (if any)
+      localStorage.removeItem('authToken');
+      // Redirect to home page
+      window.location.href = '/index.html';
     });
-</script>
+
+    fetchDashboardData();
+  </script>
 </body>
 </html>

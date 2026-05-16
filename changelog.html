@@ -71,6 +71,12 @@
             background-clip: text;
             color: transparent;
             text-decoration: none;
+            display: inline-block;  /* ensures proper wrapping */
+        }
+        .logo img {
+            height: 32px;
+            width: auto;
+            vertical-align: middle; /* aligns with any adjacent text */
         }
         .main-nav ul {
             display: flex;
@@ -158,26 +164,40 @@
         @media (max-width: 700px) {
             .header-container { flex-direction: column; gap: 1rem; }
             .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+            .logo img {
+                height: 24px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="site-header">
-        <div class="header-container">
-            <div class="logo"><a href="/index.html">Genesis Craft AI</a></div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="/product.html">Product</a></li>
-                    <li><a href="/pricing.html">Pricing</a></li>
-                    <li><a href="/about.html">About Us</a></li>
-                    <li><a href="/careers.html">Careers</a></li>
-                    <li><a href="/contact.html">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="header-cta"><a href="/signup.html" class="btn-small">Sign Up</a></div>
+<header class="site-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="/index.html">
+                <picture>
+                    <!-- Mobile: show only the icon (adjust breakpoint as needed) -->
+                    <source media="(max-width: 768px)" srcset="/logo-icon.svg">
+                    <!-- Desktop: show the full lockup (icon + wordmark) -->
+                    <img src="/logo-lockup.svg" alt="Genesis Craft AI">
+                </picture>
+            </a>
         </div>
-    </header>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/product.html">Product</a></li>
+                <li><a href="/pricing.html">Pricing</a></li>
+                <li><a href="/about.html">About Us</a></li>
+                <li><a href="/careers.html">Careers</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <a href="/signup.html" class="btn-small">Sign Up</a>
+        </div>
+    </div>
+</header>
 
     <div class="container">
         <h1>Changelog</h1>

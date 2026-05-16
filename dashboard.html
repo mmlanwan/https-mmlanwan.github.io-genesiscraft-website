@@ -73,7 +73,7 @@
       50% { opacity: 1; }
     }
 
-    /* Header (same as other pages) */
+    /* Header Styles */
     .site-header {
       background: #0a0a0a;
       border-bottom: 1px solid #1e293b;
@@ -100,6 +100,13 @@
       background-clip: text;
       color: transparent;
       text-decoration: none;
+      display: inline-block;  /* ensures proper wrapping */
+    }
+
+    .logo img {
+       height: 32px;
+       width: auto;
+       vertical-align: middle; /* aligns with any adjacent text */
     }
 
     .main-nav ul {
@@ -283,25 +290,40 @@
       .api-key-display { flex-direction: column; align-items: stretch; }
       .copy-btn { align-self: center; }
       .welcome-section { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .logo img {
+          height: 24px;
+      }
     }
   </style>
 </head>
 <body>
-  <header class="site-header">
+
+<header class="site-header">
     <div class="header-container">
-      <div class="logo"><a href="/index.html">Genesis Craft AI</a></div>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="/product.html">Product</a></li>
-          <li><a href="/pricing.html">Pricing</a></li>
-          <li><a href="/about.html">About Us</a></li>
-          <li><a href="/careers.html">Careers</a></li>
-          <li><a href="/contact.html">Contact</a></li>
-        </ul>
-      </nav>
-      <div class="header-cta"><a href="/signup.html" class="btn-small">Sign Up</a></div>
+        <div class="logo">
+            <a href="/index.html">
+                <picture>
+                    <!-- Mobile: show only the icon (adjust breakpoint as needed) -->
+                    <source media="(max-width: 768px)" srcset="/logo-icon.svg">
+                    <!-- Desktop: show the full lockup (icon + wordmark) -->
+                    <img src="/logo-lockup.svg" alt="Genesis Craft AI">
+                </picture>
+            </a>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/product.html">Product</a></li>
+                <li><a href="/pricing.html">Pricing</a></li>
+                <li><a href="/about.html">About Us</a></li>
+                <li><a href="/careers.html">Careers</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <a href="/signup.html" class="btn-small">Sign Up</a>
+        </div>
     </div>
-  </header>
+</header>
 
   <div class="dashboard-container">
     <div class="welcome-section">
@@ -344,7 +366,7 @@
   </footer>
 
   <script>
-    // Mock data – replace with real API calls later
+    // Mock data – to replace with real API calls later
     const SIMULATED_API_DELAY = true;
 
     function copyApiKey() {

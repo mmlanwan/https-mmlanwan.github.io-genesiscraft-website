@@ -490,7 +490,14 @@
 <header class="site-header">
     <div class="header-container">
         <div class="logo">
-            <a href="/index.html">Genesis Craft AI</a>
+            <a href="/index.html">
+                <picture>
+                    <!-- Mobile: show only the icon (adjust breakpoint as needed) -->
+                    <source media="(max-width: 768px)" srcset="/logo-icon.svg">
+                    <!-- Desktop: show the full lockup (icon + wordmark) -->
+                    <img src="/logo-lockup.svg" alt="Genesis Craft AI">
+                </picture>
+            </a>
         </div>
         <nav class="main-nav">
             <ul>

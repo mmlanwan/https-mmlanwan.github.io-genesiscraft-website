@@ -57,6 +57,12 @@
             background-clip: text;
             color: transparent;
             text-decoration: none;
+            display: inline-block;  /* ensures proper wrapping */
+        }
+        .logo img {
+            height: 32px;
+            width: auto;
+            vertical-align: middle; /* aligns with any adjacent text */
         }
         .main-nav ul {
             display: flex;
@@ -90,6 +96,9 @@
                 gap: 1rem;
                 flex-wrap: wrap;
                 justify-content: center;
+            }
+            .logo img {
+                height: 24px;
             }
         }
 

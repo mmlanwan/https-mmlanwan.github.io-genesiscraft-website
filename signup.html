@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Sign Up – Genesis Craft AI</title>
+  <meta name="description" content="Create your account to start generating full‑stack applications with AI.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Favicon link tags -->
@@ -12,7 +13,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="manifest" href="/site.webmanifest">
-  <!-- Google Analytics -->
+  <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -20,7 +21,26 @@
     gtag('js', new Date());
     gtag('config', 'G-HS1Z82VML7');
   </script>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <!-- Schema Markup (Organization) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Genesis Craft AI",
+      "url": "https://genesiscraft.ai",
+      "logo": "https://genesiscraft.ai/logo-lockup.svg",
+      "sameAs": [
+        "https://twitter.com/genesiscraft_ai",
+        "https://github.com/genesiscraft-ai",
+        "https://linkedin.com/company/genesiscraft-ai"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "support@genesiscraft.ai",
+        "contactType": "customer support"
+      }
+    }
+  </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -48,19 +68,12 @@
       flex-wrap: wrap;
     }
     .logo a {
-      font-size: 1.5rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #fff, #94a3b8);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-decoration: none;
-      display: inline-block;  /* ensures proper wrapping */
+      display: inline-block;
     }
     .logo img {
-        height: 32px;
-        width: auto;
-        vertical-align: middle; /* aligns with any adjacent text */
+      height: 32px;
+      width: auto;
+      vertical-align: middle;
     }
     .main-nav ul {
       display: flex;
@@ -102,18 +115,31 @@
       color: #94a3b8;
       margin-bottom: 2rem;
     }
-    .identity-button {
+    .form-group { margin-bottom: 1rem; text-align: left; }
+    label { display: block; margin-bottom: 0.3rem; font-weight: 500; }
+    input, select {
+      width: 100%;
+      padding: 0.8rem;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      color: white;
+      font-family: inherit;
+    }
+    input:focus, select:focus { outline: none; border-color: #3b82f6; }
+    button {
       background: #3b82f6;
       color: white;
       border: none;
-      padding: 0.8rem 1.5rem;
+      padding: 0.8rem;
       border-radius: 40px;
       font-weight: 600;
       font-size: 1rem;
       cursor: pointer;
       width: 100%;
+      margin-top: 0.5rem;
     }
-    .identity-button:hover { background: #2563eb; }
+    button:hover { background: #2563eb; }
     .footer {
       margin-top: auto;
       background: #0f172a;
@@ -127,50 +153,83 @@
       font-size: 0.8rem;
       margin: 0 0.5rem;
     }
+    .error, .success {
+      padding: 0.75rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .error { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; color: #f87171; }
+    .success { background: rgba(16,185,129,0.2); border: 1px solid #10b981; color: #10b981; }
     @media (max-width: 700px) {
       .header-container { flex-direction: column; gap: 1rem; }
       .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
-      .logo img {
-          height: 24px;
-      }
+      .logo img { height: 24px; }
     }
   </style>
 </head>
 <body>
 
-<header class="site-header">
+  <header class="site-header">
     <div class="header-container">
-        <div class="logo">
-            <a href="/index.html">
-                <picture>
-                    <!-- Mobile: show only the icon (adjust breakpoint as needed) -->
-                    <source media="(max-width: 768px)" srcset="/logo-icon.svg">
-                    <!-- Desktop: show the full lockup (icon + wordmark) -->
-                    <img src="/logo-lockup.svg" alt="Genesis Craft AI">
-                </picture>
-            </a>
-        </div>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="/product.html">Product</a></li>
-                <li><a href="/pricing.html">Pricing</a></li>
-                <li><a href="/about.html">About Us</a></li>
-                <li><a href="/careers.html">Careers</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="header-cta">
-            <a href="/signup.html" class="btn-small">Sign Up</a>
-        </div>
+      <div class="logo">
+        <a href="/index.html">
+          <picture>
+            <source media="(max-width: 768px)" srcset="/logo-icon.svg">
+            <img src="/logo-lockup.svg" alt="Genesis Craft AI">
+          </picture>
+        </a>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="/product.html">Product</a></li>
+          <li><a href="/pricing.html">Pricing</a></li>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/careers.html">Careers</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-cta">
+        <a href="/signup.html" class="btn-small">Sign Up</a>
+      </div>
     </div>
-</header>
+  </header>
 
   <div class="container">
     <h1>Create your account</h1>
-    <div class="subhead">Secure, password‑protected – your password never leaves your browser.</div>
-    <button id="signupButton" class="identity-button">Sign up with e-mail →</button>
-    <p style="margin-top: 1.5rem; font-size: 0.8rem; color: #94a3b8;">
-      After signing up, you’ll receive a confirmation email. Use that link to choose your plan.
+    <div class="subhead">Start building full‑stack applications in minutes.</div>
+
+    <form id="signupForm" action="https://formspree.io/f/xvzlvryw" method="POST">
+      <input type="hidden" name="_subject" value="New signup via website">
+      <input type="hidden" name="_replyto" value="email">
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" name="fullname" required>
+      </div>
+      <div class="form-group">
+        <label>E-mail Address *</label>
+        <input type="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label>Company (optional)</label>
+        <input type="text" name="company">
+      </div>
+      <div class="form-group">
+        <label>How did you hear about us?</label>
+        <select name="source">
+          <option>Search engine</option>
+          <option>Social media</option>
+          <option>Referral</option>
+          <option>Podcast / YouTube</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <button type="submit">Sign Up →</button>
+    </form>
+    <div id="formSuccess" class="success" style="display: none;"></div>
+    <div id="formError" class="error" style="display: none;"></div>
+    <p class="subhead" style="margin-top: 1rem; font-size: 0.8rem;">
+      By signing up, you agree to our <a href="/terms-of-service.html" style="color:#3b82f6;">Terms</a> and <a href="/privacy-policy.html" style="color:#3b82f6;">Privacy Policy</a>.
     </p>
   </div>
 
@@ -181,20 +240,36 @@
   </footer>
 
   <script>
-    const netlifyIdentity = window.netlifyIdentity;
-    netlifyIdentity.init();
+    const form = document.getElementById('signupForm');
+    const successDiv = document.getElementById('formSuccess');
+    const errorDiv = document.getElementById('formError');
 
-    // If user is already logged in (e.g., after email confirmation), go to plan selection
-    if (netlifyIdentity.currentUser()) {
-      window.location.href = '/choose-plan.html';
-    }
-
-    document.getElementById('signupButton').addEventListener('click', () => {
-      netlifyIdentity.open('signup');
-    });
-
-    netlifyIdentity.on('login', () => {
-      window.location.href = '/choose-plan.html';
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (response.ok) {
+          successDiv.innerText = '🎉 Account created! Please check your e-mail for a confirmation (if enabled) and then choose your plan.';
+          successDiv.style.display = 'block';
+          errorDiv.style.display = 'none';
+          form.reset();
+          const email = formData.get('email');
+          setTimeout(() => {
+            window.location.href = `/choose-plan.html?email=${encodeURIComponent(email)}`;
+          }, 2000);
+        } else {
+          throw new Error('Submission failed');
+        }
+      } catch (err) {
+        errorDiv.innerText = 'An error occurred. Please try again or contact support.';
+        errorDiv.style.display = 'block';
+        successDiv.style.display = 'none';
+      }
     });
   </script>
 </body>

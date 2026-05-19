@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Choose Your Plan – Genesis Craft AI</title>
   <meta name="description" content="Select the perfect plan for your needs – Free, Pro, or Team. Start building full‑stack applications in minutes.">
-  <!-- Google Fonts & Font Awesome -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Favicon link tags -->
@@ -91,32 +90,22 @@
       flex-wrap: wrap;
     }
     .logo a {
-      font-size: 1.5rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #fff, #94a3b8);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-decoration: none;
-      display: inline-block;  /* ensures proper wrapping */
+      display: inline-block;
     }
     .logo img {
       height: 32px;
       width: auto;
-      vertical-align: middle; /* aligns with any adjacent text */
+      vertical-align: middle;
     }
     .main-nav ul {
       display: flex;
       gap: 2rem;
       list-style: none;
-      margin: 0;
-      padding: 0;
     }
     .main-nav a {
       color: #cbd5e1;
       text-decoration: none;
       font-weight: 500;
-      transition: color 0.2s;
     }
     .main-nav a:hover { color: #3b82f6; }
     .btn-small {
@@ -151,17 +140,10 @@
       margin-bottom: 2rem;
       font-size: 1rem;
     }
-    .email-input {
-      width: 100%;
-      max-width: 400px;
-      padding: 0.8rem;
-      margin: 0 auto 2rem auto;
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      color: white;
-      font-size: 1rem;
-      display: block;
+    .email-hint {
+      font-size: 0.8rem;
+      color: #3b82f6;
+      margin-bottom: 1rem;
     }
     .pricing-grid {
       display: flex;
@@ -244,46 +226,41 @@
       .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
       .pricing-grid { flex-direction: column; align-items: center; }
       .plan-card { max-width: 100%; width: 100%; }
-      .logo img {
-          height: 24px;
-      }
+      .logo img { height: 24px; }
     }
   </style>
 </head>
 <body>
 
-<header class="site-header">
+  <header class="site-header">
     <div class="header-container">
-        <div class="logo">
-            <a href="/index.html">
-                <picture>
-                    <!-- Mobile: show only the icon (adjust breakpoint as needed) -->
-                    <source media="(max-width: 768px)" srcset="/logo-icon.svg">
-                    <!-- Desktop: show the full lockup (icon + wordmark) -->
-                    <img src="/logo-lockup.svg" alt="Genesis Craft AI">
-                </picture>
-            </a>
-        </div>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="/product.html">Product</a></li>
-                <li><a href="/pricing.html">Pricing</a></li>
-                <li><a href="/about.html">About Us</a></li>
-                <li><a href="/careers.html">Careers</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="header-cta">
-            <a href="/signup.html" class="btn-small">Sign Up</a>
-        </div>
+      <div class="logo">
+        <a href="/index.html">
+          <picture>
+            <source media="(max-width: 768px)" srcset="/logo-icon.svg">
+            <img src="/logo-lockup.svg" alt="Genesis Craft AI">
+          </picture>
+        </a>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="/product.html">Product</a></li>
+          <li><a href="/pricing.html">Pricing</a></li>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/careers.html">Careers</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-cta">
+        <a href="/signup.html" class="btn-small">Sign Up</a>
+      </div>
     </div>
-</header>
+  </header>
 
   <div class="container">
     <h1>Choose your plan</h1>
     <div class="subhead">Select the plan that fits your needs. You can change or cancel anytime.</div>
-
-    <input type="email" id="userEmail" class="email-input" placeholder="Your e-mail address (optional)">
+    <div id="emailHint" class="email-hint"></div>
 
     <div class="pricing-grid">
       <!-- Free Plan -->
@@ -363,6 +340,16 @@
   </footer>
 
   <script>
+    // Get email from URL parameter (from signup redirect)
+    const urlParams = new URLSearchParams(window.location.search);
+    const email = urlParams.get('email');
+    const hintDiv = document.getElementById('emailHint');
+    if (email) {
+      hintDiv.innerText = `Signed up as: ${email}`;
+    } else {
+      hintDiv.innerText = 'You can also enter your e-mail below (optional)';
+    }
+
     // Stripe Payment Links
     const paymentLinks = {
       'free': null,
@@ -372,36 +359,33 @@
       'team-yearly': 'https://buy.stripe.com/aFacMZg1v7hOdSD0Dk38404'
     };
 
-    // Get e-mail input field
-    const emailInput = document.getElementById('userEmail');
-
-    // Attach event listeners to all plan buttons
+    // To allow manual email entry, add an input field. For simplicity,
+    // we use the email from URL or prompt if missing.
     document.querySelectorAll('.select-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', () => {
         const card = btn.closest('.plan-card');
         const plan = card.getAttribute('data-plan');
-        const email = emailInput.value.trim();
 
-        // Handle Free plan separately (no payment link)
-        // FREE PLAN – send to MVP dashboard (user already has an account)
         if (plan === 'free') {
           window.location.href = '/dashboard.html';
           return;
         }
 
-        // Get the corresponding payment link
         let link = paymentLinks[plan];
         if (!link) {
           alert('Payment link not configured yet. Please contact support.');
           return;
         }
 
-        // Pre‑fill e-mail if provided (Stripe Payment Links support ?prefilled_email=)
-        if (email && email.includes('@')) {
-          link += link.includes('?') ? `&prefilled_email=${encodeURIComponent(email)}` : `?prefilled_email=${encodeURIComponent(email)}`;
+        let userEmail = email;
+        if (!userEmail) {
+          userEmail = prompt('Please enter your e-mail address to continue:');
+          if (!userEmail || !userEmail.includes('@')) {
+            alert('A valid e-mail address is required.');
+            return;
+          }
         }
-
-        // Redirect to Stripe Checkout
+        link += link.includes('?') ? `&prefilled_email=${encodeURIComponent(userEmail)}` : `?prefilled_email=${encodeURIComponent(userEmail)}`;
         window.location.href = link;
       });
     });

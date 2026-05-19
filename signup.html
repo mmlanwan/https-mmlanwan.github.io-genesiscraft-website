@@ -51,7 +51,6 @@
       flex-direction: column;
       min-height: 100vh;
     }
-    /* ... (Your existing CSS remains exactly the same) ... */
     .site-header {
       background: #0a0a0a;
       border-bottom: 1px solid #1e293b;
@@ -198,9 +197,10 @@
     <h1>Create your account</h1>
     <div class="subhead">Start building full‑stack applications in minutes.</div>
 
-    <form id="signupForm" action="https://formspree.io/f/meedopdy" method="POST">
-      <input type="hidden" name="_subject" value="New signup via website">
-      <input type="hidden" name="_replyto" value="email">
+    <!-- Netlify Forms - no external action needed -->
+    <form id="signupForm" name="signup" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="signup">
+      <div style="display:none;"><input name="bot-field"></div>
       <div class="form-group">
         <label>Full Name *</label>
         <input type="text" name="fullname" required>
@@ -247,7 +247,7 @@
       e.preventDefault();
       const formData = new FormData(form);
       try {
-        const response = await fetch(form.action, {
+        const response = await fetch('/', {
           method: 'POST',
           body: formData,
           headers: { 'Accept': 'application/json' }

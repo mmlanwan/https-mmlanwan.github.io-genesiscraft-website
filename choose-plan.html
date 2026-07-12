@@ -33,7 +33,7 @@
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Free",
-                "url": "https://genesiscraft.ai/dashboard.html"
+                "url": "https://app.genesiscraft.ai/dashboard"
             },
             {
                 "@type": "ListItem",
@@ -72,7 +72,6 @@
       display: flex;
       flex-direction: column;
     }
-    /* Header */
     .site-header {
       background: #0a0a0a;
       border-bottom: 1px solid #1e293b;
@@ -116,7 +115,6 @@
       text-decoration: none;
       font-weight: 600;
     }
-    /* Main container */
     .container {
       max-width: 1100px;
       margin: 2rem auto;
@@ -221,6 +219,19 @@
       margin: 0 0.5rem;
     }
     .footer a:hover { color: #3b82f6; }
+    .loading-spinner {
+      display: inline-block;
+      border: 4px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top: 4px solid #3b82f6;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
     @media (max-width: 800px) {
       .header-container { flex-direction: column; gap: 1rem; }
       .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
@@ -261,6 +272,7 @@
     <h1>Choose your plan</h1>
     <div class="subhead">Select the plan that fits your needs. You can change or cancel anytime.</div>
     <div id="emailHint" class="email-hint"></div>
+    <div id="planMessage" style="color: #10b981; margin-bottom: 1rem;"></div>
 
     <div class="pricing-grid">
       <!-- Free Plan -->
@@ -272,7 +284,7 @@
           <li><i class="fas fa-check-circle"></i> 50 requests/month</li>
           <li><i class="fas fa-check-circle"></i> 5 projects</li>
         </ul>
-        <button class="select-btn">Select Free</button>
+        <button class="select-btn" data-plan="free" data-action="internal">Select Free</button>
       </div>
 
       <!-- Pro Monthly -->
@@ -286,7 +298,7 @@
           <li><i class="fas fa-check-circle"></i> Advanced validation</li>
           <li><i class="fas fa-check-circle"></i> Priority support</li>
         </ul>
-        <button class="select-btn">Select Pro Monthly</button>
+        <button class="select-btn" data-plan="pro-monthly" data-action="stripe">Select Pro Monthly</button>
       </div>
 
       <!-- Pro Yearly -->
@@ -300,7 +312,7 @@
           <li><i class="fas fa-check-circle"></i> Advanced validation</li>
           <li><i class="fas fa-check-circle"></i> Priority support</li>
         </ul>
-        <button class="select-btn">Select Pro Yearly</button>
+        <button class="select-btn" data-plan="pro-yearly" data-action="stripe">Select Pro Yearly</button>
       </div>
 
       <!-- Team Monthly -->
@@ -314,7 +326,7 @@
           <li><i class="fas fa-check-circle"></i> Enterprise validation</li>
           <li><i class="fas fa-check-circle"></i> SLA & SSO</li>
         </ul>
-        <button class="select-btn">Select Team Monthly</button>
+        <button class="select-btn" data-plan="team-monthly" data-action="stripe">Select Team Monthly</button>
       </div>
 
       <!-- Team Yearly -->
@@ -328,7 +340,7 @@
           <li><i class="fas fa-check-circle"></i> Enterprise validation</li>
           <li><i class="fas fa-check-circle"></i> SLA & SSO</li>
         </ul>
-        <button class="select-btn">Select Team Yearly</button>
+        <button class="select-btn" data-plan="team-yearly" data-action="stripe">Select Team Yearly</button>
       </div>
     </div>
   </div>
@@ -340,7 +352,7 @@
   </footer>
 
   <script>
-    // Get email from URL parameter (from signup redirect)
+    // Get email from URL parameter (from signup redirect) – optional for display
     const urlParams = new URLSearchParams(window.location.search);
     const email = urlParams.get('email');
     const hintDiv = document.getElementById('emailHint');
@@ -350,27 +362,64 @@
       hintDiv.innerText = 'You can also enter your e-mail below (optional)';
     }
 
-    // Stripe Payment Links
+    // Stripe Payment Links for paid plans
     const paymentLinks = {
-      'free': null,
+      'free': null, // handled internally
       'pro-monthly': 'https://buy.stripe.com/7sYfZb02xby4dSDfye38402',
       'pro-yearly': 'https://buy.stripe.com/5kQcMZ2aF1XucOz71I38401',
       'team-monthly': 'https://buy.stripe.com/eVq9AN02xau0dSD85M38403',
       'team-yearly': 'https://buy.stripe.com/aFacMZg1v7hOdSD0Dk38404'
     };
 
-    // To allow manual email entry, add an input field. For simplicity,
-    // we use the email from URL or prompt if missing.
+    // 👉 Get JWT token from localStorage (set during signup)
+    const token = localStorage.getItem('token');
+
+    async function selectFreePlan() {
+      const messageDiv = document.getElementById('planMessage');
+      messageDiv.innerHTML = '<span class="loading-spinner"></span> Setting up free plan...';
+      try {
+        const headers = {
+          'Content-Type': 'application/json'
+        };
+        // 👉 Add Authorization header if token exists
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        const response = await fetch('https://api.genesiscraft.ai/api/billing/subscription/create', {
+          method: 'POST',
+          headers: headers,
+          credentials: 'include', // send cookies if any
+          body: JSON.stringify({ plan: 'free' })
+        });
+        const result = await response.json();
+        if (response.ok) {
+          messageDiv.innerHTML = '✅ Free plan activated! Redirecting to your dashboard...';
+          setTimeout(() => {
+            // 👉 Redirect to React app dashboard on app.genesiscraft.ai
+            window.location.href = 'https://app.genesiscraft.ai/dashboard';
+          }, 1500);
+        } else {
+          messageDiv.innerHTML = `❌ Error: ${result.detail || 'Could not set free plan. Please try again.'}`;
+        }
+      } catch (err) {
+        messageDiv.innerHTML = '❌ Network error. Please check your connection.';
+        console.error(err);
+      }
+    }
+
     document.querySelectorAll('.select-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const card = btn.closest('.plan-card');
         const plan = card.getAttribute('data-plan');
+        const action = btn.getAttribute('data-action');
 
-        if (plan === 'free') {
-          window.location.href = '/dashboard.html';
+        if (action === 'internal' && plan === 'free') {
+          selectFreePlan();
           return;
         }
 
+        // Paid plans: redirect to Stripe Payment Link
         let link = paymentLinks[plan];
         if (!link) {
           alert('Payment link not configured yet. Please contact support.');

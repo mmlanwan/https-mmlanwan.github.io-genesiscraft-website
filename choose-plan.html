@@ -7,17 +7,16 @@
   <meta name="description" content="Select the perfect plan for your needs – Free, Pro, or Team. Start building full‑stack applications in minutes.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Favicon link tags -->
+  <!-- Favicon, GA, Schema -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="manifest" href="/site.webmanifest">
-  <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-HS1Z82VML7');
   </script>
@@ -63,6 +62,7 @@
     }
   </script>
   <style>
+    /* same styles as before – keep them */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
@@ -88,9 +88,7 @@
       align-items: center;
       flex-wrap: wrap;
     }
-    .logo a {
-      display: inline-block;
-    }
+    .logo a { display: inline-block; }
     .logo img {
       height: 32px;
       width: auto;
@@ -218,7 +216,6 @@
       font-size: 0.8rem;
       margin: 0 0.5rem;
     }
-    .footer a:hover { color: #3b82f6; }
     .loading-spinner {
       display: inline-block;
       border: 4px solid rgba(255,255,255,0.3);
@@ -352,17 +349,30 @@
   </footer>
 
   <script>
-    // Get email from URL parameter (from signup redirect) – optional for display
+    // ============================================================
+    // 1. Redirect to signup if no token
+    // ============================================================
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/signup.html';
+      // The rest of the script will not execute
+    }
+
+    // ============================================================
+    // 2. Email hint from URL
+    // ============================================================
     const urlParams = new URLSearchParams(window.location.search);
     const email = urlParams.get('email');
     const hintDiv = document.getElementById('emailHint');
     if (email) {
       hintDiv.innerText = `Signed up as: ${email}`;
     } else {
-      hintDiv.innerText = 'You can also enter your e-mail below (optional)';
+      hintDiv.innerText = 'You can also enter your e‑mail below (optional)';
     }
 
-    // Stripe Payment Links for paid plans
+    // ============================================================
+    // 3. Stripe Payment Links for paid plans
+    // ============================================================
     const paymentLinks = {
       'free': null, // handled internally
       'pro-monthly': 'https://buy.stripe.com/7sYfZb02xby4dSDfye38402',
@@ -371,9 +381,9 @@
       'team-yearly': 'https://buy.stripe.com/aFacMZg1v7hOdSD0Dk38404'
     };
 
-    // 👉 Get JWT token from localStorage (set during signup)
-    const token = localStorage.getItem('token');
-
+    // ============================================================
+    // 4. Function to select Free plan
+    // ============================================================
     async function selectFreePlan() {
       const messageDiv = document.getElementById('planMessage');
       messageDiv.innerHTML = '<span class="loading-spinner"></span> Setting up free plan...';
@@ -381,9 +391,15 @@
         const headers = {
           'Content-Type': 'application/json'
         };
-        // 👉 Add Authorization header if token exists
+        // Add Authorization header if token exists
+        const token = localStorage.getItem('token');
         if (token) {
           headers['Authorization'] = `Bearer ${token}`;
+        } else {
+          // Should not happen because we redirected earlier, but handle gracefully
+          messageDiv.innerHTML = '❌ You are not logged in. Please sign up again.';
+          setTimeout(() => window.location.href = '/signup.html', 2000);
+          return;
         }
 
         const response = await fetch('https://api.genesiscraft.ai/api/billing/subscription/create', {
@@ -396,18 +412,21 @@
         if (response.ok) {
           messageDiv.innerHTML = '✅ Free plan activated! Redirecting to your dashboard...';
           setTimeout(() => {
-            // 👉 Redirect to React app dashboard on app.genesiscraft.ai
             window.location.href = 'https://app.genesiscraft.ai/dashboard';
           }, 1500);
         } else {
+          console.error('[Free plan] Error:', result);
           messageDiv.innerHTML = `❌ Error: ${result.detail || 'Could not set free plan. Please try again.'}`;
         }
       } catch (err) {
+        console.error('[Free plan] Network error:', err);
         messageDiv.innerHTML = '❌ Network error. Please check your connection.';
-        console.error(err);
       }
     }
 
+    // ============================================================
+    // 5. Attach click handlers to plan buttons
+    // ============================================================
     document.querySelectorAll('.select-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const card = btn.closest('.plan-card');
@@ -426,11 +445,12 @@
           return;
         }
 
+        // Prefill email if available
         let userEmail = email;
         if (!userEmail) {
-          userEmail = prompt('Please enter your e-mail address to continue:');
+          userEmail = prompt('Please enter your e‑mail address to continue:');
           if (!userEmail || !userEmail.includes('@')) {
-            alert('A valid e-mail address is required.');
+            alert('A valid e‑mail address is required.');
             return;
           }
         }

@@ -331,7 +331,7 @@
 
         try {
           console.log('[Signup] Sending request to /api/auth/signup');
-          const response = await fetch('/api/auth/signup', {
+          const response = await fetch('https://app.genesiscraft.ai/api/auth/signup', {
             method: 'POST',
             mode: 'cors',               // explicit CORS mode
             headers: { 'Content-Type': 'application/json' },

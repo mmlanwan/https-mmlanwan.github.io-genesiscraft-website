@@ -230,7 +230,6 @@
     <h1>Create your account</h1>
     <div class="subhead">Start building full‑stack applications in minutes.</div>
 
-    <!-- ===== FORM – NOW USING STANDARD POST NAVIGATION ===== -->
     <form id="signupForm" action="/api/auth/signup-form" method="POST">
       <div class="form-group">
         <label>Full Name *</label>
@@ -283,18 +282,14 @@
 
   <script>
     (function() {
-      // ===== Show any error from server redirect =====
       const params = new URLSearchParams(window.location.search);
       const errorMsg = params.get('error');
       if (errorMsg) {
-        const errorDiv = document.getElementById('formError');
-        errorDiv.innerText = errorMsg;
-        errorDiv.style.display = 'block';
-        // Clean URL to avoid bookmarking the error
+        document.getElementById('formError').innerText = errorMsg;
+        document.getElementById('formError').style.display = 'block';
         window.history.replaceState({}, document.title, '/signup.html');
       }
 
-      // ===== Toggle password visibility =====
       document.getElementById('togglePassword').addEventListener('click', function() {
         const pw = document.getElementById('password');
         const icon = this.querySelector('i');
@@ -307,22 +302,17 @@
         }
       });
 
-      // ===== Prevent double submission & show loading =====
       document.getElementById('signupForm').addEventListener('submit', function(e) {
-        // Basic client-side validation
         const pw = document.getElementById('password').value;
         if (pw.length < 8) {
           e.preventDefault();
-          const errorDiv = document.getElementById('formError');
-          errorDiv.innerText = 'Password must be at least 8 characters.';
-          errorDiv.style.display = 'block';
+          document.getElementById('formError').innerText = 'Password must be at least 8 characters.';
+          document.getElementById('formError').style.display = 'block';
           return false;
         }
-
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span class="spinner"></span> Creating account...';
-        // Form will navigate away on success; if validation fails, button re‑enabled
       });
     })();
   </script>

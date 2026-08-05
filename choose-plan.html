@@ -26,11 +26,11 @@
       "name": "Genesis Craft AI Plans",
       "description": "Choose a subscription plan that fits your needs.",
       "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Free", "url": "https://app.genesiscraft.ai/dashboard"},
-        {"@type": "ListItem", "position": 2, "name": "Pro Monthly", "url": "https://buy.stripe.com/7sYfZb02xby4dSDfye38402"},
-        {"@type": "ListItem", "position": 3, "name": "Pro Yearly", "url": "https://buy.stripe.com/5kQcMZ2aF1XucOz71I38401"},
-        {"@type": "ListItem", "position": 4, "name": "Team Monthly", "url": "https://buy.stripe.com/eVq9AN02xau0dSD85M38403"},
-        {"@type": "ListItem", "position": 5, "name": "Team Yearly", "url": "https://buy.stripe.com/aFacMZg1v7hOdSD0Dk38404"}
+            {"@type": "ListItem", "position": 1, "name": "Free", "url": "https://app.genesiscraft.ai/dashboard"},
+            {"@type": "ListItem", "position": 2, "name": "Pro Monthly", "url": "https://buy.stripe.com/7sYfZb02xby4dSDfye38402"},
+            {"@type": "ListItem", "position": 3, "name": "Pro Yearly", "url": "https://buy.stripe.com/5kQcMZ2aF1XucOz71I38401"},
+            {"@type": "ListItem", "position": 4, "name": "Team Monthly", "url": "https://buy.stripe.com/eVq9AN02xau0dSD85M38403"},
+            {"@type": "ListItem", "position": 5, "name": "Team Yearly", "url": "https://buy.stripe.com/aFacMZg1v7hOdSD0Dk38404"}
       ]
     }
   </script>
@@ -239,26 +239,19 @@
 
   <script>
     (function() {
-      // 1. Token – first from URL (form redirect), then localStorage
-      const urlParams = new URLSearchParams(window.location.search);
-      let token = urlParams.get('token');
-      const email = urlParams.get('email');
-
-      if (token) {
-        localStorage.setItem('token', token);
-        if (email) localStorage.setItem('user_email', email);
-        window.history.replaceState({}, document.title,
-          '/choose-plan.html' + (email ? `?email=${encodeURIComponent(email)}` : ''));
-      } else {
-        token = localStorage.getItem('token');
-      }
-
+      // ============================================================
+      // [CHANGED] Token is read from localStorage only. The signup-form
+      // endpoint stores it there via an HTML response with inline JS.
+      // The URL may contain ?email= for display purposes only.
+      // ============================================================
+      const token = localStorage.getItem('token');
       if (!token) {
         window.location.href = '/signup.html';
         return;
       }
 
-      // 2. Email hint
+      const urlParams = new URLSearchParams(window.location.search);
+      const email = urlParams.get('email');
       const hintDiv = document.getElementById('emailHint');
       const displayEmail = email || localStorage.getItem('user_email');
       if (displayEmail) {
@@ -267,7 +260,6 @@
         hintDiv.innerText = 'You can also enter your e‑mail below (optional)';
       }
 
-      // 3. Stripe payment links
       const paymentLinks = {
         'free': null,
         'pro-monthly': 'https://buy.stripe.com/7sYfZb02xby4dSDfye38402',
@@ -276,7 +268,6 @@
         'team-yearly': 'https://buy.stripe.com/aFacMZg1v7hOdSD0Dk38404'
       };
 
-      // 4. Select Free plan – same‑origin fetch via Netlify proxy
       async function selectFreePlan() {
         const messageDiv = document.getElementById('planMessage');
         const btn = document.querySelector('button[data-plan="free"]');
@@ -296,7 +287,11 @@
           }
           headers['Authorization'] = `Bearer ${token}`;
 
-          // *** SAME‑ORIGIN – uses Netlify proxy ***
+          // ============================================================
+          // [CHANGED] Relative path — routes through Netlify proxy on
+          // genesiscraft.ai (same-origin). Eliminates CORS, certificate
+          // edge-cases, and ad-blocker interference.
+          // ============================================================
           const response = await fetch('/api/billing/subscription/create', {
             method: 'POST',
             headers: headers,
@@ -312,6 +307,9 @@
           if (response.ok) {
             messageDiv.innerHTML = '✅ Free plan activated! Redirecting to your dashboard...';
             setTimeout(() => {
+              // Token passed in URL hash fragment (not query param) for
+              // app.genesiscraft.ai to recover, since localStorage does
+              // not cross subdomains.
               window.location.href = `https://app.genesiscraft.ai/dashboard#token=${encodeURIComponent(token)}`;
             }, 1500);
           } else {
@@ -333,7 +331,6 @@
         }
       }
 
-      // 5. Button handlers
       document.querySelectorAll('.select-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const card = btn.closest('.plan-card');

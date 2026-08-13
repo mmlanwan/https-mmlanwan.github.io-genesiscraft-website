@@ -27,10 +27,10 @@
       "description": "Choose a subscription plan that fits your needs.",
       "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Free", "url": "https://app.genesiscraft.ai/dashboard"},
-            {"@type": "ListItem", "position": 2, "name": "Pro Monthly", "url": "https://buy.stripe.com/7sYfZb02xby4dSDfye38402"},
-            {"@type": "ListItem", "position": 3, "name": "Pro Yearly", "url": "https://buy.stripe.com/5kQcMZ2aF1XucOz71I38401"},
-            {"@type": "ListItem", "position": 4, "name": "Team Monthly", "url": "https://buy.stripe.com/eVq9AN02xau0dSD85M38403"},
-            {"@type": "ListItem", "position": 5, "name": "Team Yearly", "url": "https://buy.stripe.com/aFacMZg1v7hOdSD0Dk38404"}
+            {"@type": "ListItem", "position": 2, "name": "Pro Monthly", "url": "https://buy.stripe.com/test_7sY9ANcPjcC86qbeua38400"},
+            {"@type": "ListItem", "position": 3, "name": "Pro Yearly", "url": "https://buy.stripe.com/test_7sYfZb02xby4dSDfye38402"},
+            {"@type": "ListItem", "position": 4, "name": "Team Monthly", "url": "https://buy.stripe.com/test_5kQcMZ2aF1XucOz71I38401"},
+            {"@type": "ListItem", "position": 5, "name": "Team Yearly", "url": "https://buy.stripe.com/test_eVq9AN02xau0dSD85M38403"}
       ]
     }
   </script>
@@ -262,11 +262,33 @@
 
       const paymentLinks = {
         'free': null,
-        'pro-monthly': 'https://buy.stripe.com/7sYfZb02xby4dSDfye38402',
-        'pro-yearly': 'https://buy.stripe.com/5kQcMZ2aF1XucOz71I38401',
-        'team-monthly': 'https://buy.stripe.com/eVq9AN02xau0dSD85M38403',
-        'team-yearly': 'https://buy.stripe.com/aFacMZg1v7hOdSD0Dk38404'
+        'pro-monthly': 'https://buy.stripe.com/test_7sY9ANcPjcC86qbeua38400',
+        'pro-yearly': 'https://buy.stripe.com/test_7sYfZb02xby4dSDfye38402',
+        'team-monthly': 'https://buy.stripe.com/test_5kQcMZ2aF1XucOz71I38401',
+        'team-yearly': 'https://buy.stripe.com/test_eVq9AN02xau0dSD85M38403'
       };
+
+      // ============================================================
+      // [CHANGED] Decode JWT payload to extract user_id for passing
+      // to Stripe as client_reference_id. No external library needed.
+      // ============================================================
+      function getUserIdFromToken() {
+        try {
+          const token = localStorage.getItem('token');
+          if (!token) return null;
+          const parts = token.split('.');
+          if (parts.length !== 3) return null;
+          const payload = parts[1];
+          const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+          const padded = base64.padEnd(base64.length + (4 - base64.length % 4) % 4, '=');
+          const json = atob(padded);
+          const data = JSON.parse(json);
+          return data.id || data.sub || null;
+        } catch (e) {
+          console.error('[choose-plan] Failed to decode token:', e);
+          return null;
+        }
+      }
 
       async function selectFreePlan() {
         const messageDiv = document.getElementById('planMessage');
@@ -356,9 +378,18 @@
               return;
             }
           }
-          link += link.includes('?')
-            ? `&prefilled_email=${encodeURIComponent(userEmail)}`
-            : `?prefilled_email=${encodeURIComponent(userEmail)}`;
+
+          // ============================================================
+          // [CHANGED] Append client_reference_id (local user_id) so the
+          // Stripe webhook can link the checkout session to our user.
+          // ============================================================
+          const userId = getUserIdFromToken();
+          const params = new URLSearchParams();
+          params.set('prefilled_email', userEmail);
+          if (userId) {
+            params.set('client_reference_id', userId);
+          }
+          link += (link.includes('?') ? '&' : '?') + params.toString();
           window.location.href = link;
         });
       });

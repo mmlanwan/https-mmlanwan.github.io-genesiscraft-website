@@ -650,6 +650,47 @@
 </footer>
 
 <script>
+  // ============================================================
+  // [CHANGED] Decode JWT payload to extract user_id for passing
+  // to Stripe as client_reference_id. No external library needed.
+  // ============================================================
+  function getUserIdFromToken() {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return null;
+      const parts = token.split('.');
+      if (parts.length !== 3) return null;
+      const payload = parts[1];
+      const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+      const padded = base64.padEnd(base64.length + (4 - base64.length % 4) % 4, '=');
+      const json = atob(padded);
+      const data = JSON.parse(json);
+      return data.id || data.sub || null;
+    } catch (e) {
+      console.error('[pricing] Failed to decode token:', e);
+      return null;
+    }
+  }
+
+  function getUserEmail() {
+    return localStorage.getItem('user_email') || null;
+  }
+
+  // ============================================================
+  // [CHANGED] Build Payment Link URL with client_reference_id
+  // and prefilled_email so the Stripe webhook can attribute
+  // the checkout to the correct local user.
+  // ============================================================
+  function buildPaymentLink(baseUrl) {
+    const params = new URLSearchParams();
+    const email = getUserEmail();
+    const userId = getUserIdFromToken();
+    if (email) params.set('prefilled_email', email);
+    if (userId) params.set('client_reference_id', userId);
+    const qs = params.toString();
+    return qs ? `${baseUrl}?${qs}` : baseUrl;
+  }
+
   // Billing toggle (monthly / yearly)
   const toggleBtns = document.querySelectorAll('.toggle-btn');
   const priceElements = document.querySelectorAll('[data-monthly]');
@@ -693,12 +734,16 @@
       console.warn('Payment buttons not found');
       return;
     }
+    // ============================================================
+    // [CHANGED] Use buildPaymentLink to append client_reference_id
+    // and prefilled_email when the user is logged in.
+    // ============================================================
     if (period === 'monthly') {
-      proBtn.href = 'https://buy.stripe.com/7sYfZb02xby4dSDfye38402';
-      teamBtn.href = 'https://buy.stripe.com/eVq9AN02xau0dSD85M38403';
+      proBtn.href = buildPaymentLink('https://buy.stripe.com/test_7sY9ANcPjcC86qbeua38400');
+      teamBtn.href = buildPaymentLink('https://buy.stripe.com/test_5kQcMZ2aF1XucOz71I38401');
     } else {
-      proBtn.href = 'https://buy.stripe.com/5kQcMZ2aF1XucOz71I38401';
-      teamBtn.href = 'https://buy.stripe.com/aFacMZg1v7hOdSD0Dk38404';
+      proBtn.href = buildPaymentLink('https://buy.stripe.com/test_7sYfZb02xby4dSDfye38402');
+      teamBtn.href = buildPaymentLink('https://buy.stripe.com/test_eVq9AN02xau0dSD85M38403');
     }
   }
 

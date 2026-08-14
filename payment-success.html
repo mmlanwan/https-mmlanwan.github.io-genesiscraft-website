@@ -101,6 +101,18 @@
     }
     .detail strong { color: #f1f5f9; }
     .hidden { display: none; }
+    .console-log {
+      background: #1e293b;
+      border-radius: 8px;
+      padding: 0.75rem;
+      margin-top: 1rem;
+      text-align: left;
+      font-family: monospace;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      max-height: 120px;
+      overflow-y: auto;
+    }
   </style>
 </head>
 <body>
@@ -114,6 +126,7 @@
       <div class="detail">
         <strong>Session:</strong> <span id="sessionIdDisplay">—</span>
       </div>
+      <div id="debugLog" class="console-log hidden"></div>
     </div>
 
     <!-- Success State -->
@@ -152,10 +165,6 @@
         return localStorage.getItem('token');
       }
 
-      function getUserEmail() {
-        return localStorage.getItem('user_email');
-      }
-
       function setState(state) {
         document.getElementById('state-loading').classList.add('hidden');
         document.getElementById('state-success').classList.add('hidden');
@@ -171,20 +180,43 @@
         window.location.href = target;
       }
 
+      // ============================================================
+      // [CHANGED] Debug helper: log to both console and on-screen.
+      // ============================================================
+      function log(msg) {
+        console.log('[payment-success]', msg);
+        const el = document.getElementById('debugLog');
+        if (el) {
+          el.classList.remove('hidden');
+          el.textContent += msg + '\n';
+        }
+      }
+
       async function verifySession(sessionId) {
         const token = getToken();
+        log('Starting verification. session_id=' + sessionId);
+        log('Token present: ' + (token ? 'yes' : 'NO'));
+
         if (!token) {
           setState('error');
           document.getElementById('errorMessage').textContent =
             'Your session has expired. Please log in again to access your dashboard.';
+          log('ABORT: no token');
           return;
         }
 
-        // Display session ID for debugging/support
         document.getElementById('sessionIdDisplay').textContent = sessionId;
 
+        // ============================================================
+        // [CHANGED] Use absolute API URL to bypass any Netlify proxy
+        // ambiguity. The relative path /api/billing/... relies on the
+        // marketing-site proxy, which may not cover this new endpoint.
+        // ============================================================
+        const verifyUrl = 'https://api.genesiscraft.ai/api/billing/verify-checkout-session?session_id=' + encodeURIComponent(sessionId);
+        log('Fetching: ' + verifyUrl);
+
         try {
-          const response = await fetch('/api/billing/verify-checkout-session?session_id=' + encodeURIComponent(sessionId), {
+          const response = await fetch(verifyUrl, {
             method: 'GET',
             headers: {
               'Authorization': 'Bearer ' + token,
@@ -192,19 +224,24 @@
             }
           });
 
+          log('Response status: ' + response.status);
+
           let result = {};
-          try { result = await response.json(); } catch (_) {}
+          const text = await response.text();
+          log('Response body: ' + text.substring(0, 200));
+          try { result = JSON.parse(text); } catch (_) { log('JSON parse failed'); }
 
           if (response.ok && result.success) {
             setState('success');
             document.getElementById('planDisplay').textContent = result.plan || 'Paid';
-            // Auto-redirect after 2 seconds
+            log('SUCCESS. plan=' + (result.plan || 'Paid'));
             setTimeout(redirectToDashboard, 2000);
           } else {
-            throw new Error(result.detail || 'Verification failed');
+            throw new Error(result.detail || 'Verification failed (HTTP ' + response.status + ')');
           }
         } catch (err) {
           console.error('[payment-success] Verification error:', err);
+          log('ERROR: ' + err.message);
           setState('error');
           document.getElementById('errorMessage').textContent =
             'We could not verify your payment right now. If you were charged, your account will update automatically within a few minutes.';
@@ -218,10 +255,11 @@
       // Main entry point
       // ============================================================
       const sessionId = getQueryParam('session_id');
+      log('Page loaded. session_id from URL: ' + sessionId);
 
       if (!sessionId) {
-        // No session ID in URL — user may have landed here directly
         const pending = sessionStorage.getItem(SESSION_KEY);
+        log('No session_id in URL. pending from sessionStorage: ' + pending);
         if (pending) {
           sessionStorage.removeItem(SESSION_KEY);
           verifySession(pending);
@@ -233,16 +271,13 @@
         return;
       }
 
-      // Store in sessionStorage as a fallback in case the page is refreshed
       sessionStorage.setItem(SESSION_KEY, sessionId);
 
-      // Manual redirect button handler
       document.getElementById('manualRedirectBtn').addEventListener('click', function(e) {
         e.preventDefault();
         redirectToDashboard();
       });
 
-      // Start verification
       verifySession(sessionId);
     })();
   </script>

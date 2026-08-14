@@ -276,6 +276,10 @@
             text-decoration: none;
             transition: background 0.2s;
             margin-top: 1rem;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
         }
         .btn-primary {
             background: #3b82f6;
@@ -383,6 +387,8 @@
             cursor: pointer;
             color: white;
             font-weight: 600;
+            font-family: inherit;
+            font-size: 1rem;
         }
         .faq-answer {
             max-height: 0;
@@ -555,7 +561,7 @@
             <li><i class="fas fa-check-circle"></i> Priority support</li>
             <li><i class="fas fa-check-circle"></i> API access & custom templates</li>
         </ul>
-        <a href="#" class="btn btn-primary" id="proButton">Start Pro Trial</a>
+        <button class="btn btn-primary" id="proButton" data-plan="pro">Start Pro Trial</button>
     </div>
 
     <!-- TEAM CARD -->
@@ -572,7 +578,7 @@
             <li><i class="fas fa-check-circle"></i> SLA (99.5% uptime)</li>
             <li><i class="fas fa-check-circle"></i> Team collaboration & SSO</li>
         </ul>
-        <a href="#" class="btn btn-secondary" id="teamButton">Start Team Trial</a>
+        <button class="btn btn-secondary" id="teamButton" data-plan="team">Start Team Trial</button>
     </div>
 </div>
 
@@ -651,44 +657,58 @@
 
 <script>
   // ============================================================
-  // [CHANGED] Decode JWT payload to extract user_id for passing
-  // to Stripe as client_reference_id. No external library needed.
+  // [CHANGED] Paid plans now use the backend Checkout Session API.
+  // The frontend no longer builds raw Stripe Payment Links;
+  // instead it POSTs to /api/billing/create-checkout-session and
+  // redirects to the Stripe Checkout URL returned by the backend.
   // ============================================================
-  function getUserIdFromToken() {
+
+  let currentPeriod = 'monthly';
+
+  // ============================================================
+  // Start a Stripe Checkout Session via the backend.
+  // If the user is not authenticated, redirect to signup.
+  // ============================================================
+  async function startCheckout(plan, btn) {
+    const originalText = btn.innerText;
+    btn.innerText = 'Loading…';
+    btn.style.pointerEvents = 'none';
+    btn.style.opacity = '0.7';
+
     try {
       const token = localStorage.getItem('token');
-      if (!token) return null;
-      const parts = token.split('.');
-      if (parts.length !== 3) return null;
-      const payload = parts[1];
-      const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-      const padded = base64.padEnd(base64.length + (4 - base64.length % 4) % 4, '=');
-      const json = atob(padded);
-      const data = JSON.parse(json);
-      return data.id || data.sub || null;
-    } catch (e) {
-      console.error('[pricing] Failed to decode token:', e);
-      return null;
+      if (!token) {
+        // Preserve intent so signup can redirect back if desired
+        window.location.href = '/signup.html?plan=' + encodeURIComponent(plan);
+        return;
+      }
+
+      const response = await fetch('/api/billing/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({ plan: plan })
+      });
+
+      let result = {};
+      try { result = await response.json(); } catch (_) {}
+
+      if (response.ok && result.success && result.url) {
+        // Redirect to Stripe Checkout. After payment, Stripe sends the
+        // user to payment-success.html?session_id=...
+        window.location.href = result.url;
+      } else {
+        throw new Error(result.detail || 'Could not start checkout. Please try again.');
+      }
+    } catch (err) {
+      console.error('[Checkout] Error:', err);
+      alert('Error: ' + (err.message || 'Could not start checkout. Please try again.'));
+      btn.innerText = originalText;
+      btn.style.pointerEvents = '';
+      btn.style.opacity = '';
     }
-  }
-
-  function getUserEmail() {
-    return localStorage.getItem('user_email') || null;
-  }
-
-  // ============================================================
-  // [CHANGED] Build Payment Link URL with client_reference_id
-  // and prefilled_email so the Stripe webhook can attribute
-  // the checkout to the correct local user.
-  // ============================================================
-  function buildPaymentLink(baseUrl) {
-    const params = new URLSearchParams();
-    const email = getUserEmail();
-    const userId = getUserIdFromToken();
-    if (email) params.set('prefilled_email', email);
-    if (userId) params.set('client_reference_id', userId);
-    const qs = params.toString();
-    return qs ? `${baseUrl}?${qs}` : baseUrl;
   }
 
   // Billing toggle (monthly / yearly)
@@ -701,6 +721,7 @@
   // Function to update prices and periods
   function setBillingPeriod(period) {
     console.log('Switching to', period);
+    currentPeriod = period;
     toggleBtns.forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('data-period') === period);
     });
@@ -722,28 +743,23 @@
       if (proAnnualSavings) proAnnualSavings.style.display = 'none';
       if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
     }
-    // Update Stripe payment links
-    updatePaymentLinks(period);
+    // Update button plan attributes for checkout
+    updateButtonPlans(period);
   }
 
-  // Dynamic Stripe links for Pro and Team
-  function updatePaymentLinks(period) {
+  // Update data-plan attributes on Pro/Team buttons so the checkout
+  // request sends the correct plan slug (monthly vs yearly).
+  function updateButtonPlans(period) {
     const proBtn = document.getElementById('proButton');
     const teamBtn = document.getElementById('teamButton');
-    if (!proBtn || !teamBtn) {
-      console.warn('Payment buttons not found');
-      return;
-    }
-    // ============================================================
-    // [CHANGED] Use buildPaymentLink to append client_reference_id
-    // and prefilled_email when the user is logged in.
-    // ============================================================
+    if (!proBtn || !teamBtn) return;
+
     if (period === 'monthly') {
-      proBtn.href = buildPaymentLink('https://buy.stripe.com/test_7sY9ANcPjcC86qbeua38400');
-      teamBtn.href = buildPaymentLink('https://buy.stripe.com/test_5kQcMZ2aF1XucOz71I38401');
+      proBtn.setAttribute('data-plan', 'pro-monthly');
+      teamBtn.setAttribute('data-plan', 'team-monthly');
     } else {
-      proBtn.href = buildPaymentLink('https://buy.stripe.com/test_7sYfZb02xby4dSDfye38402');
-      teamBtn.href = buildPaymentLink('https://buy.stripe.com/test_eVq9AN02xau0dSD85M38403');
+      proBtn.setAttribute('data-plan', 'pro-yearly');
+      teamBtn.setAttribute('data-plan', 'team-yearly');
     }
   }
 
@@ -759,6 +775,18 @@
   setBillingPeriod('monthly');
   if (proAnnualSavings) proAnnualSavings.style.display = 'none';
   if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
+
+  // Attach checkout handlers to Pro and Team buttons
+  document.getElementById('proButton').addEventListener('click', function(e) {
+    e.preventDefault();
+    const plan = this.getAttribute('data-plan');
+    startCheckout(plan, this);
+  });
+  document.getElementById('teamButton').addEventListener('click', function(e) {
+    e.preventDefault();
+    const plan = this.getAttribute('data-plan');
+    startCheckout(plan, this);
+  });
 
   // FAQ Accordion
   document.querySelectorAll('.faq-item').forEach(item => {

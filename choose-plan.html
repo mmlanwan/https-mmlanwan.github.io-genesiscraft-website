@@ -27,10 +27,10 @@
       "description": "Choose a subscription plan that fits your needs.",
       "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Free", "url": "https://app.genesiscraft.ai/dashboard"},
-            {"@type": "ListItem", "position": 2, "name": "Pro Monthly", "url": "https://buy.stripe.com/test_7sY9ANcPjcC86qbeua38400"},
-            {"@type": "ListItem", "position": 3, "name": "Pro Yearly", "url": "https://buy.stripe.com/test_7sYfZb02xby4dSDfye38402"},
-            {"@type": "ListItem", "position": 4, "name": "Team Monthly", "url": "https://buy.stripe.com/test_5kQcMZ2aF1XucOz71I38401"},
-            {"@type": "ListItem", "position": 5, "name": "Team Yearly", "url": "https://buy.stripe.com/test_eVq9AN02xau0dSD85M38403"}
+            {"@type": "ListItem", "position": 2, "name": "Pro Monthly", "url": "https://genesiscraft.ai/choose-plan.html"},
+            {"@type": "ListItem", "position": 3, "name": "Pro Yearly", "url": "https://genesiscraft.ai/choose-plan.html"},
+            {"@type": "ListItem", "position": 4, "name": "Team Monthly", "url": "https://genesiscraft.ai/choose-plan.html"},
+            {"@type": "ListItem", "position": 5, "name": "Team Yearly", "url": "https://genesiscraft.ai/choose-plan.html"}
       ]
     }
   </script>
@@ -260,33 +260,69 @@
         hintDiv.innerText = 'You can also enter your e‑mail below (optional)';
       }
 
-      const paymentLinks = {
-        'free': null,
-        'pro-monthly': 'https://buy.stripe.com/test_7sY9ANcPjcC86qbeua38400',
-        'pro-yearly': 'https://buy.stripe.com/test_7sYfZb02xby4dSDfye38402',
-        'team-monthly': 'https://buy.stripe.com/test_5kQcMZ2aF1XucOz71I38401',
-        'team-yearly': 'https://buy.stripe.com/test_eVq9AN02xau0dSD85M38403'
-      };
+      // ============================================================
+      // [CHANGED] Paid plans now use the backend Checkout Session API
+      // instead of raw Stripe Payment Links. The backend creates a
+      // stripe.checkout.Session, returns the redirect URL, and handles
+      // client_reference_id and customer mapping server-side.
+      // ============================================================
+      async function startCheckout(plan) {
+        const messageDiv = document.getElementById('planMessage');
+        const btn = document.querySelector('button[data-plan="' + plan + '"]');
 
-      // ============================================================
-      // [CHANGED] Decode JWT payload to extract user_id for passing
-      // to Stripe as client_reference_id. No external library needed.
-      // ============================================================
-      function getUserIdFromToken() {
+        messageDiv.innerHTML = '<span class="loading-spinner"></span> Preparing secure checkout…';
+        if (btn) btn.disabled = true;
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
+
         try {
           const token = localStorage.getItem('token');
-          if (!token) return null;
-          const parts = token.split('.');
-          if (parts.length !== 3) return null;
-          const payload = parts[1];
-          const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-          const padded = base64.padEnd(base64.length + (4 - base64.length % 4) % 4, '=');
-          const json = atob(padded);
-          const data = JSON.parse(json);
-          return data.id || data.sub || null;
-        } catch (e) {
-          console.error('[choose-plan] Failed to decode token:', e);
-          return null;
+          if (!token) {
+            messageDiv.innerHTML = '❌ You are not logged in. Please sign up again.';
+            setTimeout(() => window.location.href = '/signup.html', 2000);
+            return;
+          }
+
+          // ============================================================
+          // [UNCHANGED] Relative path — routes through Netlify proxy on
+          // genesiscraft.ai (same-origin). Eliminates CORS, certificate
+          // edge-cases, and ad-blocker interference.
+          // ============================================================
+          const response = await fetch('/api/billing/create-checkout-session', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ plan: plan }),
+            signal: controller.signal
+          });
+
+          clearTimeout(timeoutId);
+
+          let result = {};
+          try { result = await response.json(); } catch { result = {}; }
+
+          if (response.ok && result.success && result.url) {
+            // Redirect to Stripe Checkout. After payment, Stripe sends the
+            // user to payment-success.html?session_id=...
+            window.location.href = result.url;
+          } else {
+            throw new Error(result.detail || 'Could not start checkout. Please try again.');
+          }
+        } catch (err) {
+          clearTimeout(timeoutId);
+          console.error('[Checkout] Error:', err);
+          if (err.name === 'AbortError') {
+            messageDiv.innerHTML = '❌ Request timed out. Please check your connection and try again.';
+          } else if (err.name === 'TypeError') {
+            messageDiv.innerHTML = '❌ Network error. Please check your connection. If the problem persists, the server may be temporarily unavailable.';
+          } else {
+            messageDiv.innerHTML = '❌ Error: ' + (err.message || 'An unexpected error occurred. Please try again later.');
+          }
+        } finally {
+          if (btn) btn.disabled = false;
         }
       }
 
@@ -310,7 +346,7 @@
           headers['Authorization'] = `Bearer ${token}`;
 
           // ============================================================
-          // [CHANGED] Relative path — routes through Netlify proxy on
+          // [UNCHANGED] Relative path — routes through Netlify proxy on
           // genesiscraft.ai (same-origin). Eliminates CORS, certificate
           // edge-cases, and ad-blocker interference.
           // ============================================================
@@ -364,33 +400,11 @@
             return;
           }
 
-          let link = paymentLinks[plan];
-          if (!link) {
-            alert('Payment link not configured yet. Please contact support.');
-            return;
-          }
-
-          let userEmail = displayEmail;
-          if (!userEmail) {
-            userEmail = prompt('Please enter your e‑mail address to continue:');
-            if (!userEmail || !userEmail.includes('@')) {
-              alert('A valid e‑mail address is required.');
-              return;
-            }
-          }
-
           // ============================================================
-          // [CHANGED] Append client_reference_id (local user_id) so the
-          // Stripe webhook can link the checkout session to our user.
+          // [CHANGED] Paid plans now route through the backend Checkout
+          // Session API instead of raw Stripe Payment Links.
           // ============================================================
-          const userId = getUserIdFromToken();
-          const params = new URLSearchParams();
-          params.set('prefilled_email', userEmail);
-          if (userId) {
-            params.set('client_reference_id', userId);
-          }
-          link += (link.includes('?') ? '&' : '?') + params.toString();
-          window.location.href = link;
+          startCheckout(plan);
         });
       });
     })();

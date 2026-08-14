@@ -261,70 +261,11 @@
       }
 
       // ============================================================
-      // [CHANGED] Paid plans now use the backend Checkout Session API
-      // instead of raw Stripe Payment Links. The backend creates a
-      // stripe.checkout.Session, returns the redirect URL, and handles
-      // client_reference_id and customer mapping server-side.
+      // [CHANGED] Paid plans now use the Stripe Checkout API instead
+      // of static Payment Links. The frontend calls our backend to
+      // create a Checkout Session; the backend sets client_reference_id,
+      // customer_email, and all metadata from the authenticated user.
       // ============================================================
-      async function startCheckout(plan) {
-        const messageDiv = document.getElementById('planMessage');
-        const btn = document.querySelector('button[data-plan="' + plan + '"]');
-
-        messageDiv.innerHTML = '<span class="loading-spinner"></span> Preparing secure checkout…';
-        if (btn) btn.disabled = true;
-
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 15000);
-
-        try {
-          const token = localStorage.getItem('token');
-          if (!token) {
-            messageDiv.innerHTML = '❌ You are not logged in. Please sign up again.';
-            setTimeout(() => window.location.href = '/signup.html', 2000);
-            return;
-          }
-
-          // ============================================================
-          // [UNCHANGED] Relative path — routes through Netlify proxy on
-          // genesiscraft.ai (same-origin). Eliminates CORS, certificate
-          // edge-cases, and ad-blocker interference.
-          // ============================================================
-          const response = await fetch('/api/billing/create-checkout-session', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify({ plan: plan }),
-            signal: controller.signal
-          });
-
-          clearTimeout(timeoutId);
-
-          let result = {};
-          try { result = await response.json(); } catch { result = {}; }
-
-          if (response.ok && result.success && result.url) {
-            // Redirect to Stripe Checkout. After payment, Stripe sends the
-            // user to payment-success.html?session_id=...
-            window.location.href = result.url;
-          } else {
-            throw new Error(result.detail || 'Could not start checkout. Please try again.');
-          }
-        } catch (err) {
-          clearTimeout(timeoutId);
-          console.error('[Checkout] Error:', err);
-          if (err.name === 'AbortError') {
-            messageDiv.innerHTML = '❌ Request timed out. Please check your connection and try again.';
-          } else if (err.name === 'TypeError') {
-            messageDiv.innerHTML = '❌ Network error. Please check your connection. If the problem persists, the server may be temporarily unavailable.';
-          } else {
-            messageDiv.innerHTML = '❌ Error: ' + (err.message || 'An unexpected error occurred. Please try again later.');
-          }
-        } finally {
-          if (btn) btn.disabled = false;
-        }
-      }
 
       async function selectFreePlan() {
         const messageDiv = document.getElementById('planMessage');
@@ -346,7 +287,7 @@
           headers['Authorization'] = `Bearer ${token}`;
 
           // ============================================================
-          // [UNCHANGED] Relative path — routes through Netlify proxy on
+          // [CHANGED] Relative path — routes through Netlify proxy on
           // genesiscraft.ai (same-origin). Eliminates CORS, certificate
           // edge-cases, and ad-blocker interference.
           // ============================================================
@@ -390,7 +331,7 @@
       }
 
       document.querySelectorAll('.select-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async () => {
           const card = btn.closest('.plan-card');
           const plan = card.getAttribute('data-plan');
           const action = btn.getAttribute('data-action');
@@ -400,11 +341,51 @@
             return;
           }
 
-          // ============================================================
-          // [CHANGED] Paid plans now route through the backend Checkout
-          // Session API instead of raw Stripe Payment Links.
-          // ============================================================
-          startCheckout(plan);
+          const token = localStorage.getItem('token');
+          if (!token) {
+            window.location.href = '/signup.html';
+            return;
+          }
+
+          const originalText = btn.innerText;
+          btn.disabled = true;
+          btn.innerHTML = '<span class="loading-spinner"></span> Preparing checkout…';
+
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+          try {
+            const response = await fetch('/api/billing/create-checkout-session', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+              },
+              body: JSON.stringify({ plan: plan.replace(/-/g, '_') }),
+              signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+
+            let result = {};
+            try { result = await response.json(); } catch (_) {}
+
+            if (response.ok && result.url) {
+              window.location.href = result.url;
+            } else {
+              throw new Error(result.detail || 'Could not start checkout. Please try again.');
+            }
+          } catch (err) {
+            clearTimeout(timeoutId);
+            console.error('[Checkout] Error:', err);
+            btn.disabled = false;
+            btn.innerText = originalText;
+            if (err.name === 'AbortError') {
+              alert('Request timed out. Please check your connection and try again.');
+            } else {
+              alert('Error: ' + err.message);
+            }
+          }
         });
       });
     })();

@@ -276,10 +276,6 @@
             text-decoration: none;
             transition: background 0.2s;
             margin-top: 1rem;
-            cursor: pointer;
-            border: none;
-            font-family: inherit;
-            font-size: 1rem;
         }
         .btn-primary {
             background: #3b82f6;
@@ -387,8 +383,6 @@
             cursor: pointer;
             color: white;
             font-weight: 600;
-            font-family: inherit;
-            font-size: 1rem;
         }
         .faq-answer {
             max-height: 0;
@@ -468,6 +462,20 @@
         .footer-col a { color: #94a3b8; text-decoration: none; font-size: 0.85rem; }
         .footer-col a:hover { color: #3b82f6; }
         .copyright { text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #1e293b; font-size: 0.75rem; color: #64748b; }
+
+        /* Loading spinner for checkout buttons */
+        .loading-spinner {
+            display: inline-block;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 3px solid #3b82f6;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         @media (max-width: 800px) {
             .pricing-grid { flex-direction: column; align-items: center; }
@@ -561,7 +569,7 @@
             <li><i class="fas fa-check-circle"></i> Priority support</li>
             <li><i class="fas fa-check-circle"></i> API access & custom templates</li>
         </ul>
-        <button class="btn btn-primary" id="proButton" data-plan="pro">Start Pro Trial</button>
+        <a href="#" class="btn btn-primary" id="proButton">Start Pro Trial</a>
     </div>
 
     <!-- TEAM CARD -->
@@ -578,7 +586,7 @@
             <li><i class="fas fa-check-circle"></i> SLA (99.5% uptime)</li>
             <li><i class="fas fa-check-circle"></i> Team collaboration & SSO</li>
         </ul>
-        <button class="btn btn-secondary" id="teamButton" data-plan="team">Start Team Trial</button>
+        <a href="#" class="btn btn-secondary" id="teamButton">Start Team Trial</a>
     </div>
 </div>
 
@@ -656,159 +664,152 @@
 </footer>
 
 <script>
-  // ============================================================
-  // [CHANGED] Paid plans now use the backend Checkout Session API.
-  // The frontend no longer builds raw Stripe Payment Links;
-  // instead it POSTs to /api/billing/create-checkout-session and
-  // redirects to the Stripe Checkout URL returned by the backend.
-  // ============================================================
+  (function() {
+    // Billing toggle (monthly / yearly)
+    const toggleBtns = document.querySelectorAll('.toggle-btn');
+    const priceElements = document.querySelectorAll('[data-monthly]');
+    const periodElements = document.querySelectorAll('.period');
+    const proAnnualSavings = document.getElementById('proAnnualSavings');
+    const teamAnnualSavings = document.getElementById('teamAnnualSavings');
 
-  let currentPeriod = 'monthly';
+    // Track the currently selected billing period
+    let currentPeriod = 'monthly';
 
-  // ============================================================
-  // Start a Stripe Checkout Session via the backend.
-  // If the user is not authenticated, redirect to signup.
-  // ============================================================
-  async function startCheckout(plan, btn) {
-    const originalText = btn.innerText;
-    btn.innerText = 'Loading…';
-    btn.style.pointerEvents = 'none';
-    btn.style.opacity = '0.7';
+    // Function to update prices and periods
+    function setBillingPeriod(period) {
+      console.log('Switching to', period);
+      currentPeriod = period;
+      toggleBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-period') === period);
+      });
+      priceElements.forEach(el => {
+        const newPrice = el.getAttribute(`data-${period}`);
+        if (newPrice) el.innerHTML = newPrice;
+      });
+      periodElements.forEach(el => {
+        const newPeriod = el.getAttribute(`data-${period}`);
+        if (newPeriod) el.innerHTML = newPeriod;
+        else if (period === 'monthly') el.innerHTML = 'per month';
+        else el.innerHTML = 'per year';
+      });
+      // Show/hide annual savings badge
+      if (period === 'yearly') {
+        if (proAnnualSavings) proAnnualSavings.style.display = 'inline-block';
+        if (teamAnnualSavings) teamAnnualSavings.style.display = 'inline-block';
+      } else {
+        if (proAnnualSavings) proAnnualSavings.style.display = 'none';
+        if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
+      }
+    }
 
-    try {
+    // ============================================================
+    // [CHANGED] Paid plans now use the Stripe Checkout API.
+    // The frontend calls our backend to create a Checkout Session;
+    // the backend handles client_reference_id, customer lookup,
+    // and all Stripe metadata from the authenticated user.
+    // ============================================================
+    async function startCheckout(planBase, btn) {
       const token = localStorage.getItem('token');
       if (!token) {
-        // Preserve intent so signup can redirect back if desired
-        window.location.href = '/signup.html?plan=' + encodeURIComponent(plan);
+        window.location.href = '/signup.html';
         return;
       }
 
-      const response = await fetch('/api/billing/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify({ plan: plan })
-      });
+      const plan = planBase + '_' + currentPeriod;
+      const originalText = btn.innerText;
+      btn.style.pointerEvents = 'none';
+      btn.style.opacity = '0.7';
+      btn.innerHTML = '<span class="loading-spinner"></span> Redirecting…';
 
-      let result = {};
-      try { result = await response.json(); } catch (_) {}
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-      if (response.ok && result.success && result.url) {
-        // Redirect to Stripe Checkout. After payment, Stripe sends the
-        // user to payment-success.html?session_id=...
-        window.location.href = result.url;
-      } else {
-        throw new Error(result.detail || 'Could not start checkout. Please try again.');
+      try {
+        const response = await fetch('/api/billing/create-checkout-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ plan: plan }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        let result = {};
+        try { result = await response.json(); } catch (_) {}
+
+        if (response.ok && result.url) {
+          window.location.href = result.url;
+        } else {
+          throw new Error(result.detail || 'Could not start checkout. Please try again.');
+        }
+      } catch (err) {
+        clearTimeout(timeoutId);
+        console.error('[Checkout] Error:', err);
+        btn.style.pointerEvents = '';
+        btn.style.opacity = '';
+        btn.innerText = originalText;
+        if (err.name === 'AbortError') {
+          alert('Request timed out. Please check your connection and try again.');
+        } else {
+          alert('Error: ' + err.message);
+        }
       }
-    } catch (err) {
-      console.error('[Checkout] Error:', err);
-      alert('Error: ' + (err.message || 'Could not start checkout. Please try again.'));
-      btn.innerText = originalText;
-      btn.style.pointerEvents = '';
-      btn.style.opacity = '';
     }
-  }
 
-  // Billing toggle (monthly / yearly)
-  const toggleBtns = document.querySelectorAll('.toggle-btn');
-  const priceElements = document.querySelectorAll('[data-monthly]');
-  const periodElements = document.querySelectorAll('.period');
-  const proAnnualSavings = document.getElementById('proAnnualSavings');
-  const teamAnnualSavings = document.getElementById('teamAnnualSavings');
-
-  // Function to update prices and periods
-  function setBillingPeriod(period) {
-    console.log('Switching to', period);
-    currentPeriod = period;
+    // Attach event listeners to toggle buttons
     toggleBtns.forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-period') === period);
+      btn.addEventListener('click', () => {
+        const period = btn.getAttribute('data-period');
+        setBillingPeriod(period);
+      });
     });
-    priceElements.forEach(el => {
-      const newPrice = el.getAttribute(`data-${period}`);
-      if (newPrice) el.innerHTML = newPrice;
-    });
-    periodElements.forEach(el => {
-      const newPeriod = el.getAttribute(`data-${period}`);
-      if (newPeriod) el.innerHTML = newPeriod;
-      else if (period === 'monthly') el.innerHTML = 'per month';
-      else el.innerHTML = 'per year';
-    });
-    // Show/hide annual savings badge
-    if (period === 'yearly') {
-      if (proAnnualSavings) proAnnualSavings.style.display = 'inline-block';
-      if (teamAnnualSavings) teamAnnualSavings.style.display = 'inline-block';
-    } else {
-      if (proAnnualSavings) proAnnualSavings.style.display = 'none';
-      if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
-    }
-    // Update button plan attributes for checkout
-    updateButtonPlans(period);
-  }
 
-  // Update data-plan attributes on Pro/Team buttons so the checkout
-  // request sends the correct plan slug (monthly vs yearly).
-  function updateButtonPlans(period) {
+    // Initialize with monthly
+    setBillingPeriod('monthly');
+    if (proAnnualSavings) proAnnualSavings.style.display = 'none';
+    if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
+
+    // Attach checkout listeners to Pro and Team buttons
     const proBtn = document.getElementById('proButton');
     const teamBtn = document.getElementById('teamButton');
-    if (!proBtn || !teamBtn) return;
-
-    if (period === 'monthly') {
-      proBtn.setAttribute('data-plan', 'pro-monthly');
-      teamBtn.setAttribute('data-plan', 'team-monthly');
-    } else {
-      proBtn.setAttribute('data-plan', 'pro-yearly');
-      teamBtn.setAttribute('data-plan', 'team-yearly');
+    if (proBtn) {
+      proBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        startCheckout('pro', this);
+      });
     }
-  }
-
-  // Attach event listeners to toggle buttons
-  toggleBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const period = btn.getAttribute('data-period');
-      setBillingPeriod(period);
-    });
-  });
-
-  // Initialize with monthly
-  setBillingPeriod('monthly');
-  if (proAnnualSavings) proAnnualSavings.style.display = 'none';
-  if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
-
-  // Attach checkout handlers to Pro and Team buttons
-  document.getElementById('proButton').addEventListener('click', function(e) {
-    e.preventDefault();
-    const plan = this.getAttribute('data-plan');
-    startCheckout(plan, this);
-  });
-  document.getElementById('teamButton').addEventListener('click', function(e) {
-    e.preventDefault();
-    const plan = this.getAttribute('data-plan');
-    startCheckout(plan, this);
-  });
-
-  // FAQ Accordion
-  document.querySelectorAll('.faq-item').forEach(item => {
-    const btn = item.querySelector('.faq-question');
-    btn.addEventListener('click', () => {
-      item.classList.toggle('open');
-    });
-  });
-  // Open first FAQ by default
-  if (document.querySelectorAll('.faq-item').length) {
-    document.querySelectorAll('.faq-item')[0].classList.add('open');
-  }
-
-  // Sticky CTA on scroll
-  const stickyCta = document.getElementById('stickyCta');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 500) {
-      stickyCta.style.display = 'block';
-    } else {
-      stickyCta.style.display = 'none';
+    if (teamBtn) {
+      teamBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        startCheckout('team', this);
+      });
     }
-  });
+
+    // FAQ Accordion
+    document.querySelectorAll('.faq-item').forEach(item => {
+      const btn = item.querySelector('.faq-question');
+      btn.addEventListener('click', () => {
+        item.classList.toggle('open');
+      });
+    });
+    // Open first FAQ by default
+    if (document.querySelectorAll('.faq-item').length) {
+      document.querySelectorAll('.faq-item')[0].classList.add('open');
+    }
+
+    // Sticky CTA on scroll
+    const stickyCta = document.getElementById('stickyCta');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        stickyCta.style.display = 'block';
+      } else {
+        stickyCta.style.display = 'none';
+      }
+    });
+  })();
 </script>
 </body>
 </html>

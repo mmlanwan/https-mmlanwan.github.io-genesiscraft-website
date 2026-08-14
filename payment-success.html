@@ -112,7 +112,11 @@
       <p>Your subscription is active. Click below to open your dashboard.</p>
       <div class="detail">
         <strong>Plan:</strong> <span id="planDisplay">—</span><br>
-        <strong>Status:</strong> <span style="color:#10b981;">Active</span>
+        <strong>Status:</strong> <span style="color:#10b981;">Active</span><br>
+        <strong>Sync:</strong> <span id="syncStatus">—</span>
+      </div>
+      <div id="syncErrorBox" class="detail hidden" style="border-color:#ef4444; color:#f87171;">
+        <strong>Sync Error:</strong> <span id="syncErrorText"></span>
       </div>
       <a href="#" class="btn btn-primary" id="manualRedirectBtn">Go to Dashboard</a>
     </div>
@@ -202,9 +206,22 @@
             setState('success');
             document.getElementById('planDisplay').textContent = result.plan || 'Paid';
             log('SUCCESS — plan: ' + (result.plan || 'Paid'));
+
+            if (result.sync_error) {
+              log('SYNC ERROR: ' + result.sync_error);
+              document.getElementById('syncStatus').textContent = 'Failed (see below)';
+              document.getElementById('syncStatus').style.color = '#ef4444';
+              const errBox = document.getElementById('syncErrorBox');
+              document.getElementById('syncErrorText').textContent = result.sync_error;
+              errBox.classList.remove('hidden');
+            } else {
+              document.getElementById('syncStatus').textContent = 'OK';
+              document.getElementById('syncStatus').style.color = '#10b981';
+            }
+
             log('Ready for dashboard redirect.');
           } else {
-            throw new Error(result.detail || 'HTTP ' + response.status);
+            throw new Error(result.detail || 'Verification failed (HTTP ' + response.status + ')');
           }
         } catch (err) {
           console.error(err);

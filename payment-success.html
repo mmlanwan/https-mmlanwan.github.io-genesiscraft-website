@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Successful – Genesis Craft AI</title>
   <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <!-- Google Fonts & Font Awesome -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <!-- Favicon link tags -->
@@ -36,27 +39,21 @@
       background: #0f172a;
       border-radius: 24px;
       padding: 2.5rem;
-      max-width: 420px;
+      max-width: 520px;
       width: 100%;
       border: 1px solid #1e293b;
       text-align: center;
       box-shadow: 0 20px 25px -12px rgba(0,0,0,0.5);
     }
     .icon {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 1.5rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 64px; height: 64px; margin: 0 auto 1.5rem;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
       font-size: 2rem;
     }
     .icon.success { background: #10b98120; color: #10b981; }
     .icon.error { background: #ef444420; color: #ef4444; }
     .icon.spinner {
-      background: #3b82f620;
-      color: #3b82f6;
+      background: #3b82f620; color: #3b82f6;
       animation: pulse 1.5s ease-in-out infinite;
     }
     @keyframes pulse {
@@ -64,55 +61,33 @@
       50% { transform: scale(0.95); opacity: 0.7; }
     }
     h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
-    p { color: #94a3b8; font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.5rem; }
+    p { color: #94a3b8; font-size: 0.95rem; line-height: 1.5; margin-bottom: 1rem; }
     .btn {
-      display: inline-block;
-      width: 100%;
-      padding: 0.75rem;
-      border-radius: 40px;
-      font-weight: 600;
-      text-decoration: none;
-      text-align: center;
-      cursor: pointer;
-      border: none;
-      font-size: 0.95rem;
+      display: inline-block; width: 100%; padding: 0.75rem;
+      border-radius: 40px; font-weight: 600; text-decoration: none;
+      text-align: center; cursor: pointer; border: none; font-size: 0.95rem;
       transition: background 0.2s;
     }
-    .btn-primary {
-      background: #3b82f6;
-      color: white;
-    }
+    .btn-primary { background: #3b82f6; color: white; }
     .btn-primary:hover { background: #2563eb; }
     .btn-secondary {
-      background: #1e293b;
-      color: #cbd5e1;
-      border: 1px solid #334155;
+      background: #1e293b; color: #cbd5e1; border: 1px solid #334155;
       margin-top: 0.75rem;
     }
-    .btn-secondary:hover { background: #2d3a4e; color: white; }
     .detail {
-      background: #1e293b;
-      border-radius: 12px;
-      padding: 1rem;
-      margin: 1rem 0;
-      text-align: left;
-      font-size: 0.85rem;
-      color: #94a3b8;
+      background: #1e293b; border-radius: 12px; padding: 1rem;
+      margin: 1rem 0; text-align: left; font-size: 0.85rem; color: #94a3b8;
     }
     .detail strong { color: #f1f5f9; }
     .hidden { display: none; }
-    .console-log {
-      background: #1e293b;
-      border-radius: 8px;
-      padding: 0.75rem;
-      margin-top: 1rem;
-      text-align: left;
-      font-family: monospace;
-      font-size: 0.75rem;
-      color: #94a3b8;
-      max-height: 120px;
-      overflow-y: auto;
+    .debug-box {
+      background: #0a0a0a; border: 1px solid #334155; border-radius: 8px;
+      padding: 0.75rem; margin-top: 1rem; text-align: left;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.75rem; color: #94a3b8; max-height: 280px; overflow-y: auto;
+      white-space: pre-wrap; word-break: break-word;
     }
+    .debug-box b { color: #e2e8f0; }
   </style>
 </head>
 <body>
@@ -122,18 +97,19 @@
     <div id="state-loading">
       <div class="icon spinner">⏳</div>
       <h1>Confirming your payment…</h1>
-      <p>Please wait while we verify your subscription and prepare your dashboard.</p>
+      <p>Do not close this window. We are verifying your subscription with the server.</p>
       <div class="detail">
-        <strong>Session:</strong> <span id="sessionIdDisplay">—</span>
+        <strong>Session:</strong> <span id="sessionIdDisplay">—</span><br>
+        <strong>Token:</strong> <span id="tokenDisplay">—</span>
       </div>
-      <div id="debugLog" class="console-log hidden"></div>
+      <div id="debugLog" class="debug-box">Waiting for verification…</div>
     </div>
 
     <!-- Success State -->
     <div id="state-success" class="hidden">
       <div class="icon success">✓</div>
       <h1>Payment successful</h1>
-      <p>Your subscription is active. Redirecting you to the dashboard now…</p>
+      <p>Your subscription is active. Click below to open your dashboard.</p>
       <div class="detail">
         <strong>Plan:</strong> <span id="planDisplay">—</span><br>
         <strong>Status:</strong> <span style="color:#10b981;">Active</span>
@@ -145,78 +121,69 @@
     <div id="state-error" class="hidden">
       <div class="icon error">✕</div>
       <h1>Unable to confirm payment</h1>
-      <p id="errorMessage">We couldn't verify your subscription. If you completed payment, your account will update shortly.</p>
+      <p id="errorMessage">We couldn't verify your subscription.</p>
       <div class="detail hidden" id="errorDetail"></div>
+      <div id="errorDebug" class="debug-box hidden"></div>
       <a href="/pricing.html" class="btn btn-secondary">Back to Pricing</a>
-      <a href="mailto:support@genesiscraft.ai" class="btn btn-secondary">Contact Support</a>
     </div>
   </div>
 
   <script>
     (function() {
       const SESSION_KEY = 'gc_pending_session_id';
+      const API_BASE = 'https://api.genesiscraft.ai';
 
       function getQueryParam(name) {
-        const params = new URLSearchParams(window.location.search);
-        return params.get(name);
+        return new URLSearchParams(window.location.search).get(name);
       }
-
       function getToken() {
         return localStorage.getItem('token');
       }
-
       function setState(state) {
-        document.getElementById('state-loading').classList.add('hidden');
-        document.getElementById('state-success').classList.add('hidden');
-        document.getElementById('state-error').classList.add('hidden');
-        document.getElementById('state-' + state).classList.remove('hidden');
+        ['loading','success','error'].forEach(s => {
+          document.getElementById('state-'+s).classList.add('hidden');
+        });
+        document.getElementById('state-'+state).classList.remove('hidden');
       }
-
       function redirectToDashboard() {
         const token = getToken();
-        const target = token
+        window.location.href = token
           ? 'https://app.genesiscraft.ai/dashboard#token=' + encodeURIComponent(token)
           : 'https://app.genesiscraft.ai/dashboard';
-        window.location.href = target;
       }
 
-      // ============================================================
-      // [CHANGED] Debug helper: log to both console and on-screen.
-      // ============================================================
+      // Permanent on-screen log (survives until user leaves)
       function log(msg) {
         console.log('[payment-success]', msg);
-        const el = document.getElementById('debugLog');
-        if (el) {
-          el.classList.remove('hidden');
-          el.textContent += msg + '\n';
-        }
+        const box = document.getElementById('debugLog');
+        if (!box) return;
+        const line = document.createElement('div');
+        line.textContent = '> ' + msg;
+        box.appendChild(line);
+        box.scrollTop = box.scrollHeight;
       }
 
       async function verifySession(sessionId) {
         const token = getToken();
-        log('Starting verification. session_id=' + sessionId);
-        log('Token present: ' + (token ? 'yes' : 'NO'));
+        log('session_id = ' + sessionId);
+        log('token present = ' + (token ? 'yes' : 'NO'));
 
         if (!token) {
           setState('error');
           document.getElementById('errorMessage').textContent =
-            'Your session has expired. Please log in again to access your dashboard.';
-          log('ABORT: no token');
+            'Your login session has expired. Please sign in again.';
+          log('ABORT: no token in localStorage');
           return;
         }
 
         document.getElementById('sessionIdDisplay').textContent = sessionId;
+        document.getElementById('tokenDisplay').textContent = token.substring(0,12) + '…';
 
-        // ============================================================
-        // [CHANGED] Use absolute API URL to bypass any Netlify proxy
-        // ambiguity. The relative path /api/billing/... relies on the
-        // marketing-site proxy, which may not cover this new endpoint.
-        // ============================================================
-        const verifyUrl = 'https://api.genesiscraft.ai/api/billing/verify-checkout-session?session_id=' + encodeURIComponent(sessionId);
-        log('Fetching: ' + verifyUrl);
+        const url = API_BASE + '/api/billing/verify-checkout-session?session_id=' + encodeURIComponent(sessionId);
+        log('GET ' + url);
 
         try {
-          const response = await fetch(verifyUrl, {
+          const response = await fetch(url, {
             method: 'GET',
             headers: {
               'Authorization': 'Bearer ' + token,
@@ -224,55 +191,57 @@
             }
           });
 
-          log('Response status: ' + response.status);
+          log('HTTP status = ' + response.status);
+          const text = await response.text();
+          log('Raw body = ' + text.substring(0, 400));
 
           let result = {};
-          const text = await response.text();
-          log('Response body: ' + text.substring(0, 200));
-          try { result = JSON.parse(text); } catch (_) { log('JSON parse failed'); }
+          try { result = JSON.parse(text); } catch (e) { log('JSON parse error: ' + e.message); }
 
           if (response.ok && result.success) {
             setState('success');
             document.getElementById('planDisplay').textContent = result.plan || 'Paid';
-            log('SUCCESS. plan=' + (result.plan || 'Paid'));
-            setTimeout(redirectToDashboard, 2000);
+            log('SUCCESS — plan: ' + (result.plan || 'Paid'));
+            log('Ready for dashboard redirect.');
           } else {
-            throw new Error(result.detail || 'Verification failed (HTTP ' + response.status + ')');
+            throw new Error(result.detail || 'HTTP ' + response.status);
           }
         } catch (err) {
-          console.error('[payment-success] Verification error:', err);
-          log('ERROR: ' + err.message);
+          console.error(err);
+          log('NETWORK/ERROR: ' + err.message);
           setState('error');
           document.getElementById('errorMessage').textContent =
-            'We could not verify your payment right now. If you were charged, your account will update automatically within a few minutes.';
+            'We could not verify your payment. If you were charged, your account will update automatically.';
           const detail = document.getElementById('errorDetail');
           detail.textContent = 'Error: ' + err.message;
           detail.classList.remove('hidden');
+          const debug = document.getElementById('errorDebug');
+          debug.textContent = document.getElementById('debugLog').textContent;
+          debug.classList.remove('hidden');
         }
       }
 
       // ============================================================
-      // Main entry point
+      // Entry
       // ============================================================
       const sessionId = getQueryParam('session_id');
-      log('Page loaded. session_id from URL: ' + sessionId);
+      log('Page loaded. URL = ' + window.location.href);
 
       if (!sessionId) {
         const pending = sessionStorage.getItem(SESSION_KEY);
-        log('No session_id in URL. pending from sessionStorage: ' + pending);
+        log('No session_id in URL. pending = ' + pending);
         if (pending) {
           sessionStorage.removeItem(SESSION_KEY);
           verifySession(pending);
         } else {
           setState('error');
           document.getElementById('errorMessage').textContent =
-            'No payment session found. If you just completed a purchase, please check your e-mail or contact support.';
+            'No payment session found in URL.';
         }
         return;
       }
 
       sessionStorage.setItem(SESSION_KEY, sessionId);
-
       document.getElementById('manualRedirectBtn').addEventListener('click', function(e) {
         e.preventDefault();
         redirectToDashboard();

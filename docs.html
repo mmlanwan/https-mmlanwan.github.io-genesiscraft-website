@@ -4,28 +4,409 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documentation – Genesis Craft AI</title>
+    <meta name="description" content="Genesis Craft AI documentation — a Full-Stack AI Developer that generates complete, production-ready applications from natural language. Frontend, backend, database, and deployment.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Favicon link tags -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-HS1Z82VML7');
+    </script>
+    <!-- Schema Markup (TechArticle) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Genesis Craft AI Documentation",
+        "description": "How Genesis Craft AI — a Full-Stack AI Developer — turns natural language into production-ready applications with frontend, backend, database, and deployment.",
+        "author": {
+            "@type": "Organization",
+            "name": "Genesis Craft AI"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Genesis Craft AI",
+            "logo": {"@type": "ImageObject", "url": "https://genesiscraft.ai/logo.png"}
+        }
+    }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            font-family: 'Inter', sans-serif;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        /* Header */
+        .site-header {
+            background: #0a0a0a;
+            border-bottom: 1px solid #1e293b;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .logo img {
+            height: 32px;
+            width: auto;
+            vertical-align: middle;
+        }
+        .main-nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .main-nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .main-nav a:hover { color: #3b82f6; }
+        .btn-small {
+            background: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .docs-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .sidebar {
+            width: 280px;
+            position: sticky;
+            top: 5rem;
+            height: fit-content;
+            background: #0f172a;
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-right: 2rem;
+        }
+        .sidebar h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #3b82f6;
+        }
+        .sidebar ul { list-style: none; }
+        .sidebar li { margin-bottom: 0.75rem; }
+        .sidebar a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .sidebar a:hover { color: #3b82f6; }
+        .content { flex: 1; }
+        .doc-section {
+            background: #0f172a;
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .doc-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #3b82f6;
+            padding-left: 1rem;
+        }
+        .doc-section h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.75rem;
+            color: #ffffff;
+        }
+        pre {
+            background: #010409;
+            padding: 1rem;
+            border-radius: 16px;
+            overflow-x: auto;
+            font-family: monospace;
+            margin: 1rem 0;
+            border-left: 3px solid #3b82f6;
+        }
+        code {
+            font-family: monospace;
+            background: #1e293b;
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+        .note {
+            background: #1e293b;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            border-left: 3px solid #f59e0b;
+        }
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .stack-card {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 20px;
+            padding: 1.25rem;
+        }
+        .stack-card h4 {
+            color: #ffffff;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+        .stack-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .stack-card li {
+            color: #cbd5e1;
+            padding: 0.25rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .stack-card li::before {
+            content: "◆";
+            color: #3b82f6;
+            font-size: 0.6rem;
+        }
+        /* Footer */
+        .footer {
+            background: #0f172a;
+            border-top: 1px solid #1e293b;
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 4rem;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: space-between;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 0.6rem; }
+        .footer-col a { color: #94a3b8; text-decoration: none; font-size: 0.85rem; }
+        .footer-col a:hover { color: #3b82f6; }
+        .copyright { text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #1e293b; font-size: 0.75rem; color: #64748b; }
+        @media (max-width: 800px) {
+            .docs-container { flex-direction: column; }
+            .sidebar { width: 100%; margin-bottom: 1rem; position: static; }
+        }
+        @media (max-width: 700px) {
+            .header-container { flex-direction: column; gap: 1rem; }
+            .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+            .logo img { height: 24px; }
+        }
+    </style>
 </head>
-<body style="background:#0a0a0a; color:#e2e8f0; font-family:Inter; margin:0; padding:2rem;">
-    <h1 style="color:#fff;">Getting Started with Genesis Craft AI</h1>
-    <p style="color:#cbd5e1;">
-        Genesis Craft AI is a <strong>Full‑Stack AI Developer</strong> that transforms natural language into complete, production‑ready applications.
-    </p>
-    <h2 style="color:#fff;">How it works</h2>
-    <ol style="color:#cbd5e1; line-height:1.8;">
-        <li><strong>Describe your app.</strong> Example: <em>“Build a task manager with user authentication, drag‑and‑drop boards, and Stripe billing.”</em></li>
-        <li><strong>Genesis Craft AI builds the full stack.</strong> Frontend, backend, database schema, API layer, and deployment configuration are generated together.</li>
-        <li><strong>Review and deploy.</strong> Download your code, customize as needed, and deploy to your preferred cloud.</li>
-    </ol>
-    <h2 style="color:#fff;">What’s included</h2>
-    <ul style="color:#cbd5e1; line-height:1.8;">
-        <li>Frontend: React / Vue / Next.js components and routing</li>
-        <li>Backend: Node / Python / Go APIs with best practices</li>
-        <li>Database: SQL or NoSQL schema and migrations</li>
-        <li>Deployment: Docker, Terraform, and cloud‑ready configuration</li>
-    </ul>
-    <p style="color:#94a3b8;">
-        For product announcements, tutorials, and community support, visit <a href="https://genesiscraft.ai/contact.html" style="color:#3b82f6;">Contact Us</a>.
-    </p>
+<body>
+
+<header class="site-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="/index.html">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="/logo-icon.svg">
+                    <img src="/logo-lockup.svg" alt="Genesis Craft AI">
+                </picture>
+            </a>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/product.html">Product</a></li>
+                <li><a href="/pricing.html">Pricing</a></li>
+                <li><a href="/about.html">About Us</a></li>
+                <li><a href="/careers.html">Careers</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <a href="/signup.html" class="btn-small">Sign Up</a>
+        </div>
+    </div>
+</header>
+
+<div class="docs-container">
+    <div class="sidebar">
+        <h3><i class="fas fa-book"></i> Documentation</h3>
+        <ul>
+            <li><a href="#quickstart">Quickstart</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#supported-stacks">Supported Stacks</a></li>
+            <li><a href="#deployment">Deployment Targets</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+
+        <div id="quickstart" class="doc-section">
+            <h2>Quickstart</h2>
+            <p>Genesis Craft AI is a <strong>Full‑Stack AI Developer</strong> that transforms natural language into complete, production‑ready applications — frontend, backend, database, and deployment included.</p>
+            <p>There are no API keys or SDKs required to generate your first app. Just describe what you want to build.</p>
+            <ol>
+                <li>Go to <a href="/signup.html" style="color:#3b82f6;">genesiscraft.ai/signup</a> and create a free account.</li>
+                <li>Log in to the <a href="/dashboard" style="color:#3b82f6;">Dashboard</a>.</li>
+                <li>Describe your app in plain English.</li>
+                <li>Review the generated full stack and deploy with one click.</li>
+            </ol>
+            <p>Example prompt:</p>
+            <pre><code>Build a task manager with user authentication, drag-and-drop Kanban boards, real-time comments, and Stripe billing. Use Vue for the frontend, FastAPI for the backend, and PostgreSQL for the database.</code></pre>
+            <p>Genesis Craft AI will generate the complete application and present the code, schema, and deployment configuration for your review.</p>
+        </div>
+
+        <div id="how-it-works" class="doc-section">
+            <h2>How It Works</h2>
+            <p>Genesis Craft AI orchestrates a team of specialized AI agents to build your application end‑to‑end.</p>
+            <h3>1. Planner Agent</h3>
+            <p>Breaks your prompt into a technical architecture: routes, components, data models, and infrastructure requirements.</p>
+            <h3>2. Frontend Agent</h3>
+            <p>Generates the UI layer — components, state management, routing, and styling — using the framework you requested.</p>
+            <h3>3. Backend Agent</h3>
+            <p>Builds the API, business logic, authentication, and middleware using your chosen backend framework.</p>
+            <h3>4. Database Agent</h3>
+            <p>Designs the schema, writes migrations, and configures ORM/ODM mappings.</p>
+            <h3>5. Integrator &amp; Validator</h3>
+            <p>Checks cross‑layer compatibility, fixes integration issues, and validates the codebase.</p>
+            <h3>6. Deployer Agent</h3>
+            <p>Generates Dockerfiles, Kubernetes manifests, CI/CD pipelines, and cloud‑specific deployment configs.</p>
+            <div class="note"><i class="fas fa-info-circle"></i> The orchestrator is framework‑agnostic. Specify your preferred stack in the prompt, and it will route tasks to the correct agents.</div>
+        </div>
+
+        <div id="supported-stacks" class="doc-section">
+            <h2>Supported Stacks</h2>
+            <p>Genesis Craft AI supports a wide range of frontend, backend, database, and deployment technologies. Mix and match as needed.</p>
+
+            <div class="stack-grid">
+                <div class="stack-card">
+                    <h4>Frontend Frameworks</h4>
+                    <ul>
+                        <li>React</li>
+                        <li>Vue</li>
+                        <li>Angular</li>
+                        <li>Next.js</li>
+                        <li>Svelte</li>
+                        <li>Plain HTML/CSS/JS</li>
+                    </ul>
+                </div>
+                <div class="stack-card">
+                    <h4>Backend Frameworks</h4>
+                    <ul>
+                        <li>Node.js (Express)</li>
+                        <li>Python (FastAPI, Django, Flask)</li>
+                        <li>Go (Gin, standard library)</li>
+                        <li>Ruby on Rails</li>
+                        <li>Java (Spring Boot)</li>
+                    </ul>
+                </div>
+                <div class="stack-card">
+                    <h4>Databases</h4>
+                    <ul>
+                        <li>PostgreSQL</li>
+                        <li>MySQL</li>
+                        <li>MongoDB</li>
+                        <li>SQLite</li>
+                        <li>Redis</li>
+                    </ul>
+                </div>
+                <div class="stack-card">
+                    <h4>Deployment Targets</h4>
+                    <ul>
+                        <li>Docker</li>
+                        <li>Kubernetes</li>
+                        <li>AWS</li>
+                        <li>GCP</li>
+                        <li>Azure</li>
+                        <li>Vercel</li>
+                        <li>Netlify</li>
+                        <li>On‑Premises</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="deployment" class="doc-section">
+            <h2>Deployment Targets</h2>
+            <p>By default, Genesis Craft AI prepares your application for containerized deployment. You can request a specific target in your prompt.</p>
+            <h3>Example deployment prompts</h3>
+            <pre><code>Build a SaaS dashboard with React, Node.js, and PostgreSQL. Deploy to AWS ECS with Terraform.</code></pre>
+            <pre><code>Generate a REST API with FastAPI and MongoDB. Package as a Docker image and deploy to Kubernetes.</code></pre>
+            <h3>What you receive</h3>
+            <ul>
+                <li>Dockerfile for each service</li>
+                <li>docker-compose or Kubernetes manifests</li>
+                <li>CI/CD pipeline configuration (GitHub Actions / GitLab CI)</li>
+                <li>Infrastructure‑as‑Code (Terraform / CloudFormation) when applicable</li>
+            </ul>
+        </div>
+
+        <div id="faq" class="doc-section">
+            <h2>FAQ</h2>
+            <h3>Is Genesis Craft AI an AI coding assistant?</h3>
+            <p>No. It is a <strong>Full‑Stack AI Developer</strong> that generates the entire application from a description. It does not merely suggest snippets inside an IDE.</p>
+            <h3>Do I need API keys to use it?</h3>
+            <p>No API keys are required to generate applications in the dashboard. API access is available for programmatic workflows on request.</p>
+            <h3>Can I choose my stack?</h3>
+            <p>Yes. Specify your preferred frontend, backend, database, and deployment target in the prompt. If you don’t specify, Genesis Craft AI will choose a sensible default.</p>
+            <h3>Who owns the generated code?</h3>
+            <p>You do. The code is yours to modify, extend, and deploy as you see fit.</p>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-col"><h3>Product</h3><ul><li><a href="/product.html">Features</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/enterprise.html">Enterprise</a></li><li><a href="/changelog.html">Changelog</a></li></ul></div>
+        <div class="footer-col"><h3>Resources</h3><ul><li><a href="/docs.html">Documentation</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/case-studies.html">Case Studies</a></li><li><a href="/api-reference.html">API Reference</a></li></ul></div>
+        <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
+        <div class="footer-col"><h3>Stay in the loop</h3>
+            <div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;">
+                <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+                <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">© 2026 Genesis Craft AI, Inc. All rights reserved.</div>
+</footer>
 </body>
 </html>

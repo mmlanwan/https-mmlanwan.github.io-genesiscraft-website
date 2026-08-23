@@ -21,14 +21,14 @@
         gtag('js', new Date());
         gtag('config', 'G-HS1Z82VML7');
     </script>
-    <!-- reCAPTCHA v3 (replace site key with our own) -->
-    <script src="https://www.google.com/recaptcha/api.js?render=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></script>
+    <!-- ============================================================
+         Removed reCAPTCHA v3 script.
+         Forms are configured for Netlify's built-in reCAPTCHA v2
+         via data-netlify-recaptcha attributes. Do NOT include a
+         v3 render script here, or it will conflict with Netlify.
+    ============================================================ -->
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
             font-family: 'Inter', sans-serif;
@@ -40,7 +40,6 @@
             margin: 0 auto;
             padding: 2rem 1.5rem;
         }
-
         /* Header styles */
         .site-header {
             background: #0a0a0a;
@@ -110,7 +109,6 @@
                 height: 24px;
             }
         }
-
         /* Hero */
         .hero {
             text-align: center;
@@ -157,7 +155,6 @@
             padding: 0 2rem;
             z-index: -1;
         }
-        /* Contact Options Grid */
         .options-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -367,9 +364,7 @@
         <div class="logo">
             <a href="/index.html">
                 <picture>
-                    <!-- Mobile: show only the icon (adjust breakpoint as needed) -->
                     <source media="(max-width: 768px)" srcset="/logo-icon.svg">
-                    <!-- Desktop: show the full lockup (icon + wordmark) -->
                     <img src="/logo-lockup.svg" alt="Genesis Craft AI">
                 </picture>
             </a>
@@ -407,15 +402,16 @@
     <div class="options-grid">
         <div class="option-card sales"><i class="fas fa-briefcase"></i><h3>Sales Inquiries</h3><p>Interested in Genesis Craft AI for your team or enterprise? Our sales team is ready to help.</p><a href="#enterprise-form" class="btn-link">Contact Sales →</a></div>
         <div class="option-card support"><i class="fas fa-life-ring"></i><h3>Technical Support</h3><p>Having trouble with the platform? Check our documentation or reach out to support.</p><a href="#support-form" class="btn-link">Get Help →</a> <a href="/docs.html" class="btn-link">Visit Documentation →</a></div>
-        <div class="option-card press"><i class="fas fa-newspaper"></i><h3>Press & Media</h3><p>Looking for press materials, interviews, or company information? Our press team is here.</p><a href="#" class="btn-link">Press Kit →</a> <a href="#" class="btn-link">Contact PR →</a></div>
+        <div class="option-card press"><i class="fas fa-newspaper"></i><h3>Press & Media</h3><p>Looking for press materials, interviews, or company information? Our press team is here.</p><a href="mailto:press@genesiscraft.ai?subject=Press%20Kit%20Request" class="btn-link">Press Kit →</a> <a href="mailto:press@genesiscraft.ai" class="btn-link">Contact PR →</a></div>
         <div class="option-card partners"><i class="fas fa-handshake"></i><h3>Partnerships</h3><p>Interested in integrating with Genesis Craft AI or becoming a partner? Let's talk.</p><a href="#general-form" class="btn-link">Partner Inquiry →</a></div>
     </div>
 
-    <!-- General Inquiry Form (Netlify + reCAPTCHA) -->
+    <!-- General Inquiry Form (Netlify + reCAPTCHA v2) -->
     <div id="general-form" class="form-section">
         <h2>Send Us a Message</h2>
         <div class="subhead">For general questions, feedback, or anything else, fill out the form below.</div>
-        <form name="general-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
+        <!-- Added action="/thank-you" so Netlify redirects after successful submit -->
+        <form name="general-inquiry" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
             <input type="hidden" name="form-name" value="general-inquiry">
             <div style="display:none;"><input name="bot-field"></div>
             <div class="form-row">
@@ -439,7 +435,8 @@
     <div id="enterprise-form" class="form-section">
         <h2>Enterprise Sales Inquiry</h2>
         <div class="subhead">Tell us about your needs, and we'll create a custom solution for your organization.</div>
-        <form name="enterprise-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
+        <!-- Added action="/thank-you" -->
+        <form name="enterprise-inquiry" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
             <input type="hidden" name="form-name" value="enterprise-inquiry">
             <div style="display:none;"><input name="bot-field"></div>
             <div class="form-row">
@@ -475,7 +472,8 @@
     <div id="support-form" class="form-section">
         <h2>Get Technical Support</h2>
         <div class="subhead">Having trouble? Check our documentation first, or submit a support ticket below.</div>
-        <form name="support-ticket" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
+        <!-- Added enctype="multipart/form-data" for file upload, and action="/thank-you" -->
+        <form name="support-ticket" method="POST" action="/thank-you" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
             <input type="hidden" name="form-name" value="support-ticket">
             <div style="display:none;"><input name="bot-field"></div>
             <div class="form-row">
@@ -521,13 +519,14 @@
         <h2>Stay Connected</h2>
         <p>Follow us on social media for product updates, AI news, and community highlights.</p>
         <div class="social-icons">
-            <a href="#"><i class="fab fa-github"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#"><i class="fab fa-discord"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+            <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
+            <a href="https://www.youtube.com/@genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
         </div>
-        <form name="newsletter" method="POST" data-netlify="true" class="newsletter-form">
+        <!-- Added action="/thank-you" to the working newsletter form -->
+        <form name="newsletter" method="POST" action="/thank-you" data-netlify="true" class="newsletter-form">
             <input type="hidden" name="form-name" value="newsletter">
             <input type="email" name="email" placeholder="Your email address" required>
             <button type="submit" class="btn-submit" style="padding:0.8rem 1.5rem;">Subscribe</button>
@@ -543,7 +542,17 @@
         <div class="footer-col"><h3>Resources</h3><ul><li><a href="/docs.html">Documentation</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/case-studies.html">Case Studies</a></li><li><a href="/api-reference.html">API Reference</a></li></ul></div>
         <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
         <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
-        <div class="footer-col"><h3>Stay in the loop</h3><div class="newsletter-form" style="display:flex; gap:0.5rem;"><input type="email" placeholder="Your email" style="background:#1e293b; border:1px solid #334155; border-radius:40px; padding:0.5rem; flex:1;"><button style="background:#3b82f6; border:none; padding:0.5rem 1rem; border-radius:40px; color:white;">Subscribe</button></div><div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;"><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-discord"></i></a></div></div>
+        <!-- Removed non-functional footer newsletter input/button.
+             The working newsletter form is in the "Stay Connected" section above. -->
+        <div class="footer-col">
+            <h3>Stay in the loop</h3>
+            <div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;">
+                <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+                <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
+            </div>
+        </div>
     </div>
     <div class="copyright">© 2026 Genesis Craft AI, Inc. All rights reserved.</div>
 </footer>

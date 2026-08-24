@@ -22,22 +22,19 @@
         gtag('config', 'G-HS1Z82VML7');
     </script>
     <!-- ============================================================
-         [DEPLOY REMINDER] If Netlify form submissions fail to appear
-         in the dashboard after updating this file, delete the stale
-         form definitions in Netlify Dashboard → Forms first, then
-         redeploy. Netlify caches form metadata at parse time; stale
-         definitions (e.g., ones created on May 10 with reCAPTCHA
-         enabled) will block submissions even if reCAPTCHA has been
-         removed from the HTML.
-
-         [RE-ENABLE reCAPTCHA LATER]
-         1. Create reCAPTCHA v2 keys at google.com/recaptcha/admin
-         2. In Netlify: Site settings → Access & security → Forms
-            → Add site key and secret
-         3. Add to <head>:
-            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-         4. Restore data-netlify-recaptcha="true" on each <form> and
-            add <div data-netlify-recaptcha="true"></div> before submit.
+         reCAPTCHA v3 script removed and NOT replaced with
+         v2 yet. No reCAPTCHA v2 key has been created in Google, and
+         Netlify is not yet configured for reCAPTCHA v2. Therefore all
+         data-netlify-recaptcha attributes and placeholder divs have
+         been temporarily removed so forms submit without blocking.
+         TO RE-ENABLE later:
+           1. Create reCAPTCHA v2 key at google.com/recaptcha/admin
+           2. In Netlify: Site settings → Access & security → Forms
+              Add site key and secret
+           3. Add this script to <head>:
+              <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+           4. Restore data-netlify-recaptcha="true" on each form and
+              add <div data-netlify-recaptcha="true"></div> before submit.
     ============================================================ -->
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -309,7 +306,6 @@
         }
     }
     </script>
-<base target="_blank">
 </head>
 <body>
 
@@ -358,45 +354,21 @@
         <div class="option-card partners"><i class="fas fa-handshake"></i><h3>Partnerships</h3><p>Interested in integrating with Genesis Craft AI or becoming a partner? Let's talk.</p><a href="#general-form" class="btn-link">Partner Inquiry →</a></div>
     </div>
 
-    <!-- ============================================================
-         Ensure /thank-you.html exists at the site root.
-         All forms below redirect there after submission. Without it,
-         Netlify will serve a 404 post-submit.
-    ============================================================ -->
-
     <!-- General Inquiry Form (Netlify) -->
     <div id="general-form" class="form-section">
         <h2>Send Us a Message</h2>
         <div class="subhead">For general questions, feedback, or anything else, fill out the form below.</div>
-        <!-- [CHANGED] Removed data-netlify-recaptcha for now -->
+        <!-- Removed data-netlify-recaptcha for now -->
         <form name="general-inquiry" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="general-inquiry">
             <div style="display:none;"><input name="bot-field"></div>
             <div class="form-row">
-                <div class="form-group">
-                    <label>Full Name *</label>
-                    <!-- [ADDED] autocomplete for accessibility and mobile UX -->
-                    <input type="text" name="fullname" autocomplete="name" required>
-                </div>
-                <div class="form-group">
-                    <label>Email Address *</label>
-                    <input type="email" name="email" autocomplete="email" required>
-                </div>
+                <div class="form-group"><label>Full Name *</label><input type="text" name="fullname" required></div>
+                <div class="form-group"><label>Email Address *</label><input type="email" name="email" required></div>
             </div>
             <div class="form-row">
-                <div class="form-group">
-                    <label>Company (optional)</label>
-                    <input type="text" name="company" autocomplete="organization">
-                </div>
-                <div class="form-group">
-                    <label>Subject</label>
-                    <select name="subject">
-                        <option>General Inquiry</option>
-                        <option>Feedback</option>
-                        <option>Partnership</option>
-                        <option>Other</option>
-                    </select>
-                </div>
+                <div class="form-group"><label>Company (optional)</label><input type="text" name="company"></div>
+                <div class="form-group"><label>Subject</label><select name="subject"><option>General Inquiry</option><option>Feedback</option><option>Partnership</option><option>Other</option></select></div>
             </div>
             <div class="form-group"><label>Message *</label><textarea name="message" rows="4" required></textarea></div>
             <div class="form-group"><label>How did you hear about us?</label><input type="text" name="source"></div>
@@ -415,64 +387,24 @@
             <input type="hidden" name="form-name" value="enterprise-inquiry">
             <div style="display:none;"><input name="bot-field"></div>
             <div class="form-row">
-                <div class="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" name="fullname" autocomplete="name" required>
-                </div>
-                <div class="form-group">
-                    <label>Email Address *</label>
-                    <input type="email" name="email" autocomplete="email" required>
-                </div>
+                <div class="form-group"><label>Full Name *</label><input type="text" name="fullname" required></div>
+                <div class="form-group"><label>Email Address *</label><input type="email" name="email" required></div>
             </div>
             <div class="form-row">
-                <div class="form-group">
-                    <label>Company Name *</label>
-                    <input type="text" name="company" autocomplete="organization" required>
-                </div>
-                <div class="form-group">
-                    <label>Company Size</label>
-                    <select name="size">
-                        <option>1-10</option>
-                        <option>11-50</option>
-                        <option>51-200</option>
-                        <option>201-1000</option>
-                        <option>1000+</option>
-                    </select>
-                </div>
+                <div class="form-group"><label>Company Name *</label><input type="text" name="company" required></div>
+                <div class="form-group"><label>Company Size</label><select name="size"><option>1-10</option><option>11-50</option><option>51-200</option><option>201-1000</option><option>1000+</option></select></div>
             </div>
             <div class="form-row">
-                <div class="form-group">
-                    <label>Job Title *</label>
-                    <input type="text" name="jobtitle" autocomplete="organization-title" required>
-                </div>
-                <div class="form-group">
-                    <label>Phone Number (optional)</label>
-                    <input type="tel" name="phone" autocomplete="tel">
-                </div>
+                <div class="form-group"><label>Job Title *</label><input type="text" name="jobtitle" required></div>
+                <div class="form-group"><label>Phone Number (optional)</label><input type="tel" name="phone"></div>
             </div>
             <div class="form-row">
                 <div class="form-group"><label>Estimated Team Size *</label><input type="text" name="team_size" required></div>
-                <div class="form-group">
-                    <label>Timeline</label>
-                    <select name="timeline">
-                        <option>Immediate</option>
-                        <option>1-3 months</option>
-                        <option>3-6 months</option>
-                        <option>6+ months</option>
-                    </select>
-                </div>
+                <div class="form-group"><label>Timeline</label><select name="timeline"><option>Immediate</option><option>1-3 months</option><option>3-6 months</option><option>6+ months</option></select></div>
             </div>
             <div class="form-group"><label>Current Development Challenges *</label><textarea name="challenges" rows="3" required></textarea></div>
             <div class="form-row">
-                <div class="form-group">
-                    <label>Budget Range</label>
-                    <select name="budget">
-                        <option><$10K</option>
-                        <option>$10K-$50K</option>
-                        <option>$50K-$100K</option>
-                        <option>$100K+</option>
-                    </select>
-                </div>
+                <div class="form-group"><label>Budget Range</label><select name="budget"><option><$10K</option><option>$10K-$50K</option><option>$50K-$100K</option><option>$100K+</option></select></div>
                 <div class="form-group"><label>How did you hear about us?</label><input type="text" name="source"></div>
             </div>
             <div class="form-group"><label>Additional Comments</label><textarea name="comments" rows="2"></textarea></div>
@@ -491,29 +423,12 @@
             <input type="hidden" name="form-name" value="support-ticket">
             <div style="display:none;"><input name="bot-field"></div>
             <div class="form-row">
-                <div class="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" name="fullname" autocomplete="name" required>
-                </div>
-                <div class="form-group">
-                    <label>Email Address *</label>
-                    <input type="email" name="email" autocomplete="email" required>
-                </div>
+                <div class="form-group"><label>Full Name *</label><input type="text" name="fullname" required></div>
+                <div class="form-group"><label>Email Address *</label><input type="email" name="email" required></div>
             </div>
-            <div class="form-group">
-                <label>Account Email (if different)</label>
-                <input type="email" name="account_email" autocomplete="email">
-            </div>
+            <div class="form-group"><label>Account Email (if different)</label><input type="email" name="account_email"></div>
             <div class="form-row">
-                <div class="form-group">
-                    <label>Priority</label>
-                    <select name="priority">
-                        <option>Low</option>
-                        <option>Medium</option>
-                        <option>High</option>
-                        <option>Critical</option>
-                    </select>
-                </div>
+                <div class="form-group"><label>Priority</label><select name="priority"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
                 <div class="form-group"><label>Subject *</label><input type="text" name="subject" required></div>
             </div>
             <div class="form-group"><label>Description * (include steps to reproduce)</label><textarea name="description" rows="4" required></textarea></div>
@@ -548,17 +463,12 @@
     <div class="social-section">
         <h2>Stay Connected</h2>
         <p>Follow us on social media for product updates, AI news, and community highlights.</p>
-        <!-- ============================================================
-             All social links use rel="noopener noreferrer"
-             consistently and include aria-label for screen readers.
-             Verify each handle before production deployment.
-        ============================================================ -->
         <div class="social-icons">
-            <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener noreferrer" aria-label="Genesis Craft AI on GitHub"><i class="fab fa-github"></i></a>
-            <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener noreferrer" aria-label="Genesis Craft AI on X (Twitter)"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener noreferrer" aria-label="Genesis Craft AI on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener noreferrer" aria-label="Genesis Craft AI Discord Community"><i class="fab fa-discord"></i></a>
-            <a href="https://www.youtube.com/@genesiscraftai" target="_blank" rel="noopener noreferrer" aria-label="Genesis Craft AI on YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+            <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
+            <a href="https://www.youtube.com/@genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
         </div>
         <form name="newsletter" method="POST" action="/thank-you" data-netlify="true" class="newsletter-form">
             <input type="hidden" name="form-name" value="newsletter">
@@ -575,17 +485,13 @@
         <div class="footer-col"><h3>Resources</h3><ul><li><a href="/docs.html">Documentation</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/case-studies.html">Case Studies</a></li><li><a href="/api-reference.html">API Reference</a></li></ul></div>
         <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
         <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
-        <!-- Removed non-functional footer newsletter input/button.
-             The working newsletter form is in the "Stay Connected" section above.
-             Social icons below mirror the main section with consistent
-             rel="noopener noreferrer" and aria-label attributes. -->
         <div class="footer-col">
             <h3>Stay in the loop</h3>
             <div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;">
-                <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+                <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
             </div>
         </div>
     </div>

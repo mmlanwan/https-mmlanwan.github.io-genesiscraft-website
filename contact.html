@@ -366,10 +366,8 @@
         <!-- ============================================================
              Replaced mailto: links with in-page anchors to the
              general inquiry form. data-subject attributes are used by
-             the small script below to pre-select the appropriate
-             subject when a visitor clicks Press Kit or Contact PR.
-             This prevents the browser from launching the visitor's
-             desktop email client (e.g., Outlook).
+             the script below to pre-select the appropriate subject when
+             a visitor clicks Press Kit or Contact PR.
         ============================================================ -->
         <div class="option-card press">
             <i class="fas fa-newspaper"></i>
@@ -383,7 +381,11 @@
             <i class="fas fa-handshake"></i>
             <h3>Partnerships</h3>
             <p>Interested in integrating with Genesis Craft AI or becoming a partner? Let's talk.</p>
-            <a href="#general-form" class="btn-link">Partner Inquiry →</a>
+            <!-- ============================================================
+                 Added data-subject="Partnership" so the subject
+                 dropdown pre-selects "Partnership" when this link is clicked.
+            ============================================================ -->
+            <a href="#general-form" class="btn-link" data-subject="Partnership">Partner Inquiry →</a>
         </div>
     </div>
 

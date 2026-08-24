@@ -348,10 +348,43 @@
 
     <h2 style="text-align:center; margin-bottom:2rem;">How Can We Help You?</h2>
     <div class="options-grid">
-        <div class="option-card sales"><i class="fas fa-briefcase"></i><h3>Sales Inquiries</h3><p>Interested in Genesis Craft AI for your team or enterprise? Our sales team is ready to help.</p><a href="#enterprise-form" class="btn-link">Contact Sales →</a></div>
-        <div class="option-card support"><i class="fas fa-life-ring"></i><h3>Technical Support</h3><p>Having trouble with the platform? Check our documentation or reach out to support.</p><a href="#support-form" class="btn-link">Get Help →</a> <a href="/docs.html" class="btn-link">Visit Documentation →</a></div>
-        <div class="option-card press"><i class="fas fa-newspaper"></i><h3>Press & Media</h3><p>Looking for press materials, interviews, or company information? Our press team is here.</p><a href="mailto:press@genesiscraft.ai?subject=Press%20Kit%20Request" class="btn-link">Press Kit →</a> <a href="mailto:press@genesiscraft.ai" class="btn-link">Contact PR →</a></div>
-        <div class="option-card partners"><i class="fas fa-handshake"></i><h3>Partnerships</h3><p>Interested in integrating with Genesis Craft AI or becoming a partner? Let's talk.</p><a href="#general-form" class="btn-link">Partner Inquiry →</a></div>
+        <div class="option-card sales">
+            <i class="fas fa-briefcase"></i>
+            <h3>Sales Inquiries</h3>
+            <p>Interested in Genesis Craft AI for your team or enterprise? Our sales team is ready to help.</p>
+            <a href="#enterprise-form" class="btn-link">Contact Sales →</a>
+        </div>
+
+        <div class="option-card support">
+            <i class="fas fa-life-ring"></i>
+            <h3>Technical Support</h3>
+            <p>Having trouble with the platform? Check our documentation or reach out to support.</p>
+            <a href="#support-form" class="btn-link">Get Help →</a>
+            <a href="/docs.html" class="btn-link">Visit Documentation →</a>
+        </div>
+
+        <!-- ============================================================
+             Replaced mailto: links with in-page anchors to the
+             general inquiry form. data-subject attributes are used by
+             the small script below to pre-select the appropriate
+             subject when a visitor clicks Press Kit or Contact PR.
+             This prevents the browser from launching the visitor's
+             desktop email client (e.g., Outlook).
+        ============================================================ -->
+        <div class="option-card press">
+            <i class="fas fa-newspaper"></i>
+            <h3>Press & Media</h3>
+            <p>Looking for press materials, interviews, or company information? Our press team is here.</p>
+            <a href="#general-form" class="btn-link" data-subject="Press Inquiry">Press Kit →</a>
+            <a href="#general-form" class="btn-link" data-subject="Media Inquiry">Contact PR →</a>
+        </div>
+
+        <div class="option-card partners">
+            <i class="fas fa-handshake"></i>
+            <h3>Partnerships</h3>
+            <p>Interested in integrating with Genesis Craft AI or becoming a partner? Let's talk.</p>
+            <a href="#general-form" class="btn-link">Partner Inquiry →</a>
+        </div>
     </div>
 
     <!-- General Inquiry Form (Netlify) -->
@@ -367,8 +400,27 @@
                 <div class="form-group"><label>Email Address *</label><input type="email" name="email" required></div>
             </div>
             <div class="form-row">
-                <div class="form-group"><label>Company (optional)</label><input type="text" name="company"></div>
-                <div class="form-group"><label>Subject</label><select name="subject"><option>General Inquiry</option><option>Feedback</option><option>Partnership</option><option>Other</option></select></div>
+                <div class="form-group">
+                    <label>Company (optional)</label>
+                    <input type="text" name="company">
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <!-- ============================================================
+                         Added Press Inquiry and Media Inquiry.
+                         The small script below pre-selects these values
+                         when the corresponding Press & Media card link
+                         is clicked.
+                    ============================================================ -->
+                    <select name="subject" id="subject-select">
+                        <option>General Inquiry</option>
+                        <option>Press Inquiry</option>
+                        <option>Media Inquiry</option>
+                        <option>Partnership</option>
+                        <option>Feedback</option>
+                        <option>Other</option>
+                    </select>
+                </div>
             </div>
             <div class="form-group"><label>Message *</label><textarea name="message" rows="4" required></textarea></div>
             <div class="form-group"><label>How did you hear about us?</label><input type="text" name="source"></div>
@@ -377,6 +429,28 @@
             <div class="note">We typically respond within 1 business day.</div>
         </form>
     </div>
+
+    <!-- ============================================================
+         Pre-select subject when Press Kit or Contact PR is
+         clicked. The links are in the options grid above, but they
+         use data-subject attributes to avoid query-string complexity.
+    ============================================================ -->
+    <script>
+        (function () {
+            const subjectSelect = document.getElementById('subject-select');
+            if (!subjectSelect) return;
+
+            document.querySelectorAll('[data-subject]').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    const subject = link.getAttribute('data-subject');
+                    if (subject) {
+                        subjectSelect.value = subject;
+                    }
+                    // Allow the default anchor navigation to #general-form
+                });
+            });
+        })();
+    </script>
 
     <!-- Enterprise Sales Inquiry Form -->
     <div id="enterprise-form" class="form-section">

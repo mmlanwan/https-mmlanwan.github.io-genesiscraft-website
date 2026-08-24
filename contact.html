@@ -22,10 +22,22 @@
         gtag('config', 'G-HS1Z82VML7');
     </script>
     <!-- ============================================================
-         Removed reCAPTCHA v3 script.
-         Forms are configured for Netlify's built-in reCAPTCHA v2
-         via data-netlify-recaptcha attributes. Do NOT include a
-         v3 render script here, or it will conflict with Netlify.
+         [DEPLOY REMINDER] If Netlify form submissions fail to appear
+         in the dashboard after updating this file, delete the stale
+         form definitions in Netlify Dashboard → Forms first, then
+         redeploy. Netlify caches form metadata at parse time; stale
+         definitions (e.g., ones created on May 10 with reCAPTCHA
+         enabled) will block submissions even if reCAPTCHA has been
+         removed from the HTML.
+
+         [RE-ENABLE reCAPTCHA LATER]
+         1. Create reCAPTCHA v2 keys at google.com/recaptcha/admin
+         2. In Netlify: Site settings → Access & security → Forms
+            → Add site key and secret
+         3. Add to <head>:
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+         4. Restore data-netlify-recaptcha="true" on each <form> and
+            add <div data-netlify-recaptcha="true"></div> before submit.
     ============================================================ -->
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -65,12 +77,12 @@
             background-clip: text;
             color: transparent;
             text-decoration: none;
-            display: inline-block;  /* ensures proper wrapping */
+            display: inline-block;
         }
         .logo img {
             height: 32px;
             width: auto;
-            vertical-align: middle; /* aligns with any adjacent text */
+            vertical-align: middle;
         }
         .main-nav ul {
             display: flex;
@@ -84,9 +96,7 @@
             text-decoration: none;
             font-weight: 500;
         }
-        .main-nav a:hover {
-            color: #3b82f6;
-        }
+        .main-nav a:hover { color: #3b82f6; }
         .btn-small {
             background: #3b82f6;
             color: white;
@@ -96,25 +106,11 @@
             font-weight: 600;
         }
         @media (max-width: 700px) {
-            .header-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .main-nav ul {
-                gap: 1rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .logo img {
-                height: 24px;
-            }
+            .header-container { flex-direction: column; gap: 1rem; }
+            .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+            .logo img { height: 24px; }
         }
-        /* Hero */
-        .hero {
-            text-align: center;
-            margin-bottom: 4rem;
-            position: relative;
-        }
+        .hero { text-align: center; margin-bottom: 4rem; position: relative; }
         .hero h1 {
             font-size: 3rem;
             font-weight: 800;
@@ -124,12 +120,7 @@
             color: transparent;
             margin-bottom: 1rem;
         }
-        .hero p {
-            font-size: 1.2rem;
-            color: #cbd5e1;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-        }
+        .hero p { font-size: 1.2rem; color: #cbd5e1; max-width: 700px; margin: 0 auto 2rem; }
         .hero .btn {
             display: inline-flex;
             align-items: center;
@@ -173,10 +164,7 @@
             box-shadow: 0 20px 30px -12px rgba(0,0,0,0.4);
             border-color: #3b82f6;
         }
-        .option-card i {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
+        .option-card i { font-size: 2rem; margin-bottom: 1rem; }
         .option-card.sales i { color: #3b82f6; }
         .option-card.support i { color: #10b981; }
         .option-card.press i { color: #a855f7; }
@@ -191,7 +179,6 @@
             text-decoration: none;
             font-weight: 500;
         }
-        /* Forms */
         .form-section {
             background: #0f172a;
             border-radius: 32px;
@@ -225,24 +212,9 @@
             margin-top: 0.5rem;
         }
         .note { font-size: 0.8rem; color: #94a3b8; margin-top: 1rem; }
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-        /* Locations */
-        .locations-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        .location-card {
-            background: #0f172a;
-            border-radius: 24px;
-            padding: 1.5rem;
-        }
+        .checkbox-group { display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0; }
+        .locations-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-bottom: 2rem; }
+        .location-card { background: #0f172a; border-radius: 24px; padding: 1.5rem; }
         .map-placeholder {
             background: #1e293b;
             height: 150px;
@@ -253,7 +225,6 @@
             justify-content: center;
             color: #94a3b8;
         }
-        /* FAQ Accordion */
         .faq-item {
             background: #0f172a;
             border-radius: 20px;
@@ -280,31 +251,13 @@
             transition: max-height 0.3s ease;
             color: #cbd5e1;
         }
-        .faq-item.open .faq-answer {
-            max-height: 200px;
-            padding-bottom: 1rem;
-        }
-        /* Social + Newsletter */
-        .social-section {
-            text-align: center;
-            margin-top: 3rem;
-        }
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
+        .faq-item.open .faq-answer { max-height: 200px; padding-bottom: 1rem; }
+        .social-section { text-align: center; margin-top: 3rem; }
+        .social-icons { display: flex; justify-content: center; gap: 1.5rem; margin: 1.5rem 0; }
         .social-icons a { color: #94a3b8; font-size: 1.5rem; transition: color 0.2s; }
         .social-icons a:hover { color: #3b82f6; }
-        .newsletter-form {
-            display: flex;
-            gap: 0.5rem;
-            max-width: 400px;
-            margin: 1rem auto;
-        }
+        .newsletter-form { display: flex; gap: 0.5rem; max-width: 400px; margin: 1rem auto; }
         .newsletter-form input { flex: 1; }
-        /* Footer */
         .footer {
             background: #0f172a;
             border-top: 1px solid #1e293b;
@@ -356,6 +309,7 @@
         }
     }
     </script>
+<base target="_blank">
 </head>
 <body>
 
@@ -385,7 +339,6 @@
 </header>
 
 <div class="contact-page">
-    <!-- Hero -->
     <div class="hero">
         <div class="hero-bg-icons">
             <i class="fas fa-comment-dots"></i>
@@ -397,7 +350,6 @@
         <a href="#general-form" class="btn">Start a Conversation <i class="fas fa-arrow-down"></i></a>
     </div>
 
-    <!-- Contact Options Grid -->
     <h2 style="text-align:center; margin-bottom:2rem;">How Can We Help You?</h2>
     <div class="options-grid">
         <div class="option-card sales"><i class="fas fa-briefcase"></i><h3>Sales Inquiries</h3><p>Interested in Genesis Craft AI for your team or enterprise? Our sales team is ready to help.</p><a href="#enterprise-form" class="btn-link">Contact Sales →</a></div>
@@ -406,26 +358,49 @@
         <div class="option-card partners"><i class="fas fa-handshake"></i><h3>Partnerships</h3><p>Interested in integrating with Genesis Craft AI or becoming a partner? Let's talk.</p><a href="#general-form" class="btn-link">Partner Inquiry →</a></div>
     </div>
 
-    <!-- General Inquiry Form (Netlify + reCAPTCHA v2) -->
+    <!-- ============================================================
+         Ensure /thank-you.html exists at the site root.
+         All forms below redirect there after submission. Without it,
+         Netlify will serve a 404 post-submit.
+    ============================================================ -->
+
+    <!-- General Inquiry Form (Netlify) -->
     <div id="general-form" class="form-section">
         <h2>Send Us a Message</h2>
         <div class="subhead">For general questions, feedback, or anything else, fill out the form below.</div>
-        <!-- Added action="/thank-you" so Netlify redirects after successful submit -->
-        <form name="general-inquiry" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
+        <!-- [CHANGED] Removed data-netlify-recaptcha for now -->
+        <form name="general-inquiry" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="general-inquiry">
             <div style="display:none;"><input name="bot-field"></div>
             <div class="form-row">
-                <div class="form-group"><label>Full Name *</label><input type="text" name="fullname" required></div>
-                <div class="form-group"><label>Email Address *</label><input type="email" name="email" required></div>
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <!-- [ADDED] autocomplete for accessibility and mobile UX -->
+                    <input type="text" name="fullname" autocomplete="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" name="email" autocomplete="email" required>
+                </div>
             </div>
             <div class="form-row">
-                <div class="form-group"><label>Company (optional)</label><input type="text" name="company"></div>
-                <div class="form-group"><label>Subject</label><select name="subject"><option>General Inquiry</option><option>Feedback</option><option>Partnership</option><option>Other</option></select></div>
+                <div class="form-group">
+                    <label>Company (optional)</label>
+                    <input type="text" name="company" autocomplete="organization">
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <select name="subject">
+                        <option>General Inquiry</option>
+                        <option>Feedback</option>
+                        <option>Partnership</option>
+                        <option>Other</option>
+                    </select>
+                </div>
             </div>
             <div class="form-group"><label>Message *</label><textarea name="message" rows="4" required></textarea></div>
             <div class="form-group"><label>How did you hear about us?</label><input type="text" name="source"></div>
             <div class="checkbox-group"><input type="checkbox" name="newsletter" value="yes"><label>I'd like to receive occasional product updates and news. (You can unsubscribe anytime.)</label></div>
-            <div data-netlify-recaptcha="true"></div>
             <button type="submit" class="btn-submit">Send Message</button>
             <div class="note">We typically respond within 1 business day.</div>
         </form>
@@ -435,34 +410,73 @@
     <div id="enterprise-form" class="form-section">
         <h2>Enterprise Sales Inquiry</h2>
         <div class="subhead">Tell us about your needs, and we'll create a custom solution for your organization.</div>
-        <!-- Added action="/thank-you" -->
-        <form name="enterprise-inquiry" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
+        <!-- [CHANGED] Removed data-netlify-recaptcha for now -->
+        <form name="enterprise-inquiry" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="enterprise-inquiry">
             <div style="display:none;"><input name="bot-field"></div>
             <div class="form-row">
-                <div class="form-group"><label>Full Name *</label><input type="text" name="fullname" required></div>
-                <div class="form-group"><label>Email Address *</label><input type="email" name="email" required></div>
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="fullname" autocomplete="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" name="email" autocomplete="email" required>
+                </div>
             </div>
             <div class="form-row">
-                <div class="form-group"><label>Company Name *</label><input type="text" name="company" required></div>
-                <div class="form-group"><label>Company Size</label><select name="size"><option>1-10</option><option>11-50</option><option>51-200</option><option>201-1000</option><option>1000+</option></select></div>
+                <div class="form-group">
+                    <label>Company Name *</label>
+                    <input type="text" name="company" autocomplete="organization" required>
+                </div>
+                <div class="form-group">
+                    <label>Company Size</label>
+                    <select name="size">
+                        <option>1-10</option>
+                        <option>11-50</option>
+                        <option>51-200</option>
+                        <option>201-1000</option>
+                        <option>1000+</option>
+                    </select>
+                </div>
             </div>
             <div class="form-row">
-                <div class="form-group"><label>Job Title *</label><input type="text" name="jobtitle" required></div>
-                <div class="form-group"><label>Phone Number (optional)</label><input type="tel" name="phone"></div>
+                <div class="form-group">
+                    <label>Job Title *</label>
+                    <input type="text" name="jobtitle" autocomplete="organization-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number (optional)</label>
+                    <input type="tel" name="phone" autocomplete="tel">
+                </div>
             </div>
             <div class="form-row">
                 <div class="form-group"><label>Estimated Team Size *</label><input type="text" name="team_size" required></div>
-                <div class="form-group"><label>Timeline</label><select name="timeline"><option>Immediate</option><option>1-3 months</option><option>3-6 months</option><option>6+ months</option></select></div>
+                <div class="form-group">
+                    <label>Timeline</label>
+                    <select name="timeline">
+                        <option>Immediate</option>
+                        <option>1-3 months</option>
+                        <option>3-6 months</option>
+                        <option>6+ months</option>
+                    </select>
+                </div>
             </div>
             <div class="form-group"><label>Current Development Challenges *</label><textarea name="challenges" rows="3" required></textarea></div>
             <div class="form-row">
-                <div class="form-group"><label>Budget Range</label><select name="budget"><option><$10K</option><option>$10K-$50K</option><option>$50K-$100K</option><option>$100K+</option></select></div>
+                <div class="form-group">
+                    <label>Budget Range</label>
+                    <select name="budget">
+                        <option><$10K</option>
+                        <option>$10K-$50K</option>
+                        <option>$50K-$100K</option>
+                        <option>$100K+</option>
+                    </select>
+                </div>
                 <div class="form-group"><label>How did you hear about us?</label><input type="text" name="source"></div>
             </div>
             <div class="form-group"><label>Additional Comments</label><textarea name="comments" rows="2"></textarea></div>
             <div class="checkbox-group"><input type="checkbox" name="newsletter"><label>I'd like to receive occasional product updates and news.</label></div>
-            <div data-netlify-recaptcha="true"></div>
             <button type="submit" class="btn-submit">Request Enterprise Consultation</button>
             <div class="note">An enterprise account executive will contact you within 2 business days.</div>
         </form>
@@ -472,22 +486,38 @@
     <div id="support-form" class="form-section">
         <h2>Get Technical Support</h2>
         <div class="subhead">Having trouble? Check our documentation first, or submit a support ticket below.</div>
-        <!-- Added enctype="multipart/form-data" for file upload, and action="/thank-you" -->
-        <form name="support-ticket" method="POST" action="/thank-you" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
+        <!-- [CHANGED] enctype added; reCAPTCHA removed for now -->
+        <form name="support-ticket" method="POST" action="/thank-you" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="support-ticket">
             <div style="display:none;"><input name="bot-field"></div>
             <div class="form-row">
-                <div class="form-group"><label>Full Name *</label><input type="text" name="fullname" required></div>
-                <div class="form-group"><label>Email Address *</label><input type="email" name="email" required></div>
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="fullname" autocomplete="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" name="email" autocomplete="email" required>
+                </div>
             </div>
-            <div class="form-group"><label>Account Email (if different)</label><input type="email" name="account_email"></div>
+            <div class="form-group">
+                <label>Account Email (if different)</label>
+                <input type="email" name="account_email" autocomplete="email">
+            </div>
             <div class="form-row">
-                <div class="form-group"><label>Priority</label><select name="priority"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select name="priority">
+                        <option>Low</option>
+                        <option>Medium</option>
+                        <option>High</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
                 <div class="form-group"><label>Subject *</label><input type="text" name="subject" required></div>
             </div>
             <div class="form-group"><label>Description * (include steps to reproduce)</label><textarea name="description" rows="4" required></textarea></div>
             <div class="form-group"><label>Attachments (optional, up to 5 files, 10MB total)</label><input type="file" name="attachment" multiple></div>
-            <div data-netlify-recaptcha="true"></div>
             <button type="submit" class="btn-submit">Submit Ticket</button>
             <div class="note">Support response times: Critical: 4 hours, High: 8 business hours, Medium: 2 business days, Low: 3 business days. <a href="/docs.html" style="color:#3b82f6;">Documentation</a> | <a href="#" style="color:#3b82f6;">Status Page</a></div>
         </form>
@@ -518,14 +548,18 @@
     <div class="social-section">
         <h2>Stay Connected</h2>
         <p>Follow us on social media for product updates, AI news, and community highlights.</p>
+        <!-- ============================================================
+             All social links use rel="noopener noreferrer"
+             consistently and include aria-label for screen readers.
+             Verify each handle before production deployment.
+        ============================================================ -->
         <div class="social-icons">
-            <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-            <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
-            <a href="https://www.youtube.com/@genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+            <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener noreferrer" aria-label="Genesis Craft AI on GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener noreferrer" aria-label="Genesis Craft AI on X (Twitter)"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener noreferrer" aria-label="Genesis Craft AI on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener noreferrer" aria-label="Genesis Craft AI Discord Community"><i class="fab fa-discord"></i></a>
+            <a href="https://www.youtube.com/@genesiscraftai" target="_blank" rel="noopener noreferrer" aria-label="Genesis Craft AI on YouTube"><i class="fab fa-youtube"></i></a>
         </div>
-        <!-- Added action="/thank-you" to the working newsletter form -->
         <form name="newsletter" method="POST" action="/thank-you" data-netlify="true" class="newsletter-form">
             <input type="hidden" name="form-name" value="newsletter">
             <input type="email" name="email" placeholder="Your email address" required>
@@ -535,7 +569,6 @@
     </div>
 </div>
 
-<!-- Footer (consistent with other pages) -->
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-col"><h3>Product</h3><ul><li><a href="/product.html">Features</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/enterprise.html">Enterprise</a></li><li><a href="/changelog.html">Changelog</a></li></ul></div>
@@ -543,14 +576,16 @@
         <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
         <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
         <!-- Removed non-functional footer newsletter input/button.
-             The working newsletter form is in the "Stay Connected" section above. -->
+             The working newsletter form is in the "Stay Connected" section above.
+             Social icons below mirror the main section with consistent
+             rel="noopener noreferrer" and aria-label attributes. -->
         <div class="footer-col">
             <h3>Stay in the loop</h3>
             <div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;">
-                <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
-                <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
+                <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fab fa-discord"></i></a>
             </div>
         </div>
     </div>
@@ -558,14 +593,12 @@
 </footer>
 
 <script>
-    // FAQ accordion
     document.querySelectorAll('.faq-item').forEach(item => {
         const btn = item.querySelector('.faq-question');
         btn.addEventListener('click', () => {
             item.classList.toggle('open');
         });
     });
-    // Open first FAQ by default
     if (document.querySelectorAll('.faq-item').length) {
         document.querySelectorAll('.faq-item')[0].classList.add('open');
     }

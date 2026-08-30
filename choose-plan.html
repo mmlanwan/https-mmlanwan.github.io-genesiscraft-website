@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Choose Your Plan – Genesis Craft AI</title>
-  <meta name="description" content="Select the perfect plan for your needs – Free, Pro, or Team. Start building full‑stack applications in minutes.">
+  <meta name="description" content="Select the perfect plan for your needs – Free, Pro, Team, or Enterprise. Start building full‑stack applications in minutes.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -112,6 +112,11 @@
     }
     .select-btn:hover { background: #2563eb; }
     .select-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .contact-sales-link {
+      display: inline-block; margin-top: 0.75rem; font-size: 0.85rem;
+      color: #0ea5e9; text-decoration: underline; cursor: pointer;
+      background: none; border: none;
+    }
     .footer {
       background: #0f172a; border-top: 1px solid #1e293b;
       padding: 2rem; text-align: center; margin-top: auto;
@@ -165,7 +170,8 @@
     <div id="emailHint" class="email-hint"></div>
     <div id="planMessage" style="color: #10b981; margin-bottom: 1rem;"></div>
 
-    <div class="pricing-grid">
+    <div class="pricing-grid" id="pricingGrid">
+      <!-- Existing Free/Pro/Team cards remain here -->
       <div class="plan-card" data-plan="free" data-price="0">
         <div class="plan-name">Free</div>
         <div class="plan-price">$0 / month</div>
@@ -228,6 +234,10 @@
         </ul>
         <button class="select-btn" data-plan="team-yearly" data-action="stripe">Select Team Yearly</button>
       </div>
+
+      <!-- ============================================================
+           Dynamic enterprise cards will be appended here.
+      ============================================================ -->
     </div>
   </div>
 
@@ -239,11 +249,6 @@
 
   <script>
     (function() {
-      // ============================================================
-      // [CHANGED] Token is read from localStorage only. The signup-form
-      // endpoint stores it there via an HTML response with inline JS.
-      // The URL may contain ?email= for display purposes only.
-      // ============================================================
       const token = localStorage.getItem('token');
       if (!token) {
         window.location.href = '/signup.html';
@@ -261,11 +266,100 @@
       }
 
       // ============================================================
-      // [CHANGED] Paid plans now use the Stripe Checkout API instead
-      // of static Payment Links. The frontend calls our backend to
-      // create a Checkout Session; the backend sets client_reference_id,
-      // customer_email, and all metadata from the authenticated user.
+      // Load enterprise cards based on backend enterprise_mode.
       // ============================================================
+      async function loadEnterpriseCards() {
+        const grid = document.getElementById('pricingGrid');
+        try {
+          const response = await fetch('/api/billing/plans', {
+            headers: { 'Authorization': 'Bearer ' + token }
+          });
+          if (!response.ok) return;
+          const data = await response.json();
+          const mode = data.enterprise_mode || 'hybrid';
+
+          // Helper to create a plan card element
+          function createEnterpriseCard(planId, name, price, period, features, action, showContactLink) {
+            const card = document.createElement('div');
+            card.className = 'plan-card';
+            card.setAttribute('data-plan', planId);
+            card.setAttribute('data-price', price);
+
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'plan-name';
+            nameDiv.innerText = name;
+
+            const priceDiv = document.createElement('div');
+            priceDiv.className = 'plan-price';
+            priceDiv.innerHTML = price + ' / ' + period;
+
+            const ul = document.createElement('ul');
+            ul.className = 'plan-features';
+            features.forEach(f => {
+              const li = document.createElement('li');
+              li.innerHTML = `<i class="fas fa-check-circle"></i> ${f}`;
+              ul.appendChild(li);
+            });
+
+            const btn = document.createElement('button');
+            btn.className = 'select-btn';
+            btn.setAttribute('data-plan', planId);
+            btn.setAttribute('data-action', action);
+            btn.innerText = (action === 'contact') ? 'Contact Sales' : 'Select Enterprise';
+
+            card.appendChild(nameDiv);
+            card.appendChild(priceDiv);
+            card.appendChild(ul);
+            card.appendChild(btn);
+
+            if (showContactLink && action === 'stripe') {
+              const contactLink = document.createElement('button');
+              contactLink.className = 'contact-sales-link';
+              contactLink.innerText = 'Contact Sales for custom terms';
+              contactLink.addEventListener('click', () => {
+                window.location.href = '/contact.html';
+              });
+              card.appendChild(contactLink);
+            }
+
+            grid.appendChild(card);
+          }
+
+          // Fixed enterprise plans for fixed/hybrid modes
+          if (mode === 'fixed' || mode === 'hybrid') {
+            createEnterpriseCard(
+              'enterprise-monthly',
+              'Enterprise Monthly',
+              '$499', 'month',
+              ['10M tokens/month', '100K requests/month', 'Unlimited projects', 'Dedicated support', 'SSO / SAML'],
+              'stripe',
+              mode === 'hybrid'
+            );
+            createEnterpriseCard(
+              'enterprise-yearly',
+              'Enterprise Yearly',
+              '$4,990', 'year',
+              ['10M tokens/month', '100K requests/month', 'Unlimited projects', 'Dedicated support', 'SSO / SAML'],
+              'stripe',
+              mode === 'hybrid'
+            );
+          } else if (mode === 'custom') {
+            createEnterpriseCard(
+              'enterprise',
+              'Enterprise',
+              'Custom', 'annual',
+              ['Unlimited tokens', 'Unlimited requests', 'Unlimited projects', 'Dedicated support', 'SSO / SAML'],
+              'contact',
+              false
+            );
+          }
+        } catch (err) {
+          console.error('Failed to load enterprise plans:', err);
+        }
+      }
+
+      // Load enterprise cards after initial render
+      loadEnterpriseCards();
 
       async function selectFreePlan() {
         const messageDiv = document.getElementById('planMessage');
@@ -286,11 +380,6 @@
           }
           headers['Authorization'] = `Bearer ${token}`;
 
-          // ============================================================
-          // [CHANGED] Relative path — routes through Netlify proxy on
-          // genesiscraft.ai (same-origin). Eliminates CORS, certificate
-          // edge-cases, and ad-blocker interference.
-          // ============================================================
           const response = await fetch('/api/billing/subscription/create', {
             method: 'POST',
             headers: headers,
@@ -306,9 +395,6 @@
           if (response.ok) {
             messageDiv.innerHTML = '✅ Free plan activated! Redirecting to your dashboard...';
             setTimeout(() => {
-              // Token passed in URL hash fragment (not query param) for
-              // app.genesiscraft.ai to recover, since localStorage does
-              // not cross subdomains.
               window.location.href = `https://app.genesiscraft.ai/dashboard#token=${encodeURIComponent(token)}`;
             }, 1500);
           } else {
@@ -330,63 +416,71 @@
         }
       }
 
-      document.querySelectorAll('.select-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
-          const card = btn.closest('.plan-card');
-          const plan = card.getAttribute('data-plan');
-          const action = btn.getAttribute('data-action');
+      document.getElementById('pricingGrid').addEventListener('click', async (e) => {
+        const btn = e.target.closest('.select-btn');
+        if (!btn) return;
+      
+        const card = btn.closest('.plan-card');
+        if (!card) return;
 
-          if (action === 'internal' && plan === 'free') {
-            selectFreePlan();
-            return;
+        const plan = card.getAttribute('data-plan');
+        const action = btn.getAttribute('data-action');
+
+        if (action === 'contact') {
+          window.location.href = '/contact.html';
+          return;
+        }
+
+        if (action === 'internal' && plan === 'free') {
+          selectFreePlan();
+          return;
+        }
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+          window.location.href = '/signup.html';
+          return;
+        }
+
+        const originalText = btn.innerText;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> Preparing checkout…';
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+        try {
+          const response = await fetch('/api/billing/create-checkout-session', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ plan: plan.replace(/-/g, '_') }),
+            signal: controller.signal
+          });
+
+          clearTimeout(timeoutId);
+
+          let result = {};
+          try { result = await response.json(); } catch (_) {}
+
+          if (response.ok && result.url) {
+            window.location.href = result.url;
+          } else {
+            throw new Error(result.detail || 'Could not start checkout. Please try again.');
           }
-
-          const token = localStorage.getItem('token');
-          if (!token) {
-            window.location.href = '/signup.html';
-            return;
+        } catch (err) {
+          clearTimeout(timeoutId);
+          console.error('[Checkout] Error:', err);
+          btn.disabled = false;
+          btn.innerText = originalText;
+          if (err.name === 'AbortError') {
+            alert('Request timed out. Please check your connection and try again.');
+          } else {
+            alert('Error: ' + err.message);
           }
-
-          const originalText = btn.innerText;
-          btn.disabled = true;
-          btn.innerHTML = '<span class="loading-spinner"></span> Preparing checkout…';
-
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 15000);
-
-          try {
-            const response = await fetch('/api/billing/create-checkout-session', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-              },
-              body: JSON.stringify({ plan: plan.replace(/-/g, '_') }),
-              signal: controller.signal
-            });
-
-            clearTimeout(timeoutId);
-
-            let result = {};
-            try { result = await response.json(); } catch (_) {}
-
-            if (response.ok && result.url) {
-              window.location.href = result.url;
-            } else {
-              throw new Error(result.detail || 'Could not start checkout. Please try again.');
-            }
-          } catch (err) {
-            clearTimeout(timeoutId);
-            console.error('[Checkout] Error:', err);
-            btn.disabled = false;
-            btn.innerText = originalText;
-            if (err.name === 'AbortError') {
-              alert('Request timed out. Please check your connection and try again.');
-            } else {
-              alert('Error: ' + err.message);
-            }
-          }
-        });
+        }
       });
     })();
   </script>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enterprise – Genesis Craft AI</title>
-    <meta name="description" content="Enterprise‑grade AI code generation – unlimited tokens, dedicated support, on‑premise deployment, and SOC2 compliance.">
+    <meta name="description" content="Enterprise‑grade AI code generation – high-volume tokens, dedicated support, on‑premise deployment, and SOC2 compliance.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Favicon link tags -->
@@ -21,13 +21,13 @@
         gtag('js', new Date());
         gtag('config', 'G-HS1Z82VML7');
     </script>
-    <!-- Schema Markup (Product) -->
+    <!-- Schema Markup (Product) – price kept as Custom for custom mode; dynamic updates could be added later -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Product",
         "name": "Genesis Craft AI Enterprise",
-        "description": "Enterprise-grade AI code generation platform with unlimited tokens, dedicated support, on-premise deployment, and SOC2 compliance.",
+        "description": "Enterprise-grade AI code generation platform with high-volume tokens, dedicated support, on-premise deployment, and SOC2 compliance.",
         "brand": {
             "@type": "Brand",
             "name": "Genesis Craft AI"
@@ -73,12 +73,12 @@
             background-clip: text;
             color: transparent;
             text-decoration: none;
-            display: inline-block;  /* ensures proper wrapping */
+            display: inline-block;
         }
         .logo img {
             height: 32px;
             width: auto;
-            vertical-align: middle; /* aligns with any adjacent text */
+            vertical-align: middle;
         }
         .main-nav ul {
             display: flex;
@@ -157,6 +157,58 @@
             font-weight: 600;
             cursor: pointer;
         }
+        /* Pricing toggle styles (same as pricing page) */
+        .billing-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .toggle-btn {
+            background: #1e293b;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: all 0.2s;
+        }
+        .toggle-btn.active {
+            background: #3b82f6;
+            color: white;
+        }
+        .enterprise-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 1rem 0 0.25rem;
+        }
+        .enterprise-period {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+        }
+        .btn-enterprise {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+        .btn-enterprise:hover { background: #2563eb; }
+        .secondary-link {
+            display: block;
+            margin-top: 0.75rem;
+            color: #3b82f6;
+            text-decoration: underline;
+            font-size: 0.9rem;
+        }
         /* Footer */
         .footer {
             background: #0f172a;
@@ -180,9 +232,7 @@
         @media (max-width: 700px) {
             .header-container { flex-direction: column; gap: 1rem; }
             .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
-            .logo img {
-                height: 24px;
-            }
+            .logo img { height: 24px; }
         }
     </style>
 </head>
@@ -193,9 +243,7 @@
         <div class="logo">
             <a href="/index.html">
                 <picture>
-                    <!-- Mobile: show only the icon (adjust breakpoint as needed) -->
                     <source media="(max-width: 768px)" srcset="/logo-icon.svg">
-                    <!-- Desktop: show the full lockup (icon + wordmark) -->
                     <img src="/logo-lockup.svg" alt="Genesis Craft AI">
                 </picture>
             </a>
@@ -215,42 +263,173 @@
     </div>
 </header>
 
-    <div class="container">
-        <div class="enterprise-hero">
-            <h1>Enterprise‑Grade AI Code Generation</h1>
-            <p>Custom solutions for large organizations – unlimited tokens, dedicated support, on‑premise deployment, and SOC2 compliance.</p>
-        </div>
-        <div class="feature-grid">
-            <div class="feature-card"><i class="fas fa-infinity"></i><h3>Unlimited Everything</h3><p>No token limits, no request caps – scale as you grow.</p></div>
-            <div class="feature-card"><i class="fas fa-shield-alt"></i><h3>Enterprise Security</h3><p>SOC2 Type II, GDPR, HIPAA ready. On‑premise option available.</p></div>
-            <div class="feature-card"><i class="fas fa-headset"></i><h3>Dedicated Support</h3><p>24/7 enterprise support with 30‑minute SLA response time.</p></div>
-            <div class="feature-card"><i class="fas fa-chart-line"></i><h3>Custom SLAs</h3><p>Tailored uptime guarantees and performance commitments.</p></div>
-            <div class="feature-card"><i class="fas fa-users"></i><h3>Team Training</h3><p>Onboarding workshops and dedicated customer success manager.</p></div>
-            <div class="feature-card"><i class="fas fa-code-branch"></i><h3>Private AI Models</h3><p>Fine‑tuned models on your codebase – your data never leaves your VPC.</p></div>
-        </div>
-        <div class="contact-form">
-            <h2>Request Enterprise Consultation</h2>
-            <form name="enterprise-contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-                <input type="hidden" name="form-name" value="enterprise-contact">
-                <div style="display:none;"><input name="bot-field"></div>
-                <input type="text" name="name" placeholder="Full Name" required>
-                <input type="email" name="email" placeholder="Work Email" required>
-                <input type="text" name="company" placeholder="Company Name" required>
-                <textarea name="message" rows="4" placeholder="Tell us about your needs..."></textarea>
-                <button type="submit">Contact Sales</button>
-            </form>
-        </div>
+<div class="container">
+    <div class="enterprise-hero">
+        <h1>Enterprise‑Grade Full‑Stack AI Developer</h1>
+        <p id="enterpriseSubhead">Custom solutions for large organizations – high-volume tokens, dedicated support, on‑premise deployment, and SOC2 compliance.</p>
     </div>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-col"><h3>Product</h3><ul><li><a href="/product.html">Features</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/enterprise.html">Enterprise</a></li><li><a href="/changelog.html">Changelog</a></li></ul></div>
-            <div class="footer-col"><h3>Resources</h3><ul><li><a href="/docs.html">Documentation</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/case-studies.html">Case Studies</a></li><li><a href="/api-reference.html">API Reference</a></li></ul></div>
-            <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
-            <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
-            <div class="footer-col"><h3>Stay in the loop</h3><div class="newsletter-form" style="display:flex; gap:0.5rem;"><input type="email" placeholder="Your email" style="background:#1e293b; border:1px solid #334155; border-radius:40px; padding:0.5rem; flex:1;"><button style="background:#3b82f6; border:none; padding:0.5rem 1rem; border-radius:40px; color:white;">Subscribe</button></div><div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;"><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-discord"></i></a></div></div>
+    <!-- ============================================================
+         [ADDED] Dynamic enterprise pricing section.
+         This block is updated by JavaScript based on enterprise_mode.
+    ============================================================ -->
+    <div id="enterprisePricingSection" style="text-align:center; margin-bottom: 2rem;">
+        <!-- Content will be injected here -->
+    </div>
+
+    <div class="feature-grid">
+        <div class="feature-card"><i class="fas fa-infinity"></i><h3>High‑Volume Capacity</h3><p>10M tokens/month, 100K requests/month, and unlimited projects – scale without limits.</p></div>
+        <div class="feature-card"><i class="fas fa-shield-alt"></i><h3>Enterprise Security</h3><p>SOC2 Type II, GDPR, HIPAA ready. On‑premise option available.</p></div>
+        <div class="feature-card"><i class="fas fa-headset"></i><h3>Dedicated Support</h3><p>24/7 enterprise support with 30‑minute SLA response time.</p></div>
+        <div class="feature-card"><i class="fas fa-chart-line"></i><h3>Custom SLAs</h3><p>Tailored uptime guarantees and performance commitments.</p></div>
+        <div class="feature-card"><i class="fas fa-users"></i><h3>Team Training</h3><p>Onboarding workshops and dedicated customer success manager.</p></div>
+        <div class="feature-card"><i class="fas fa-code-branch"></i><h3>Private AI Models</h3><p>Fine‑tuned models on your codebase – your data never leaves your VPC.</p></div>
+    </div>
+
+    <div class="contact-form" id="contactFormSection">
+        <h2>Request Enterprise Consultation</h2>
+        <form name="enterprise-contact" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="enterprise-contact">
+            <div style="display:none;"><input name="bot-field"></div>
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="email" name="email" placeholder="Work Email" required>
+            <input type="text" name="company" placeholder="Company Name" required>
+            <textarea name="message" rows="4" placeholder="Tell us about your needs..."></textarea>
+            <button type="submit">Contact Sales</button>
+        </form>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-col"><h3>Product</h3><ul><li><a href="/product.html">Features</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/enterprise.html">Enterprise</a></li><li><a href="/changelog.html">Changelog</a></li></ul></div>
+        <div class="footer-col"><h3>Resources</h3><ul><li><a href="/docs.html">Documentation</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/case-studies.html">Case Studies</a></li><li><a href="/api-reference.html">API Reference</a></li></ul></div>
+        <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
+        <div class="footer-col">
+            <h3>Stay in the loop</h3>
+            <p style="color:#94a3b8; font-size:0.8rem;">Get updates and AI tips</p>
+            <form name="newsletter" method="POST" action="/thank-you" data-netlify="true" style="display:flex; gap:0.5rem;">
+                <input type="hidden" name="form-name" value="newsletter">
+                <input type="email" name="email" placeholder="Your e-mail" required style="background:#1e293b; border:1px solid #334155; border-radius:40px; padding:0.5rem; flex:1; color:white;">
+                <button type="submit" style="background:#3b82f6; border:none; padding:0.5rem 1rem; border-radius:40px; color:white; cursor:pointer;">Subscribe</button>
+            </form>
+            <div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;">
+                <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+                <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
+            </div>
         </div>
-        <div class="copyright">© 2026 Genesis Craft AI, Inc. All rights reserved.</div>
-    </footer>
+    </div>
+    <div class="copyright">© 2026 Genesis Craft AI, Inc. All rights reserved.</div>
+</footer>
+
+<script>
+  (function() {
+    // ------------------------------------------------------------
+    // [ADDED] Load enterprise mode and render pricing/CTA accordingly.
+    // ------------------------------------------------------------
+    async function loadEnterpriseMode() {
+      const pricingSection = document.getElementById('enterprisePricingSection');
+      const subhead = document.getElementById('enterpriseSubhead');
+      const contactSection = document.getElementById('contactFormSection');
+
+      try {
+        const token = localStorage.getItem('token');
+        const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+        const response = await fetch('/api/billing/plans', { headers });
+        if (!response.ok) return;
+        const data = await response.json();
+        const mode = data.enterprise_mode || 'hybrid';
+
+        if (mode === 'fixed' || mode === 'hybrid') {
+          subhead.innerText = 'High-volume tokens, dedicated support, on‑premise deployment, and SOC2 compliance.';
+          pricingSection.innerHTML = `
+            <div class="billing-toggle">
+              <button class="toggle-btn active" data-period="monthly">Monthly</button>
+              <button class="toggle-btn" data-period="yearly">Yearly</button>
+            </div>
+            <div class="enterprise-price" id="enterprisePrice">$499</div>
+            <div class="enterprise-period" id="enterprisePeriod">per month</div>
+            <p style="font-size:0.8rem; color:#10b981;">Save 16% – only $416/month when billed yearly</p>
+            <a href="#" class="btn-enterprise" id="selectEnterpriseBtn">Select Enterprise</a>
+            ${mode === 'hybrid' ? '<a href="/contact.html" class="secondary-link">Contact Sales for custom terms</a>' : ''}
+          `;
+
+          const monthlyBtn = pricingSection.querySelector('[data-period="monthly"]');
+          const yearlyBtn = pricingSection.querySelector('[data-period="yearly"]');
+          const priceEl = document.getElementById('enterprisePrice');
+          const periodEl = document.getElementById('enterprisePeriod');
+          let currentPeriod = 'monthly';
+
+          function setEnterprisePeriod(period) {
+            currentPeriod = period;
+            monthlyBtn.classList.toggle('active', period === 'monthly');
+            yearlyBtn.classList.toggle('active', period === 'yearly');
+            if (period === 'monthly') {
+              priceEl.innerText = '$499';
+              periodEl.innerText = 'per month';
+            } else {
+              priceEl.innerText = '$4,990';
+              periodEl.innerText = 'per year';
+            }
+          }
+
+          monthlyBtn.addEventListener('click', () => setEnterprisePeriod('monthly'));
+          yearlyBtn.addEventListener('click', () => setEnterprisePeriod('yearly'));
+
+          const selectBtn = document.getElementById('selectEnterpriseBtn');
+          selectBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const token = localStorage.getItem('token');
+            if (!token) {
+              window.location.href = '/signup.html';
+              return;
+            }
+
+            const plan = currentPeriod === 'monthly' ? 'enterprise_monthly' : 'enterprise_yearly';
+            const originalText = this.innerText;
+            this.innerText = 'Redirecting…';
+            this.style.pointerEvents = 'none';
+            this.style.opacity = '0.7';
+
+            try {
+              const response = await fetch('/api/billing/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({ plan })
+              });
+              const result = await response.json();
+              if (response.ok && result.url) {
+                window.location.href = result.url;
+              } else {
+                throw new Error(result.detail || 'Could not start checkout');
+              }
+            } catch (err) {
+              alert(err.message);
+              this.innerText = originalText;
+              this.style.pointerEvents = '';
+              this.style.opacity = '';
+            }
+          });
+        } else {
+          // custom mode
+          pricingSection.style.display = 'none';
+          subhead.innerText = 'Custom solutions for large organizations – unlimited tokens, dedicated support, on‑premise deployment, and SOC2 compliance.';
+        }
+      } catch (err) {
+        console.error('Failed to load enterprise mode:', err);
+        // Fallback to custom mode if API unavailable
+        pricingSection.style.display = 'none';
+      }
+    }
+
+    loadEnterpriseMode();
+  })();
+</script>
 </body>
 </html>

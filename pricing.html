@@ -89,7 +89,7 @@
     .save-badge {
       background: #10b98120; color: #10b981; padding: 0.25rem 0.75rem;
       border-radius: 40px; font-size: 0.75rem; font-weight: 500;
-      display: none; /* [CHANGED] Hidden by default; shown only for yearly */
+      display: none; /* Hidden by default; shown only for yearly */
     }
     .social-proof-pricing {
       text-align: center; margin: 0.5rem 0 1.5rem; font-size: 0.9rem; color: #94a3b8;
@@ -122,7 +122,7 @@
     .annual-savings {
       font-size: 0.7rem; color: #10b981; background: #10b98120;
       display: inline-block; padding: 0.2rem 0.5rem; border-radius: 20px; margin-bottom: 1rem;
-      display: none; /* [CHANGED] Hidden by default */
+      display: none; /* Hidden by default */
     }
     .features { list-style: none; margin: 1.5rem 0; }
     .features li {
@@ -305,7 +305,7 @@
     <a href="#" class="btn btn-secondary" data-action="stripe" data-plan="team">Start Team Trial</a>
   </div>
 
-  <!-- [CHANGED] Single Enterprise Card, dynamically inserted by JS -->
+  <!-- [CHANGED] Dynamic enterprise card container -->
   <div id="enterpriseCardContainer"></div>
 </div>
 
@@ -383,7 +383,7 @@
       </form>
       <div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;">
         <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-        <a href="https://x.com/genesiscraft_ai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+        <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
         <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
         <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
       </div>
@@ -395,33 +395,42 @@
 <script>
   (function() {
     const toggleBtns = document.querySelectorAll('.toggle-btn');
-    const priceElements = document.querySelectorAll('[data-monthly]');
-    const periodElements = document.querySelectorAll('.period');
     const proAnnualSavings = document.getElementById('proAnnualSavings');
     const teamAnnualSavings = document.getElementById('teamAnnualSavings');
     const saveBadge = document.getElementById('saveBadge');
     let currentPeriod = 'monthly';
 
+    // ============================================================
+    // Re-query price and period elements on every call
+    // because the enterprise card is added dynamically after the
+    // page loads. Static NodeLists would miss it.
+    // ============================================================
     function setBillingPeriod(period) {
       currentPeriod = period;
+      const priceElements = document.querySelectorAll('[data-monthly]');
+      const periodElements = document.querySelectorAll('.period');
+
       toggleBtns.forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-period') === period);
       });
+
       priceElements.forEach(el => {
         const newPrice = el.getAttribute(`data-${period}`);
         if (newPrice) el.innerHTML = newPrice;
       });
+
       periodElements.forEach(el => {
         const newPeriod = el.getAttribute(`data-${period}`);
         if (newPeriod) el.innerHTML = newPeriod;
         else if (period === 'monthly') el.innerHTML = 'per month';
         else el.innerHTML = 'per year';
       });
-      // Show/hide savings badges
+
       const showSavings = period === 'yearly';
       if (proAnnualSavings) proAnnualSavings.style.display = showSavings ? 'inline-block' : 'none';
       if (teamAnnualSavings) teamAnnualSavings.style.display = showSavings ? 'inline-block' : 'none';
       if (saveBadge) saveBadge.style.display = showSavings ? 'inline-block' : 'none';
+
       document.querySelectorAll('[data-annual]').forEach(el => {
         el.style.display = showSavings ? 'inline-block' : 'none';
       });
@@ -434,17 +443,21 @@
       } else {
         plan = planBase + '_' + currentPeriod;
       }
+
       const token = localStorage.getItem('token');
       if (!token) {
         window.location.href = '/signup.html';
         return;
       }
+
       const originalText = btn.innerText;
       btn.style.pointerEvents = 'none';
       btn.style.opacity = '0.7';
       btn.innerHTML = '<span class="loading-spinner"></span> Redirecting…';
+
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000);
+
       try {
         const response = await fetch('/api/billing/create-checkout-session', {
           method: 'POST',
@@ -455,9 +468,12 @@
           body: JSON.stringify({ plan: plan }),
           signal: controller.signal
         });
+
         clearTimeout(timeoutId);
+
         let result = {};
         try { result = await response.json(); } catch (_) {}
+
         if (response.ok && result.url) {
           window.location.href = result.url;
         } else {
@@ -481,6 +497,7 @@
     document.getElementById('pricingGrid').addEventListener('click', async (e) => {
       const btn = e.target.closest('.btn');
       if (!btn) return;
+
       const action = btn.getAttribute('data-action');
       const plan = btn.getAttribute('data-plan');
       const card = btn.closest('.card');
@@ -494,11 +511,14 @@
         }
         return;
       }
+
       e.preventDefault();
+
       if (action === 'contact') {
         window.location.href = '/contact.html';
         return;
       }
+
       if (action === 'stripe') {
         const planBase = plan || planFromCard;
         startCheckout(planBase, btn);
@@ -535,7 +555,6 @@
         const mode = data.enterprise_mode || 'hybrid';
 
         if (mode === 'fixed' || mode === 'hybrid') {
-          // Update callout button action
           const calloutBtn = document.getElementById('enterpriseCalloutButton');
           if (calloutBtn) {
             calloutBtn.addEventListener('click', function(e) {
@@ -544,7 +563,6 @@
             });
           }
 
-          // Create single enterprise card
           const card = document.createElement('div');
           card.className = 'card';
           card.setAttribute('data-plan', 'enterprise');
@@ -564,10 +582,9 @@
           `;
           container.appendChild(card);
 
-          // Update pricing elements to reflect current period
+          // Re-apply current billing period to sync dynamic card
           setBillingPeriod(currentPeriod);
         } else {
-          // custom mode: hide callout or show contact only
           callout.innerHTML = `
             <h3>🏢 Enterprise</h3>
             <p>Custom solutions for large organizations – unlimited tokens, dedicated support, on‑premise deployment, and SOC2 compliance.</p>

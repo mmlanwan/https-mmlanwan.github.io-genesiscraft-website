@@ -338,7 +338,7 @@
       try {
         const token = localStorage.getItem('token');
         const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
-        const response = await fetch('/api/billing/plans', { headers });
+        const response = await fetch('/api/billing/public/plans', { headers });
         if (!response.ok) return;
         const data = await response.json();
         const mode = data.enterprise_mode || 'hybrid';

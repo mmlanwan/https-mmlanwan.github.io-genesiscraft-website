@@ -328,7 +328,7 @@
 <script>
   (function() {
     // ------------------------------------------------------------
-    // [ADDED] Load enterprise mode and render pricing/CTA accordingly.
+    // Load enterprise mode and render pricing/CTA accordingly.
     // ------------------------------------------------------------
     async function loadEnterpriseMode() {
       const pricingSection = document.getElementById('enterprisePricingSection');
@@ -336,9 +336,7 @@
       const contactSection = document.getElementById('contactFormSection');
 
       try {
-        const token = localStorage.getItem('token');
-        const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
-        const response = await fetch('/api/billing/public/plans', { headers });
+        const response = await fetch('/api/billing/public/plans');
         if (!response.ok) return;
         const data = await response.json();
         const mode = data.enterprise_mode || 'hybrid';
@@ -352,8 +350,8 @@
             </div>
             <div class="enterprise-price" id="enterprisePrice">$499</div>
             <div class="enterprise-period" id="enterprisePeriod">per month</div>
-            <p style="font-size:0.8rem; color:#10b981;">Save 16% – only $416/month when billed yearly</p>
-            <a href="#" class="btn-enterprise" id="selectEnterpriseBtn">Select Enterprise</a>
+            <p class="annual-savings" id="enterpriseSavings" style="display:none; color:#10b981; font-size:0.8rem;">Save 16% – only $416/month when billed yearly</p>
+            <a href="#" class="btn-enterprise" id="selectEnterpriseBtn">Start Enterprise Trial</a>
             ${mode === 'hybrid' ? '<a href="/contact.html" class="secondary-link">Contact Sales for custom terms</a>' : ''}
           `;
 
@@ -361,6 +359,7 @@
           const yearlyBtn = pricingSection.querySelector('[data-period="yearly"]');
           const priceEl = document.getElementById('enterprisePrice');
           const periodEl = document.getElementById('enterprisePeriod');
+          const savingsEl = document.getElementById('enterpriseSavings');
           let currentPeriod = 'monthly';
 
           function setEnterprisePeriod(period) {
@@ -370,9 +369,11 @@
             if (period === 'monthly') {
               priceEl.innerText = '$499';
               periodEl.innerText = 'per month';
+              savingsEl.style.display = 'none';
             } else {
               priceEl.innerText = '$4,990';
               periodEl.innerText = 'per year';
+              savingsEl.style.display = 'block';
             }
           }
 
@@ -431,5 +432,3 @@
     loadEnterpriseMode();
   })();
 </script>
-</body>
-</html>

@@ -52,41 +52,20 @@
       text-decoration: none;
       display: inline-block;
     }
-    .logo img {
-      height: 32px;
-      width: auto;
-      vertical-align: middle;
-    }
-    .main-nav ul {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .main-nav a {
-      color: #cbd5e1;
-      text-decoration: none;
-      font-weight: 500;
-    }
+    .logo img { height: 32px; width: auto; vertical-align: middle; }
+    .main-nav ul { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+    .main-nav a { color: #cbd5e1; text-decoration: none; font-weight: 500; }
     .main-nav a:hover { color: #3b82f6; }
     .btn-small {
-      background: #3b82f6;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 40px;
-      text-decoration: none;
-      font-weight: 600;
+      background: #3b82f6; color: white; padding: 0.5rem 1rem;
+      border-radius: 40px; text-decoration: none; font-weight: 600;
     }
     @media (max-width: 700px) {
       .header-container { flex-direction: column; gap: 1rem; }
       .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
       .logo img { height: 24px; }
     }
-    .pricing-hero {
-      text-align: center;
-      padding: 4rem 2rem 2rem;
-    }
+    .pricing-hero { text-align: center; padding: 4rem 2rem 2rem; }
     .pricing-hero h1 {
       font-size: clamp(2rem, 6vw, 3.5rem);
       font-weight: 800;
@@ -96,68 +75,35 @@
       color: transparent;
       margin-bottom: 1rem;
     }
-    .pricing-hero p {
-      font-size: 1.1rem;
-      color: #cbd5e1;
-      max-width: 700px;
-      margin: 0 auto;
-    }
+    .pricing-hero p { font-size: 1.1rem; color: #cbd5e1; max-width: 700px; margin: 0 auto; }
     .billing-toggle {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      margin: 2rem 0 1rem;
+      display: flex; justify-content: center; align-items: center;
+      gap: 1rem; margin: 2rem 0 1rem;
     }
     .toggle-btn {
-      background: #1e293b;
-      border: none;
-      padding: 0.5rem 1.5rem;
-      border-radius: 40px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      color: #94a3b8;
-      transition: all 0.2s;
+      background: #1e293b; border: none; padding: 0.5rem 1.5rem;
+      border-radius: 40px; font-size: 0.9rem; font-weight: 500;
+      cursor: pointer; color: #94a3b8; transition: all 0.2s;
     }
-    .toggle-btn.active {
-      background: #3b82f6;
-      color: white;
-    }
+    .toggle-btn.active { background: #3b82f6; color: white; }
     .save-badge {
-      background: #10b98120;
-      color: #10b981;
-      padding: 0.25rem 0.75rem;
-      border-radius: 40px;
-      font-size: 0.75rem;
-      font-weight: 500;
+      background: #10b98120; color: #10b981; padding: 0.25rem 0.75rem;
+      border-radius: 40px; font-size: 0.75rem; font-weight: 500;
+      display: none; /* [CHANGED] Hidden by default; shown only for yearly */
     }
     .social-proof-pricing {
-      text-align: center;
-      margin: 0.5rem 0 1.5rem;
-      font-size: 0.9rem;
-      color: #94a3b8;
+      text-align: center; margin: 0.5rem 0 1.5rem; font-size: 0.9rem; color: #94a3b8;
     }
     .social-proof-pricing i { color: #3b82f6; margin-right: 0.3rem; }
     .pricing-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.5rem;
-      max-width: 1200px;
-      margin: 0 auto 2rem;
-      padding: 0 1rem;
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 1.5rem; max-width: 1200px; margin: 0 auto 2rem; padding: 0 1rem;
     }
     .card {
-      background: #0f172a;
-      border-radius: 32px;
-      padding: 1.8rem;
-      flex: 1;
-      min-width: 260px;
-      max-width: 320px;
+      background: #0f172a; border-radius: 32px; padding: 1.8rem;
+      flex: 1; min-width: 260px; max-width: 320px;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
-      border: 1px solid #1e293b;
-      position: relative;
+      border: 1px solid #1e293b; position: relative;
     }
     .card:hover {
       transform: scale(1.02);
@@ -165,82 +111,32 @@
       border-color: #3b82f6;
     }
     .popular-ribbon {
-      position: absolute;
-      top: -10px;
-      right: 20px;
-      background: #f97316;
-      color: white;
-      font-size: 0.7rem;
-      font-weight: bold;
-      padding: 0.3rem 1rem;
-      border-radius: 40px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      position: absolute; top: -10px; right: 20px;
+      background: #f97316; color: white; font-size: 0.7rem; font-weight: bold;
+      padding: 0.3rem 1rem; border-radius: 40px; text-transform: uppercase; letter-spacing: 1px;
     }
-    .plan-name {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: white;
-    }
-    .price {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: white;
-      margin: 1rem 0 0.25rem;
-    }
-    .price span {
-      font-size: 1rem;
-      font-weight: 400;
-      color: #94a3b8;
-    }
-    .period {
-      font-size: 0.85rem;
-      color: #94a3b8;
-      margin-bottom: 0.5rem;
-    }
+    .plan-name { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; color: white; }
+    .price { font-size: 2.5rem; font-weight: 800; color: white; margin: 1rem 0 0.25rem; }
+    .price span { font-size: 1rem; font-weight: 400; color: #94a3b8; }
+    .period { font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.5rem; }
     .annual-savings {
-      font-size: 0.7rem;
-      color: #10b981;
-      background: #10b98120;
-      display: inline-block;
-      padding: 0.2rem 0.5rem;
-      border-radius: 20px;
-      margin-bottom: 1rem;
+      font-size: 0.7rem; color: #10b981; background: #10b98120;
+      display: inline-block; padding: 0.2rem 0.5rem; border-radius: 20px; margin-bottom: 1rem;
+      display: none; /* [CHANGED] Hidden by default */
     }
-    .features {
-      list-style: none;
-      margin: 1.5rem 0;
-    }
+    .features { list-style: none; margin: 1.5rem 0; }
     .features li {
-      margin: 0.75rem 0;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      color: #cbd5e1;
-      font-size: 0.9rem;
+      margin: 0.75rem 0; display: flex; align-items: center; gap: 0.75rem;
+      color: #cbd5e1; font-size: 0.9rem;
     }
     .features i { width: 1.25rem; color: #3b82f6; }
     .money-back {
-      background: #1e293b;
-      padding: 0.3rem 0.8rem;
-      border-radius: 40px;
-      font-size: 0.7rem;
-      text-align: center;
-      display: inline-block;
-      margin-bottom: 1rem;
-      color: #10b981;
+      background: #1e293b; padding: 0.3rem 0.8rem; border-radius: 40px;
+      font-size: 0.7rem; text-align: center; display: inline-block; margin-bottom: 1rem; color: #10b981;
     }
     .btn {
-      display: block;
-      width: 100%;
-      text-align: center;
-      padding: 0.75rem;
-      border-radius: 40px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: background 0.2s;
-      margin-top: 1rem;
+      display: block; width: 100%; text-align: center; padding: 0.75rem;
+      border-radius: 40px; font-weight: 600; text-decoration: none; transition: background 0.2s; margin-top: 1rem;
     }
     .btn-primary { background: #3b82f6; color: white; }
     .btn-primary:hover { background: #2563eb; }
@@ -255,18 +151,40 @@
     .check { color: #10b981; }
     .xmark { color: #ef4444; }
     .partial { color: #f59e0b; }
-    .enterprise-callout { max-width: 1100px; margin: 2rem auto; background: #0f172a; border-radius: 32px; padding: 2rem; text-align: center; border: 1px solid #1e293b; }
-    .btn-enterprise { background: transparent; border: 1px solid #3b82f6; color: #3b82f6; display: inline-block; width: auto; padding: 0.75rem 2rem; border-radius: 40px; text-decoration: none; font-weight: 600; margin-top: 1rem; }
+    .enterprise-callout {
+      max-width: 1100px; margin: 2rem auto; background: #0f172a;
+      border-radius: 32px; padding: 2rem; text-align: center; border: 1px solid #1e293b;
+    }
+    .btn-enterprise {
+      background: transparent; border: 1px solid #3b82f6; color: #3b82f6;
+      display: inline-block; width: auto; padding: 0.75rem 2rem; border-radius: 40px;
+      text-decoration: none; font-weight: 600; margin-top: 1rem;
+    }
     .btn-enterprise:hover { background: #3b82f6; color: white; }
     .faq-section { max-width: 900px; margin: 3rem auto; padding: 0 1rem; }
     .faq-section h2 { text-align: center; margin-bottom: 2rem; }
     .faq-item { background: #0f172a; border-radius: 20px; margin-bottom: 1rem; border: 1px solid #1e293b; }
-    .faq-question { width: 100%; background: transparent; border: none; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: white; font-weight: 600; }
-    .faq-answer { max-height: 0; padding: 0 1.5rem; overflow: hidden; transition: max-height 0.3s ease; color: #cbd5e1; }
+    .faq-question {
+      width: 100%; background: transparent; border: none; padding: 1rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+      color: white; font-weight: 600;
+    }
+    .faq-answer {
+      max-height: 0; padding: 0 1.5rem; overflow: hidden; transition: max-height 0.3s ease; color: #cbd5e1;
+    }
     .faq-item.open .faq-answer { max-height: 200px; padding-bottom: 1rem; }
-    .risk-reversal { max-width: 900px; margin: 3rem auto; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 32px; padding: 2rem; text-align: center; border: 1px solid #3b82f6; }
-    .btn-risk { display: inline-flex; align-items: center; gap: 0.5rem; background: #3b82f6; color: white; padding: 0.75rem 2rem; border-radius: 40px; text-decoration: none; font-weight: 600; margin-top: 1rem; }
-    .sticky-cta { position: fixed; bottom: 0; left: 0; right: 0; background: #0f172a; border-top: 1px solid #3b82f6; padding: 0.75rem; text-align: center; z-index: 100; display: none; backdrop-filter: blur(8px); }
+    .risk-reversal {
+      max-width: 900px; margin: 3rem auto; background: linear-gradient(135deg, #1e293b, #0f172a);
+      border-radius: 32px; padding: 2rem; text-align: center; border: 1px solid #3b82f6;
+    }
+    .btn-risk {
+      display: inline-flex; align-items: center; gap: 0.5rem; background: #3b82f6; color: white;
+      padding: 0.75rem 2rem; border-radius: 40px; text-decoration: none; font-weight: 600; margin-top: 1rem;
+    }
+    .sticky-cta {
+      position: fixed; bottom: 0; left: 0; right: 0; background: #0f172a;
+      border-top: 1px solid #3b82f6; padding: 0.75rem; text-align: center; z-index: 100; display: none; backdrop-filter: blur(8px);
+    }
     .sticky-cta a { color: #3b82f6; text-decoration: none; font-weight: 600; }
     .sticky-cta a:hover { text-decoration: underline; }
     .footer { background: #0f172a; border-top: 1px solid #1e293b; padding: 3rem 2rem 1.5rem; margin-top: 4rem; }
@@ -276,7 +194,11 @@
     .footer-col a { color: #94a3b8; text-decoration: none; font-size: 0.85rem; }
     .footer-col a:hover { color: #3b82f6; }
     .copyright { text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #1e293b; font-size: 0.75rem; color: #64748b; }
-    .loading-spinner { display: inline-block; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid #3b82f6; width: 16px; height: 16px; animation: spin 1s linear infinite; vertical-align: middle; margin-right: 6px; }
+    .loading-spinner {
+      display: inline-block; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%;
+      border-top: 3px solid #3b82f6; width: 16px; height: 16px; animation: spin 1s linear infinite;
+      vertical-align: middle; margin-right: 6px;
+    }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     @media (max-width: 800px) {
       .pricing-grid { flex-direction: column; align-items: center; }
@@ -324,7 +246,7 @@
 <div class="billing-toggle">
   <button class="toggle-btn active" data-period="monthly">Monthly</button>
   <button class="toggle-btn" data-period="yearly">Yearly</button>
-  <span class="save-badge"><i class="fas fa-tag"></i> Save up to 20%</span>
+  <span class="save-badge" id="saveBadge"><i class="fas fa-tag"></i> Save up to 20%</span>
 </div>
 
 <div class="social-proof-pricing">
@@ -347,7 +269,7 @@
     <a href="/signup?plan=free" class="btn btn-secondary">Start Free</a>
   </div>
 
-  <!-- PRO CARD -->
+  <!-- PRO CARD (Most Popular) -->
   <div class="card" data-plan="pro" data-price="49">
     <div class="popular-ribbon">🔥 Most Popular</div>
     <div class="plan-name">Pro</div>
@@ -382,6 +304,9 @@
     </ul>
     <a href="#" class="btn btn-secondary" data-action="stripe" data-plan="team">Start Team Trial</a>
   </div>
+
+  <!-- [CHANGED] Single Enterprise Card, dynamically inserted by JS -->
+  <div id="enterpriseCardContainer"></div>
 </div>
 
 <div class="comparison-section">
@@ -407,8 +332,9 @@
 
 <div class="enterprise-callout" id="enterpriseCallout">
   <h3>🏢 Enterprise</h3>
-  <p>Custom solutions for large organizations – unlimited tokens, dedicated support, on‑premise deployment, and SOC2 compliance.</p>
-  <a href="/contact" class="btn-enterprise">Contact Sales</a>
+  <p>10M tokens, 100K requests, unlimited projects, dedicated support, and on‑premise deployment.</p>
+  <a href="#" class="btn-enterprise" id="enterpriseCalloutButton">Select Enterprise</a>
+  <p style="margin-top:0.5rem; font-size:0.9rem;"><a href="/contact" style="color:#3b82f6;">Contact Sales for custom terms</a></p>
 </div>
 
 <div class="faq-section">
@@ -457,7 +383,7 @@
       </form>
       <div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;">
         <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-        <a href="https://x.com/genesiscraft_ai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+        <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
         <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
         <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
       </div>
@@ -468,12 +394,12 @@
 
 <script>
   (function() {
-    // Billing toggle
     const toggleBtns = document.querySelectorAll('.toggle-btn');
     const priceElements = document.querySelectorAll('[data-monthly]');
     const periodElements = document.querySelectorAll('.period');
     const proAnnualSavings = document.getElementById('proAnnualSavings');
     const teamAnnualSavings = document.getElementById('teamAnnualSavings');
+    const saveBadge = document.getElementById('saveBadge');
     let currentPeriod = 'monthly';
 
     function setBillingPeriod(period) {
@@ -491,25 +417,16 @@
         else if (period === 'monthly') el.innerHTML = 'per month';
         else el.innerHTML = 'per year';
       });
-
-      // Toggle static savings badges
-      if (period === 'yearly') {
-        if (proAnnualSavings) proAnnualSavings.style.display = 'inline-block';
-        if (teamAnnualSavings) teamAnnualSavings.style.display = 'inline-block';
-      } else {
-        if (proAnnualSavings) proAnnualSavings.style.display = 'none';
-        if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
-      }
-
-      // Also toggle any dynamic [data-annual] elements (enterprise cards)
+      // Show/hide savings badges
+      const showSavings = period === 'yearly';
+      if (proAnnualSavings) proAnnualSavings.style.display = showSavings ? 'inline-block' : 'none';
+      if (teamAnnualSavings) teamAnnualSavings.style.display = showSavings ? 'inline-block' : 'none';
+      if (saveBadge) saveBadge.style.display = showSavings ? 'inline-block' : 'none';
       document.querySelectorAll('[data-annual]').forEach(el => {
-        el.style.display = (period === 'yearly') ? 'inline-block' : 'none';
+        el.style.display = showSavings ? 'inline-block' : 'none';
       });
     }
 
-    // ============================================================
-    // startCheckout handles complete plan IDs correctly.
-    // ============================================================
     async function startCheckout(planBase, btn) {
       let plan;
       if (planBase.includes('_monthly') || planBase.includes('_yearly')) {
@@ -517,21 +434,17 @@
       } else {
         plan = planBase + '_' + currentPeriod;
       }
-
       const token = localStorage.getItem('token');
       if (!token) {
         window.location.href = '/signup.html';
         return;
       }
-
       const originalText = btn.innerText;
       btn.style.pointerEvents = 'none';
       btn.style.opacity = '0.7';
       btn.innerHTML = '<span class="loading-spinner"></span> Redirecting…';
-
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000);
-
       try {
         const response = await fetch('/api/billing/create-checkout-session', {
           method: 'POST',
@@ -542,12 +455,9 @@
           body: JSON.stringify({ plan: plan }),
           signal: controller.signal
         });
-
         clearTimeout(timeoutId);
-
         let result = {};
         try { result = await response.json(); } catch (_) {}
-
         if (response.ok && result.url) {
           window.location.href = result.url;
         } else {
@@ -567,134 +477,97 @@
       }
     }
 
-    // ============================================================
-    // Event delegation with correct preventDefault handling.
-    // ============================================================
+    // Event delegation
     document.getElementById('pricingGrid').addEventListener('click', async (e) => {
       const btn = e.target.closest('.btn');
       if (!btn) return;
-
       const action = btn.getAttribute('data-action');
       const plan = btn.getAttribute('data-plan');
       const card = btn.closest('.card');
       const planFromCard = card ? card.getAttribute('data-plan') : null;
 
-      // Static buttons without data-action
       if (!action) {
-        if (planFromCard === 'free') {
-          return; // Let the anchor navigate normally — NO preventDefault
-        }
+        if (planFromCard === 'free') return;
         if (planFromCard === 'pro' || planFromCard === 'team') {
-          e.preventDefault(); // Only prevent for handled buttons
+          e.preventDefault();
           startCheckout(planFromCard, btn);
         }
         return;
       }
-
-      // For all buttons with data-action, we handle click manually
       e.preventDefault();
-
       if (action === 'contact') {
         window.location.href = '/contact.html';
         return;
       }
-
       if (action === 'stripe') {
         const planBase = plan || planFromCard;
         startCheckout(planBase, btn);
       }
     });
 
-    // Toggle listeners
     toggleBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        setBillingPeriod(btn.getAttribute('data-period'));
-      });
+      btn.addEventListener('click', () => setBillingPeriod(btn.getAttribute('data-period')));
     });
 
-    setBillingPeriod('monthly');
-    if (proAnnualSavings) proAnnualSavings.style.display = 'none';
-    if (teamAnnualSavings) teamAnnualSavings.style.display = 'none';
-
-    // FAQ Accordion
+    // FAQ
     document.querySelectorAll('.faq-item').forEach(item => {
       const btn = item.querySelector('.faq-question');
-      btn.addEventListener('click', () => {
-        item.classList.toggle('open');
-      });
+      btn.addEventListener('click', () => item.classList.toggle('open'));
     });
     if (document.querySelectorAll('.faq-item').length) {
       document.querySelectorAll('.faq-item')[0].classList.add('open');
     }
 
-    // Sticky CTA on scroll
+    // Sticky CTA
     const stickyCta = document.getElementById('stickyCta');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 500) {
-        stickyCta.style.display = 'block';
-      } else {
-        stickyCta.style.display = 'none';
-      }
+      stickyCta.style.display = window.scrollY > 500 ? 'block' : 'none';
     });
 
-    // ============================================================
-    // Dynamically load enterprise cards and update callout.
-    // ============================================================
-    async function loadEnterpriseCards() {
-      const grid = document.getElementById('pricingGrid');
+    // Load enterprise mode and insert single enterprise card
+    async function loadEnterpriseMode() {
+      const container = document.getElementById('enterpriseCardContainer');
       const callout = document.getElementById('enterpriseCallout');
       try {
-        const token = localStorage.getItem('token');
-        const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
-        const response = await fetch('/api/billing/public/plans', { headers });
+        const response = await fetch('/api/billing/public/plans');
         if (!response.ok) return;
         const data = await response.json();
         const mode = data.enterprise_mode || 'hybrid';
 
         if (mode === 'fixed' || mode === 'hybrid') {
-          callout.innerHTML = `
-            <h3>🏢 Enterprise</h3>
-            <p>10M tokens, 100K requests, unlimited projects, dedicated support, and on‑premise deployment.</p>
-            <a href="#" class="btn-enterprise" id="enterpriseCalloutButton">Select Enterprise</a>
-            ${mode === 'hybrid' ? '<p style="margin-top:0.5rem; font-size:0.9rem;"><a href="/contact" style="color:#3b82f6;">Contact Sales for custom terms</a></p>' : ''}
-          `;
-          const calloutButton = document.getElementById('enterpriseCalloutButton');
-          if (calloutButton) {
-            calloutButton.addEventListener('click', function(e) {
+          // Update callout button action
+          const calloutBtn = document.getElementById('enterpriseCalloutButton');
+          if (calloutBtn) {
+            calloutBtn.addEventListener('click', function(e) {
               e.preventDefault();
-              startCheckout('enterprise', this); // respects current billing toggle
+              startCheckout('enterprise', this);
             });
           }
 
-          // Add enterprise cards to the pricing grid
-          function addEnterpriseCard(planId, name, priceMonthly, priceYearly, features) {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.setAttribute('data-plan', planId);
-            card.innerHTML = `
-              <div class="plan-name">${name}</div>
-              <div class="price" data-monthly="$${priceMonthly}" data-yearly="$${priceYearly}">$${priceMonthly}</div>
-              <div class="period" data-monthly="per month" data-yearly="per year">per month</div>
-              <div class="annual-savings" data-annual>Save 16% – only $${Math.round(priceYearly/12)}/month</div>
-              <ul class="features">
-                ${features.map(f => `<li><i class="fas fa-check-circle"></i> ${f}</li>`).join('')}
-              </ul>
-              <a href="#" class="btn btn-primary" data-action="stripe" data-plan="${planId}">Select ${name}</a>
-            `;
-            grid.appendChild(card);
-          }
+          // Create single enterprise card
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.setAttribute('data-plan', 'enterprise');
+          card.innerHTML = `
+            <div class="plan-name">Enterprise</div>
+            <div class="price" data-monthly="$499" data-yearly="$4,990">$499</div>
+            <div class="period" data-monthly="per month" data-yearly="per year">per month</div>
+            <div class="annual-savings" data-annual>Save 16% – only $416/month when billed yearly</div>
+            <ul class="features">
+              <li><i class="fas fa-check-circle"></i> 10M tokens/month</li>
+              <li><i class="fas fa-check-circle"></i> 100K requests/month</li>
+              <li><i class="fas fa-check-circle"></i> Unlimited projects</li>
+              <li><i class="fas fa-check-circle"></i> Dedicated support</li>
+              <li><i class="fas fa-check-circle"></i> SSO / SAML</li>
+            </ul>
+            <a href="#" class="btn btn-secondary" data-action="stripe" data-plan="enterprise">Start Enterprise Trial</a>
+          `;
+          container.appendChild(card);
 
-          addEnterpriseCard('enterprise_monthly', 'Enterprise Monthly', 499, 4990, [
-            '10M tokens/month', '100K requests/month', 'Unlimited projects', 'Dedicated support', 'SSO / SAML'
-          ]);
-          addEnterpriseCard('enterprise_yearly', 'Enterprise Yearly', 499, 4990, [
-            '10M tokens/month', '100K requests/month', 'Unlimited projects', 'Dedicated support', 'SSO / SAML'
-          ]);
-
-          // Re-run toggle so dynamic cards match current period and savings badges hidden
+          // Update pricing elements to reflect current period
           setBillingPeriod(currentPeriod);
         } else {
-          // custom mode: keep contact sales
+          // custom mode: hide callout or show contact only
           callout.innerHTML = `
             <h3>🏢 Enterprise</h3>
             <p>Custom solutions for large organizations – unlimited tokens, dedicated support, on‑premise deployment, and SOC2 compliance.</p>
@@ -702,11 +575,12 @@
           `;
         }
       } catch (err) {
-        console.error('Failed to load enterprise plans:', err);
+        console.error('Failed to load enterprise mode:', err);
       }
     }
 
-    loadEnterpriseCards();
+    loadEnterpriseMode();
+    setBillingPeriod('monthly');
   })();
 </script>
 </body>

@@ -220,7 +220,6 @@
             margin-bottom: 3rem;
         }
         .culture-text { flex: 1; }
-        /* [CHANGED] CSS-only graphics instead of placeholder images */
         .culture-graphic {
             flex: 1;
             min-height: 200px;
@@ -474,12 +473,10 @@
             <h3>🌍 Remote-First</h3>
             <p>We hire the best talent, wherever they are. Our team spans 6 countries and 12 time zones, and we've built systems to make remote collaboration seamless.</p>
         </div>
-        <!-- [CHANGED] CSS-only graphic -->
         <div class="culture-graphic"><i class="fas fa-globe"></i></div>
     </div>
 
     <div class="culture-block">
-        <!-- [CHANGED] CSS-only graphic -->
         <div class="culture-graphic"><i class="fas fa-users"></i></div>
         <div class="culture-text">
             <h3>🤝 Inclusive by Design</h3>
@@ -492,7 +489,6 @@
             <h3>📖 Open Source at Heart</h3>
             <p>Our core validation engine is open-source, and we encourage contributions from the community.</p>
         </div>
-        <!-- [CHANGED] CSS-only graphic -->
         <div class="culture-graphic"><i class="fas fa-code-branch"></i></div>
     </div>
 </div>
@@ -539,7 +535,6 @@
         <div id="modalContent"></div>
         <hr>
         <h3>Apply for this position</h3>
-        <!-- [CHANGED] Netlify form instead of Formspree -->
         <form name="job-application" method="POST" action="/thank-you" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="job-application">
             <div style="display:none;"><input name="bot-field"></div>
@@ -610,9 +605,128 @@
     generateCodeRain();
     setInterval(generateCodeRain, 4000);
 
-    // Job data (same as before)
+    // Job data
     const jobs = [
-        // ... existing job objects ...
+        { id: 1, title: "Senior AI/ML Engineer", location: "Remote (US/Canada)", department: "engineering", type: "Full-time",
+          shortDesc: "Design and optimize the language models that power our generation engine.",
+          fullDesc: `We're seeking a Senior AI/ML Engineer to design and optimize the language models that power Genesis Craft AI's generation engine. You'll work at the intersection of cutting-edge research and practical application, building systems that enable millions of developers to create software faster.
+
+**What You'll Do:**
+- Design and implement improvements to our core generation models
+- Optimize inference latency and cost while maintaining quality
+- Collaborate with research to integrate the latest advances in LLMs
+- Build evaluation frameworks to measure model performance
+- Mentor junior engineers and contribute to our technical roadmap
+
+**What You Bring:**
+- 5+ years in ML, 2+ focused on NLP/LLMs
+- Deep understanding of transformer architectures
+- Experience with fine-tuning, prompt engineering, RLHF
+- Proficiency in Python and PyTorch/TensorFlow
+- Track record of shipping production ML systems
+
+**Nice to Have:** Multi-agent systems, open-source ML contributions, publications at NeurIPS/ICML/ACL.
+
+**Interview Process:** Initial chat → Technical screen → Paid take-home assignment → Virtual on‑site → Founder conversation` },
+        { id: 2, title: "Frontend Engineer", location: "Remote (Global)", department: "engineering", type: "Full-time",
+          shortDesc: "Build the interfaces that developers use to interact with our platform. React, TypeScript, and a passion for developer experience.",
+          fullDesc: `As a Frontend Engineer, you'll create intuitive, real‑time interfaces for our code generation platform.
+
+**What You'll Do:**
+- Develop React components and state management
+- Integrate WebSocket streams for live generation previews
+- Build the code editor and file tree explorer
+- Collaborate with design and backend teams
+
+**What You Bring:**
+- 3+ years React, TypeScript
+- Experience with state management (Redux, Zustand)
+- Knowledge of WebSockets or real‑time APIs
+- Strong CSS/styling skills
+
+**Interview Process:** Same as Senior AI/ML Engineer.` },
+        { id: 3, title: "Backend Engineer", location: "Remote (Europe)", department: "engineering", type: "Full-time",
+          shortDesc: "Scale our API infrastructure and multi-agent orchestration system. Python, FastAPI, PostgreSQL, and distributed systems expertise.",
+          fullDesc: `You will design and scale the backend that orchestrates our multi‑agent system.
+
+**What You'll Do:**
+- Build and optimise FastAPI endpoints
+- Manage PostgreSQL and Redis clusters
+- Implement asynchronous task queues (Celery)
+- Ensure high availability and low latency
+
+**What You Bring:**
+- 4+ years Python backend
+- Experience with FastAPI, SQLAlchemy
+- Distributed systems knowledge
+- Familiarity with Kubernetes, Docker
+
+**Interview Process:** Same as above.` },
+        { id: 4, title: "Developer Advocate", location: "Remote (US)", department: "devrel", type: "Full-time",
+          shortDesc: "Connect with our community, create content, and help developers succeed with Genesis Craft AI.",
+          fullDesc: `You will be the voice of our platform to the developer community.
+
+**What You'll Do:**
+- Write tutorials, blog posts, and create video demos
+- Engage with developers on Discord, GitHub, Twitter
+- Speak at conferences and meetups
+- Gather feedback to shape product roadmap
+
+**What You Bring:**
+- 2+ years developer relations or advocacy
+- Strong coding ability (JavaScript/Python)
+- Excellent written and verbal communication
+
+**Interview Process:** Portfolio review + 30 min presentation.` },
+        { id: 5, title: "Product Manager - AI", location: "Remote (Global)", department: "product", type: "Full-time",
+          shortDesc: "Define the roadmap for our AI capabilities. Work with research, engineering, and design to ship features developers love.",
+          fullDesc: `Lead the product strategy for our AI‑powered code generation engine.
+
+**What You'll Do:**
+- Define roadmap for multi‑agent features
+- Prioritise based on customer feedback and data
+- Collaborate with research to bring models to production
+- Write PRDs and coordinate launches
+
+**What You Bring:**
+- 3+ years product management
+- Experience with AI/ML products (preferred)
+- Technical background (CS or engineering)
+- Strong analytical skills
+
+**Interview Process:** Case study + product design session.` },
+        { id: 6, title: "Senior DevOps Engineer", location: "Remote (US/Canada/Europe)", department: "engineering", type: "Full-time",
+          shortDesc: "Build and maintain our cloud infrastructure, CI/CD pipelines, and Kubernetes clusters. Ensure high availability and scalability for our AI generation platform.",
+          fullDesc: `We are seeking a Senior DevOps Engineer to design, implement, and maintain the infrastructure that powers Genesis Craft AI’s multi-agent orchestration and code generation services. You will work closely with backend and AI engineers to ensure low latency, high throughput, and cost efficiency.
+
+**What You'll Do:**
+- Manage Kubernetes clusters (EKS/GKE) and containerized workloads
+- Build and maintain CI/CD pipelines using GitHub Actions, ArgoCD, or similar
+- Implement observability and monitoring (Prometheus, Grafana, Loki)
+- Automate infrastructure provisioning with Terraform or Pulumi
+- Optimize cloud costs (AWS/GCP) through auto-scaling and resource right-sizing
+- Ensure security best practices (IAM, network policies, secrets management)
+- Participate in on-call rotation and incident response
+
+**What You Bring:**
+- 4+ years of DevOps or SRE experience
+- Strong hands-on knowledge of Kubernetes and Docker
+- Experience with cloud providers (AWS, GCP, or Azure)
+- Proficiency with Infrastructure as Code (Terraform, CloudFormation)
+- Familiarity with CI/CD tools (GitHub Actions, GitLab CI)
+- Knowledge of Python or Go scripting for automation
+
+**Nice to Have:**
+- Experience with GPU clusters or AI/ML workloads
+- Certifications (CKA, AWS Solutions Architect)
+- Contributions to open-source DevOps tools
+
+**Interview Process:**
+1. Initial chat with recruiter (30 min)
+2. Technical screen on infrastructure & Kubernetes (60 min)
+3. Practical take-home (Terraform or k8s exercise)
+4. Virtual on-site (system design + collaboration)
+5. Final conversation with founders` }
     ];
 
     function renderJobs(filter = "all") {

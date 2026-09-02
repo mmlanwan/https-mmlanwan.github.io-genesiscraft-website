@@ -432,8 +432,9 @@
             justify-content: space-between;
         }
         .footer-col {
-            flex: 1;
-            min-width: 150px;
+            flex: 1 1 160px;
+            min-width: 0;          /* allow the column to shrink */
+            max-width: 280px;      /* optional: keeps columns from becoming too wide */
         }
         .footer-col h3 {
             color: white;
@@ -466,6 +467,7 @@
             border-radius: 40px;
             color: white;
             flex: 1;
+            min-width: 0;         /* prevents input from forcing overflow */
         }
         .subscribe-btn {
             background: #3b82f6;
@@ -612,7 +614,7 @@
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-col"><h3>Product</h3><ul><li><a href="/product.html">Features</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/enterprise.html">Enterprise</a></li><li><a href="/changelog.html">Changelog</a></li></ul></div>
-        <div class="footer-col"><h3>Resources</h3><ul><li><a href="/docs.html">Documentation</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/case-studies.html">Case Studies</a></li><a href="/api-reference.html">API Reference</a></li></ul></div>
+        <div class="footer-col"><h3>Resources</h3><ul><li><a href="/docs.html">Documentation</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/case-studies.html">Case Studies</a></li><li><a href="/api-reference.html">API Reference</a></li></ul></div>
         <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
         <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
         <div class="footer-col">
@@ -622,7 +624,7 @@
             <input type="hidden" name="form-name" value="newsletter">
             <input type="email" name="email" placeholder="Your e-mail" required style="background:#1e293b; border:1px solid #334155; border-radius:40px; padding:0.5rem; flex:1; color:white;">
             <button type="submit" style="background:#3b82f6; border:none; padding:0.5rem 1rem; border-radius:40px; color:white; cursor:pointer;">Subscribe</button>
-          </form>
+          </form>f
           <div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;">
             <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
             <a href="https://x.com/genesiscraft_ai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>

@@ -171,7 +171,7 @@
     <div id="planMessage" style="color: #10b981; margin-bottom: 1rem;"></div>
 
     <div class="pricing-grid" id="pricingGrid">
-      <!-- Existing Free/Pro/Team cards remain here -->
+      <!-- Static cards for Free, Pro, Team are kept here -->
       <div class="plan-card" data-plan="free" data-price="0">
         <div class="plan-name">Free</div>
         <div class="plan-price">$0 / month</div>
@@ -234,10 +234,6 @@
         </ul>
         <button class="select-btn" data-plan="team-yearly" data-action="stripe">Select Team Yearly</button>
       </div>
-
-      <!-- ============================================================
-           Dynamic enterprise cards will be appended here.
-      ============================================================ -->
     </div>
   </div>
 
@@ -266,7 +262,9 @@
       }
 
       // ============================================================
-      // Load enterprise cards based on backend enterprise_mode.
+      // Enterprise cards are loaded dynamically based on
+      // the backend's ENTERPRISE_MODE. This keeps the page flexible
+      // and ensures the correct CTA is shown for fixed/hybrid/custom.
       // ============================================================
       async function loadEnterpriseCards() {
         const grid = document.getElementById('pricingGrid');
@@ -278,7 +276,7 @@
           const data = await response.json();
           const mode = data.enterprise_mode || 'hybrid';
 
-          // Helper to create a plan card element
+          // Helper to create a card element
           function createEnterpriseCard(planId, name, price, period, features, action, showContactLink) {
             const card = document.createElement('div');
             card.className = 'plan-card';
@@ -305,7 +303,20 @@
             btn.className = 'select-btn';
             btn.setAttribute('data-plan', planId);
             btn.setAttribute('data-action', action);
-            btn.innerText = (action === 'contact') ? 'Contact Sales' : 'Select Enterprise';
+
+            // ============================================================
+            // [FIXED] Set CTA text to match Pro/Team naming convention.
+            // ============================================================
+            if (action === 'contact') {
+              btn.innerText = 'Contact Sales';
+            } else {
+              btn.innerText =
+                planId === 'enterprise-monthly'
+                  ? 'Select Enterprise Monthly'
+                  : planId === 'enterprise-yearly'
+                    ? 'Select Enterprise Yearly'
+                    : 'Select Enterprise';
+            }
 
             card.appendChild(nameDiv);
             card.appendChild(priceDiv);
@@ -325,7 +336,6 @@
             grid.appendChild(card);
           }
 
-          // Fixed enterprise plans for fixed/hybrid modes
           if (mode === 'fixed' || mode === 'hybrid') {
             createEnterpriseCard(
               'enterprise-monthly',
@@ -358,68 +368,16 @@
         }
       }
 
-      // Load enterprise cards after initial render
       loadEnterpriseCards();
 
-      async function selectFreePlan() {
-        const messageDiv = document.getElementById('planMessage');
-        const btn = document.querySelector('button[data-plan="free"]');
-        messageDiv.innerHTML = '<span class="loading-spinner"></span> Setting up free plan...';
-        if (btn) btn.disabled = true;
-
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 15000);
-
-        try {
-          const headers = { 'Content-Type': 'application/json' };
-          const token = localStorage.getItem('token');
-          if (!token) {
-            messageDiv.innerHTML = '❌ You are not logged in. Please sign up again.';
-            setTimeout(() => window.location.href = '/signup.html', 2000);
-            return;
-          }
-          headers['Authorization'] = `Bearer ${token}`;
-
-          const response = await fetch('/api/billing/subscription/create', {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify({ plan: 'free' }),
-            signal: controller.signal
-          });
-
-          clearTimeout(timeoutId);
-
-          let result;
-          try { result = await response.json(); } catch { result = {}; }
-
-          if (response.ok) {
-            messageDiv.innerHTML = '✅ Free plan activated! Redirecting to your dashboard...';
-            setTimeout(() => {
-              window.location.href = `https://app.genesiscraft.ai/dashboard#token=${encodeURIComponent(token)}`;
-            }, 1500);
-          } else {
-            console.error('[Free plan] Server error:', result);
-            messageDiv.innerHTML = `❌ Error: ${result.detail || 'Could not set free plan. Please try again.'}`;
-          }
-        } catch (err) {
-          clearTimeout(timeoutId);
-          console.error('[Free plan] Network/fetch error:', err);
-          if (err.name === 'AbortError') {
-            messageDiv.innerHTML = '❌ Request timed out. Please check your connection and try again.';
-          } else if (err.name === 'TypeError') {
-            messageDiv.innerHTML = '❌ Network error. Please check your connection. If the problem persists, the server may be temporarily unavailable.';
-          } else {
-            messageDiv.innerHTML = '❌ An unexpected error occurred. Please try again later.';
-          }
-        } finally {
-          if (btn) btn.disabled = false;
-        }
-      }
-
+      // ============================================================
+      // Event delegation on the pricing grid to handle clicks on
+      // static and dynamically added buttons.
+      // ============================================================
       document.getElementById('pricingGrid').addEventListener('click', async (e) => {
         const btn = e.target.closest('.select-btn');
         if (!btn) return;
-      
+
         const card = btn.closest('.plan-card');
         if (!card) return;
 
@@ -482,6 +440,61 @@
           }
         }
       });
+
+      async function selectFreePlan() {
+        const messageDiv = document.getElementById('planMessage');
+        const btn = document.querySelector('button[data-plan="free"]');
+        messageDiv.innerHTML = '<span class="loading-spinner"></span> Setting up free plan...';
+        if (btn) btn.disabled = true;
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+        try {
+          const headers = { 'Content-Type': 'application/json' };
+          const token = localStorage.getItem('token');
+          if (!token) {
+            messageDiv.innerHTML = '❌ You are not logged in. Please sign up again.';
+            setTimeout(() => window.location.href = '/signup.html', 2000);
+            return;
+          }
+          headers['Authorization'] = `Bearer ${token}`;
+
+          const response = await fetch('/api/billing/subscription/create', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({ plan: 'free' }),
+            signal: controller.signal
+          });
+
+          clearTimeout(timeoutId);
+
+          let result;
+          try { result = await response.json(); } catch { result = {}; }
+
+          if (response.ok) {
+            messageDiv.innerHTML = '✅ Free plan activated! Redirecting to your dashboard...';
+            setTimeout(() => {
+              window.location.href = `https://app.genesiscraft.ai/dashboard#token=${encodeURIComponent(token)}`;
+            }, 1500);
+          } else {
+            console.error('[Free plan] Server error:', result);
+            messageDiv.innerHTML = `❌ Error: ${result.detail || 'Could not set free plan. Please try again.'}`;
+          }
+        } catch (err) {
+          clearTimeout(timeoutId);
+          console.error('[Free plan] Network/fetch error:', err);
+          if (err.name === 'AbortError') {
+            messageDiv.innerHTML = '❌ Request timed out. Please check your connection and try again.';
+          } else if (err.name === 'TypeError') {
+            messageDiv.innerHTML = '❌ Network error. Please check your connection. If the problem persists, the server may be temporarily unavailable.';
+          } else {
+            messageDiv.innerHTML = '❌ An unexpected error occurred. Please try again later.';
+          }
+        } finally {
+          if (btn) btn.disabled = false;
+        }
+      }
     })();
   </script>
 </body>

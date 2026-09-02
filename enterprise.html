@@ -7,13 +7,11 @@
     <meta name="description" content="Enterprise‑grade AI code generation – high-volume tokens, dedicated support, on‑premise deployment, and SOC2 compliance.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Favicon link tags -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="manifest" href="/site.webmanifest">
-    <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS1Z82VML7"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -21,7 +19,6 @@
         gtag('js', new Date());
         gtag('config', 'G-HS1Z82VML7');
     </script>
-    <!-- Schema Markup (Product) – price kept as Custom for custom mode; dynamic updates could be added later -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -37,6 +34,11 @@
             "price": "Custom",
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "sales",
+            "email": "contact@genesiscraft.ai"
         }
     }
     </script>
@@ -48,7 +50,6 @@
             color: #e2e8f0;
             line-height: 1.6;
         }
-        /* Header */
         .site-header {
             background: #0a0a0a;
             border-bottom: 1px solid #1e293b;
@@ -75,29 +76,13 @@
             text-decoration: none;
             display: inline-block;
         }
-        .logo img {
-            height: 32px;
-            width: auto;
-            vertical-align: middle;
-        }
-        .main-nav ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        .main-nav a {
-            color: #cbd5e1;
-            text-decoration: none;
-            font-weight: 500;
-        }
+        .logo img { height: 32px; width: auto; vertical-align: middle; }
+        .main-nav ul { display: flex; gap: 2rem; list-style: none; }
+        .main-nav a { color: #cbd5e1; text-decoration: none; font-weight: 500; }
         .main-nav a:hover { color: #3b82f6; }
         .btn-small {
-            background: #3b82f6;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-            text-decoration: none;
-            font-weight: 600;
+            background: #3b82f6; color: white; padding: 0.5rem 1rem;
+            border-radius: 40px; text-decoration: none; font-weight: 600;
         }
         .container {
             max-width: 1000px;
@@ -128,11 +113,7 @@
             padding: 1.5rem;
             border: 1px solid #1e293b;
         }
-        .feature-card i {
-            font-size: 2rem;
-            color: #3b82f6;
-            margin-bottom: 1rem;
-        }
+        .feature-card i { font-size: 2rem; color: #3b82f6; margin-bottom: 1rem; }
         .contact-form {
             background: #0f172a;
             border-radius: 32px;
@@ -157,7 +138,6 @@
             font-weight: 600;
             cursor: pointer;
         }
-        /* Pricing toggle styles (same as pricing page) */
         .billing-toggle {
             display: flex;
             justify-content: center;
@@ -176,10 +156,7 @@
             color: #94a3b8;
             transition: all 0.2s;
         }
-        .toggle-btn.active {
-            background: #3b82f6;
-            color: white;
-        }
+        .toggle-btn.active { background: #3b82f6; color: white; }
         .enterprise-price {
             font-size: 2.5rem;
             font-weight: 800;
@@ -209,7 +186,12 @@
             text-decoration: underline;
             font-size: 0.9rem;
         }
-        /* Footer */
+        .email-link {
+            display: block;
+            margin-top: 1rem;
+            color: #3b82f6;
+            text-decoration: none;
+        }
         .footer {
             background: #0f172a;
             border-top: 1px solid #1e293b;
@@ -269,17 +251,14 @@
         <p id="enterpriseSubhead">Custom solutions for large organizations – high-volume tokens, dedicated support, on‑premise deployment, and SOC2 compliance.</p>
     </div>
 
-    <!-- ============================================================
-         Dynamic enterprise pricing section.
-         This block is updated by JavaScript based on enterprise_mode.
-    ============================================================ -->
+    <!-- [ADDED] Dynamic enterprise pricing section -->
     <div id="enterprisePricingSection" style="text-align:center; margin-bottom: 2rem;">
-        <!-- Content will be injected here -->
+        <!-- Content injected by JS based on ENTERPRISE_MODE -->
     </div>
 
     <div class="feature-grid">
         <div class="feature-card"><i class="fas fa-infinity"></i><h3>High‑Volume Capacity</h3><p>10M tokens/month, 100K requests/month, and unlimited projects – scale without limits.</p></div>
-        <div class="feature-card"><i class="fas fa-shield-alt"></i><h3>Enterprise Security</h3><p>SOC2 Type II, GDPR, HIPAA ready. On‑premise option available.</p></div>
+        <div class="feature-card"><i class="fas fa-shield-alt"></i><h3>Enterprise Security</h3><p>Designed to support SOC2 Type II, GDPR, and HIPAA compliance. On‑premise deployment available.</p></div>
         <div class="feature-card"><i class="fas fa-headset"></i><h3>Dedicated Support</h3><p>24/7 enterprise support with 30‑minute SLA response time.</p></div>
         <div class="feature-card"><i class="fas fa-chart-line"></i><h3>Custom SLAs</h3><p>Tailored uptime guarantees and performance commitments.</p></div>
         <div class="feature-card"><i class="fas fa-users"></i><h3>Team Training</h3><p>Onboarding workshops and dedicated customer success manager.</p></div>
@@ -288,6 +267,7 @@
 
     <div class="contact-form" id="contactFormSection">
         <h2>Request Enterprise Consultation</h2>
+        <!-- [CHANGED] Added action="/thank-you" for Netlify redirect -->
         <form name="enterprise-contact" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="enterprise-contact">
             <div style="display:none;"><input name="bot-field"></div>
@@ -297,6 +277,10 @@
             <textarea name="message" rows="4" placeholder="Tell us about your needs..."></textarea>
             <button type="submit">Contact Sales</button>
         </form>
+        <!-- [ADDED] Visible contact email -->
+        <p style="text-align:center; margin-top:1rem;">
+            Prefer e‑mail? <a href="mailto:contact@genesiscraft.ai" class="email-link">contact@genesiscraft.ai</a>
+        </p>
     </div>
 </div>
 
@@ -316,7 +300,7 @@
             </form>
             <div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;">
                 <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/genesiscraft_ai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+                <a href="https://x.com/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
                 <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
                 <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
             </div>
@@ -327,13 +311,9 @@
 
 <script>
   (function() {
-    // ------------------------------------------------------------
-    // Load enterprise mode and render pricing/CTA accordingly.
-    // ------------------------------------------------------------
     async function loadEnterpriseMode() {
       const pricingSection = document.getElementById('enterprisePricingSection');
       const subhead = document.getElementById('enterpriseSubhead');
-      const contactSection = document.getElementById('contactFormSection');
 
       try {
         const response = await fetch('/api/billing/public/plans');
@@ -418,13 +398,11 @@
             }
           });
         } else {
-          // custom mode
           pricingSection.style.display = 'none';
           subhead.innerText = 'Custom solutions for large organizations – unlimited tokens, dedicated support, on‑premise deployment, and SOC2 compliance.';
         }
       } catch (err) {
         console.error('Failed to load enterprise mode:', err);
-        // Fallback to custom mode if API unavailable
         pricingSection.style.display = 'none';
       }
     }
@@ -432,3 +410,5 @@
     loadEnterpriseMode();
   })();
 </script>
+</body>
+</html>

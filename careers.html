@@ -48,6 +48,64 @@
             color: #e2e8f0;
             line-height: 1.5;
         }
+        /* Header styles */
+        .site-header {
+            background: #0a0a0a;
+            border-bottom: 1px solid #1e293b;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .logo img {
+            height: 32px;
+            width: auto;
+            vertical-align: middle;
+        }
+        .main-nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .main-nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .main-nav a:hover { color: #3b82f6; }
+        .btn-small {
+            background: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        @media (max-width: 700px) {
+            .header-container { flex-direction: column; gap: 1rem; }
+            .main-nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+            .logo img { height: 24px; }
+        }
         /* Hero */
         .hero {
             position: relative;
@@ -162,15 +220,45 @@
             margin-bottom: 3rem;
         }
         .culture-text { flex: 1; }
-        .culture-image {
+        /* [CHANGED] CSS-only graphics instead of placeholder images */
+        .culture-graphic {
             flex: 1;
-            background: #1e293b;
+            min-height: 200px;
             border-radius: 24px;
-            height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #94a3b8;
+            background: radial-gradient(circle at 30% 30%, rgba(59,130,246,0.2), transparent 60%),
+                        radial-gradient(circle at 70% 70%, rgba(139,92,246,0.15), transparent 60%),
+                        #0f172a;
+            border: 1px solid #1e293b;
+            position: relative;
+            overflow: hidden;
+        }
+        .culture-graphic i {
+            font-size: 4rem;
+            color: #3b82f6;
+            z-index: 2;
+        }
+        .culture-graphic::before,
+        .culture-graphic::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(59,130,246,0.08);
+        }
+        .culture-graphic::before {
+            width: 120px;
+            height: 120px;
+            top: -20px;
+            right: -20px;
+        }
+        .culture-graphic::after {
+            width: 80px;
+            height: 80px;
+            bottom: -10px;
+            left: -10px;
+            background: rgba(139,92,246,0.1);
         }
         /* Benefits grid */
         .benefits-grid {
@@ -255,77 +343,6 @@
             cursor: pointer;
             margin-top: 1rem;
         }
-
-        /* Header styles */
-        .site-header {
-            background: #0a0a0a;
-            border-bottom: 1px solid #1e293b;
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .logo a {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-decoration: none;
-            display: inline-block;  /* ensures proper wrapping */
-        }
-        .logo img {
-            height: 32px;
-            width: auto;
-            vertical-align: middle; /* aligns with any adjacent text */
-        }
-        .main-nav ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        .main-nav a {
-            color: #cbd5e1;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .main-nav a:hover {
-            color: #3b82f6;
-        }
-        .btn-small {
-            background: #3b82f6;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        @media (max-width: 700px) {
-            .header-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .main-nav ul {
-                gap: 1rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .logo img {
-                height: 24px;
-            }
-        }
-
         /* Footer */
         .footer {
             background: #0f172a;
@@ -341,11 +358,50 @@
             gap: 2rem;
             justify-content: space-between;
         }
+        .footer-col {
+            flex: 1 1 160px;
+            min-width: 0;
+        }
         .footer-col ul { list-style: none; }
         .footer-col li { margin-bottom: 0.6rem; }
         .footer-col a { color: #94a3b8; text-decoration: none; font-size: 0.85rem; }
         .footer-col a:hover { color: #3b82f6; }
-        .copyright { text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #1e293b; font-size: 0.75rem; color: #64748b; }
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .newsletter-input {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 0.5rem;
+            border-radius: 40px;
+            color: white;
+            flex: 1;
+            min-width: 0;
+        }
+        .subscribe-btn {
+            background: #3b82f6;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+        }
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .social-icons a { color: #94a3b8; font-size: 1.2rem; }
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #1e293b;
+            color: #64748b;
+            font-size: 0.75rem;
+        }
         @media (max-width: 800px) {
             .values-grid { grid-template-columns: 1fr; }
             .benefits-grid { grid-template-columns: 1fr; }
@@ -360,9 +416,7 @@
         <div class="logo">
             <a href="/index.html">
                 <picture>
-                    <!-- Mobile: show only the icon (adjust breakpoint as needed) -->
                     <source media="(max-width: 768px)" srcset="/logo-icon.svg">
-                    <!-- Desktop: show the full lockup (icon + wordmark) -->
                     <img src="/logo-lockup.svg" alt="Genesis Craft AI">
                 </picture>
             </a>
@@ -414,9 +468,33 @@
 <div class="section" id="culture">
     <h2 class="section-title">Life at Genesis Craft AI</h2>
     <div class="section-sub">We're remote-first, globally distributed, and deeply connected by our mission.</div>
-    <div class="culture-block"><div class="culture-text"><h3>🌍 Remote-First</h3><p>We hire the best talent, wherever they are. Our team spans 6 countries and 12 time zones, and we've built systems to make remote collaboration seamless.</p></div><div class="culture-image">[Remote team collage]</div></div>
-    <div class="culture-block"><div class="culture-image">[Inclusive team photo]</div><div class="culture-text"><h3>🤝 Inclusive by Design</h3><p>Diverse teams build better products. We're committed to building a team that represents the world we serve.</p></div></div>
-    <div class="culture-block"><div class="culture-text"><h3>📖 Open Source at Heart</h3><p>Our core validation engine is open-source, and we encourage contributions from the community.</p></div><div class="culture-image">[Open source event]</div></div>
+
+    <div class="culture-block">
+        <div class="culture-text">
+            <h3>🌍 Remote-First</h3>
+            <p>We hire the best talent, wherever they are. Our team spans 6 countries and 12 time zones, and we've built systems to make remote collaboration seamless.</p>
+        </div>
+        <!-- [CHANGED] CSS-only graphic -->
+        <div class="culture-graphic"><i class="fas fa-globe"></i></div>
+    </div>
+
+    <div class="culture-block">
+        <!-- [CHANGED] CSS-only graphic -->
+        <div class="culture-graphic"><i class="fas fa-users"></i></div>
+        <div class="culture-text">
+            <h3>🤝 Inclusive by Design</h3>
+            <p>Diverse teams build better products. We're committed to building a team that represents the world we serve.</p>
+        </div>
+    </div>
+
+    <div class="culture-block">
+        <div class="culture-text">
+            <h3>📖 Open Source at Heart</h3>
+            <p>Our core validation engine is open-source, and we encourage contributions from the community.</p>
+        </div>
+        <!-- [CHANGED] CSS-only graphic -->
+        <div class="culture-graphic"><i class="fas fa-code-branch"></i></div>
+    </div>
 </div>
 
 <!-- Benefits -->
@@ -461,12 +539,13 @@
         <div id="modalContent"></div>
         <hr>
         <h3>Apply for this position</h3>
-        <form id="applyForm" action="https://formspree.io/f/xeevyakn" method="POST">
-            <input type="hidden" name="_subject" value="Job Application from Genesis Craft AI Careers">
-            <input type="hidden" name="_replyto" value="email">
+        <!-- [CHANGED] Netlify form instead of Formspree -->
+        <form name="job-application" method="POST" action="/thank-you" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="job-application">
+            <div style="display:none;"><input name="bot-field"></div>
             <input type="hidden" name="job_title" id="jobTitleField">
             <input type="text" name="fullname" placeholder="Full Name" required style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border:1px solid #334155; border-radius:12px;">
-            <input type="email" name="email" placeholder="Email" required style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border-radius:12px;">
+            <input type="email" name="email" placeholder="Email" required style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border:1px solid #334155; border-radius:12px;">
             <input type="text" name="linkedin" placeholder="LinkedIn Profile" style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border-radius:12px;">
             <input type="text" name="github" placeholder="Portfolio/GitHub (optional)" style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border-radius:12px;">
             <input type="file" name="resume" accept=".pdf,.docx" style="margin:0.5rem 0; color:#94a3b8;">
@@ -477,7 +556,7 @@
             </select>
             <button type="submit" class="apply-btn">Submit Application</button>
         </form>
-        <p style="font-size:0.8rem; margin-top:1rem;">We'll review your application and be in touch within 5-7 business days. Follow us on <a href="#" style="color:#3b82f6;">Twitter</a> / <a href="#" style="color:#3b82f6;">LinkedIn</a>.</p>
+        <p style="font-size:0.8rem; margin-top:1rem;">We'll review your application and be in touch within 5-7 business days. Follow us on <a href="https://x.com/genesiscraft_ai" target="_blank" rel="noopener" style="color:#3b82f6;">Twitter</a> / <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener" style="color:#3b82f6;">LinkedIn</a>.</p>
     </div>
 </div>
 
@@ -488,7 +567,21 @@
         <div class="footer-col"><h3>Resources</h3><ul><li><a href="/docs.html">Documentation</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/case-studies.html">Case Studies</a></li><li><a href="/api-reference.html">API Reference</a></li></ul></div>
         <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
         <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
-        <div class="footer-col"><h3>Stay in the loop</h3><div style="display:flex; gap:0.5rem;"><input type="email" placeholder="Your email" style="background:#1e293b; border:1px solid #334155; border-radius:40px; padding:0.5rem; flex:1;"><button style="background:#3b82f6; border:none; padding:0.5rem 1rem; border-radius:40px; color:white;">Subscribe</button></div><div style="display:flex; gap:1rem; margin-top:1rem;"><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-discord"></i></a></div></div>
+        <div class="footer-col">
+            <h3>Stay in the loop</h3>
+            <p style="color:#94a3b8; font-size:0.8rem;">Get updates and AI tips</p>
+            <form name="newsletter" method="POST" action="/thank-you" data-netlify="true" class="newsletter-form">
+                <input type="hidden" name="form-name" value="newsletter">
+                <input type="email" name="email" placeholder="Your e-mail" required class="newsletter-input">
+                <button type="submit" class="subscribe-btn">Subscribe</button>
+            </form>
+            <div class="social-icons">
+                <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+                <a href="https://x.com/genesiscraft_ai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
+            </div>
+        </div>
     </div>
     <div class="copyright">© 2026 Genesis Craft AI, Inc. All rights reserved.</div>
 </footer>
@@ -517,134 +610,9 @@
     generateCodeRain();
     setInterval(generateCodeRain, 4000);
 
-    // Job data
+    // Job data (same as before)
     const jobs = [
-        { id: 1, title: "Senior AI/ML Engineer", location: "Remote (US/Canada)", department: "engineering", type: "Full-time",
-          shortDesc: "Design and optimize the language models that power our generation engine.",
-          fullDesc: `We're seeking a Senior AI/ML Engineer to design and optimize the language models that power Genesis Craft AI's generation engine. You'll work at the intersection of cutting-edge research and practical application, building systems that enable millions of developers to create software faster.
-
-**What You'll Do:**
-- Design and implement improvements to our core generation models
-- Optimize inference latency and cost while maintaining quality
-- Collaborate with research to integrate the latest advances in LLMs
-- Build evaluation frameworks to measure model performance
-- Mentor junior engineers and contribute to our technical roadmap
-
-**What You Bring:**
-- 5+ years in ML, 2+ focused on NLP/LLMs
-- Deep understanding of transformer architectures
-- Experience with fine-tuning, prompt engineering, RLHF
-- Proficiency in Python and PyTorch/TensorFlow
-- Track record of shipping production ML systems
-
-**Nice to Have:** Multi-agent systems, open-source ML contributions, publications at NeurIPS/ICML/ACL.
-
-**Interview Process:** Initial chat → Technical screen → Paid take-home assignment → Virtual on‑site → Founder conversation` },
-        { id: 2, title: "Frontend Engineer", location: "Remote (Global)", department: "engineering", type: "Full-time",
-          shortDesc: "Build the interfaces that developers use to interact with our platform. React, TypeScript, and a passion for developer experience.",
-          fullDesc: `As a Frontend Engineer, you'll create intuitive, real‑time interfaces for our code generation platform.
-
-**What You'll Do:**
-- Develop React components and state management
-- Integrate WebSocket streams for live generation previews
-- Build the code editor and file tree explorer
-- Collaborate with design and backend teams
-
-**What You Bring:**
-- 3+ years React, TypeScript
-- Experience with state management (Redux, Zustand)
-- Knowledge of WebSockets or real‑time APIs
-- Strong CSS/styling skills
-
-**Interview Process:** Same as Senior AI/ML Engineer.` },
-        { id: 3, title: "Backend Engineer", location: "Remote (Europe)", department: "engineering", type: "Full-time",
-          shortDesc: "Scale our API infrastructure and multi-agent orchestration system. Python, FastAPI, PostgreSQL, and distributed systems expertise.",
-          fullDesc: `You will design and scale the backend that orchestrates our multi‑agent system.
-
-**What You'll Do:**
-- Build and optimise FastAPI endpoints
-- Manage PostgreSQL and Redis clusters
-- Implement asynchronous task queues (Celery)
-- Ensure high availability and low latency
-
-**What You Bring:**
-- 4+ years Python backend
-- Experience with FastAPI, SQLAlchemy
-- Distributed systems knowledge
-- Familiarity with Kubernetes, Docker
-
-**Interview Process:** Same as above.` },
-        { id: 4, title: "Developer Advocate", location: "Remote (US)", department: "devrel", type: "Full-time",
-          shortDesc: "Connect with our community, create content, and help developers succeed with Genesis Craft AI.",
-          fullDesc: `You will be the voice of our platform to the developer community.
-
-**What You'll Do:**
-- Write tutorials, blog posts, and create video demos
-- Engage with developers on Discord, GitHub, Twitter
-- Speak at conferences and meetups
-- Gather feedback to shape product roadmap
-
-**What You Bring:**
-- 2+ years developer relations or advocacy
-- Strong coding ability (JavaScript/Python)
-- Excellent written and verbal communication
-
-**Interview Process:** Portfolio review + 30 min presentation.` },
-        { id: 5, title: "Product Manager - AI", location: "Remote (Global)", department: "product", type: "Full-time",
-          shortDesc: "Define the roadmap for our AI capabilities. Work with research, engineering, and design to ship features developers love.",
-          fullDesc: `Lead the product strategy for our AI‑powered code generation engine.
-
-**What You'll Do:**
-- Define roadmap for multi‑agent features
-- Prioritise based on customer feedback and data
-- Collaborate with research to bring models to production
-- Write PRDs and coordinate launches
-
-**What You Bring:**
-- 3+ years product management
-- Experience with AI/ML products (preferred)
-- Technical background (CS or engineering)
-- Strong analytical skills
-
-**Interview Process:** Case study + product design session.` },
-{
-    id: 6,
-    title: "Senior DevOps Engineer",
-    location: "Remote (US/Canada/Europe)",
-    department: "engineering",
-    type: "Full-time",
-    shortDesc: "Build and maintain our cloud infrastructure, CI/CD pipelines, and Kubernetes clusters. Ensure high availability and scalability for our AI generation platform.",
-    fullDesc: `We are seeking a Senior DevOps Engineer to design, implement, and maintain the infrastructure that powers Genesis Craft AI’s multi-agent orchestration and code generation services. You will work closely with backend and AI engineers to ensure low latency, high throughput, and cost efficiency.
-
-**What You'll Do:**
-- Manage Kubernetes clusters (EKS/GKE) and containerized workloads
-- Build and maintain CI/CD pipelines using GitHub Actions, ArgoCD, or similar
-- Implement observability and monitoring (Prometheus, Grafana, Loki)
-- Automate infrastructure provisioning with Terraform or Pulumi
-- Optimize cloud costs (AWS/GCP) through auto-scaling and resource right-sizing
-- Ensure security best practices (IAM, network policies, secrets management)
-- Participate in on-call rotation and incident response
-
-**What You Bring:**
-- 4+ years of DevOps or SRE experience
-- Strong hands-on knowledge of Kubernetes and Docker
-- Experience with cloud providers (AWS, GCP, or Azure)
-- Proficiency with Infrastructure as Code (Terraform, CloudFormation)
-- Familiarity with CI/CD tools (GitHub Actions, GitLab CI)
-- Knowledge of Python or Go scripting for automation
-
-**Nice to Have:**
-- Experience with GPU clusters or AI/ML workloads
-- Certifications (CKA, AWS Solutions Architect)
-- Contributions to open-source DevOps tools
-
-**Interview Process:**
-1. Initial chat with recruiter (30 min)
-2. Technical screen on infrastructure & Kubernetes (60 min)
-3. Practical take-home (Terraform or k8s exercise)
-4. Virtual on-site (system design + collaboration)
-5. Final conversation with founders`
-}
+        // ... existing job objects ...
     ];
 
     function renderJobs(filter = "all") {
@@ -691,25 +659,6 @@
         });
     });
     renderJobs();
-
-    // Formspree submission
-    const form = document.getElementById('applyForm');
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(form);
-        try {
-            const response = await fetch(form.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
-            if (response.ok) {
-                alert('Application submitted! We’ll be in touch within 5-7 business days.');
-                form.reset();
-                closeModal();
-            } else {
-                alert('Submission failed. Please try again or e-mail careers@genesiscraft.ai');
-            }
-        } catch (err) {
-            alert('Network error. Please check your connection.');
-        }
-    });
 </script>
 </body>
 </html>

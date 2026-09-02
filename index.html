@@ -616,13 +616,19 @@
         <div class="footer-col"><h3>Company</h3><ul><li><a href="/about.html">About Us</a></li><li><a href="/careers.html">Careers</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
         <div class="footer-col"><h3>Legal</h3><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/gdpr-ccpa.html">GDPR/CCPA</a></li></ul></div>
         <div class="footer-col">
-            <h3>Stay in the loop</h3>
-            <div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;">
-                <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/genesiscraft_ai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
-                <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
-            </div>
+          <h3>Stay in the loop</h3>
+          <p style="color:#94a3b8; font-size:0.8rem;">Get updates and AI tips</p>
+          <form name="newsletter" method="POST" action="/thank-you" data-netlify="true" style="display:flex; gap:0.5rem;">
+            <input type="hidden" name="form-name" value="newsletter">
+            <input type="email" name="email" placeholder="Your e-mail" required style="background:#1e293b; border:1px solid #334155; border-radius:40px; padding:0.5rem; flex:1; color:white;">
+            <button type="submit" style="background:#3b82f6; border:none; padding:0.5rem 1rem; border-radius:40px; color:white; cursor:pointer;">Subscribe</button>
+          </form>
+          <div class="social-icons" style="display:flex; gap:1rem; margin-top:1rem;">
+            <a href="https://github.com/genesiscraft-ai" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+            <a href="https://x.com/genesiscraft_ai" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://discord.gg/genesiscraftai" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
+          </div>
         </div>
     </div>
     <div class="copyright">© 2026 Genesis Craft AI, Inc. All rights reserved.</div>

@@ -539,16 +539,35 @@
             <input type="hidden" name="form-name" value="job-application">
             <div style="display:none;"><input name="bot-field"></div>
             <input type="hidden" name="job_title" id="jobTitleField">
-            <input type="text" name="fullname" placeholder="Full Name" required style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border:1px solid #334155; border-radius:12px;">
-            <input type="email" name="email" placeholder="Email" required style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border:1px solid #334155; border-radius:12px;">
-            <input type="text" name="linkedin" placeholder="LinkedIn Profile" style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border-radius:12px;">
-            <input type="text" name="github" placeholder="Portfolio/GitHub (optional)" style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border-radius:12px;">
-            <input type="file" name="resume" accept=".pdf,.docx" style="margin:0.5rem 0; color:#94a3b8;">
-            <textarea name="coverletter" placeholder="Cover letter (optional)" rows="3" style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border-radius:12px;"></textarea>
-            <select name="source" style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border-radius:12px;">
+
+            <!-- Added color:white to all text fields for visibility -->
+            <input type="text" name="fullname" placeholder="Full Name" required
+                   style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border:1px solid #334155; border-radius:12px; color:white;">
+
+            <input type="email" name="email" placeholder="Email" required
+                   style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border:1px solid #334155; border-radius:12px; color:white;">
+
+            <input type="text" name="linkedin" placeholder="LinkedIn Profile"
+                   style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border:1px solid #334155; border-radius:12px; color:white;">
+
+            <input type="text" name="github" placeholder="Portfolio/GitHub (optional)"
+                   style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border:1px solid #334155; border-radius:12px; color:white;">
+
+            <input type="file" name="resume" accept=".pdf,.docx"
+                   style="margin:0.5rem 0; color:#94a3b8;">
+
+            <textarea name="coverletter" placeholder="Cover letter (optional)" rows="3"
+                      style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border:1px solid #334155; border-radius:12px; color:white;"></textarea>
+
+            <select name="source"
+                    style="width:100%; margin:0.5rem 0; padding:0.8rem; background:#1e293b; border:1px solid #334155; border-radius:12px; color:white;">
                 <option>How did you hear about us?</option>
-                <option>LinkedIn</option><option>GitHub</option><option>Referral</option><option>Other</option>
+                <option>LinkedIn</option>
+                <option>GitHub</option>
+                <option>Referral</option>
+                <option>Other</option>
             </select>
+
             <button type="submit" class="apply-btn">Submit Application</button>
         </form>
         <p style="font-size:0.8rem; margin-top:1rem;">We'll review your application and be in touch within 5-7 business days. Follow us on <a href="https://x.com/genesiscraft_ai" target="_blank" rel="noopener" style="color:#3b82f6;">Twitter</a> / <a href="https://www.linkedin.com/company/genesiscraft-ai/" target="_blank" rel="noopener" style="color:#3b82f6;">LinkedIn</a>.</p>
